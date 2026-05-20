@@ -95,6 +95,24 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .nextCard h3{margin:0 0 8px;font-size:16px}
 .nextCard p{margin:0;color:#475569;font-size:13px;line-height:1.6}
 @media(max-width:900px){.nextGrid{grid-template-columns:1fr}}
+
+.appResponseGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+.responseCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;min-height:154px}
+.responseCard .badge{display:inline-flex;background:#eff6ff;color:#2563eb;border-radius:8px;padding:4px 8px;font-size:12px;font-weight:800;margin-bottom:10px}
+.responseCard h3{margin:0 0 8px;font-size:16px;letter-spacing:-.01em}
+.responseCard p{margin:0;color:#475569;font-size:13px;line-height:1.62}
+.responseTable{width:100%;border-collapse:separate;border-spacing:0;margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:13px}
+.responseTable th,.responseTable td{padding:12px 13px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left;line-height:1.55}
+.responseTable th{background:#f8fafc;color:#334155;font-weight:850}
+.responseTable tr:last-child td{border-bottom:0}
+.evidenceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.evidenceCard{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.evidenceCard img{display:block;width:100%;height:360px;object-fit:contain;background:#f8fafc;border-bottom:1px solid var(--border)}
+.evidenceCard div{padding:12px 13px}
+.evidenceCard b{display:block;font-size:13px;margin-bottom:4px}
+.evidenceCard span{display:block;color:#64748b;font-size:12px;line-height:1.5}
+@media(max-width:1100px){.appResponseGrid,.evidenceGrid{grid-template-columns:1fr 1fr}.evidenceCard img{height:320px}}
+@media(max-width:720px){.appResponseGrid,.evidenceGrid{grid-template-columns:1fr}.evidenceCard img{height:300px}.responseTable{font-size:12px}}
 @media(max-width:900px){.grid,.donutRow,.insight{grid-template-columns:1fr}.header{flex-direction:column}.barLine{grid-template-columns:120px 1fr 48px}}
 </style>
 </head>
@@ -200,6 +218,40 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
     </div>
   </section>
   </section>
+  </section>
+
+
+
+  <section class="sectionHeader">
+    <div>
+      <div class="kicker">PART 03 · APP RESPONSE</div>
+      <h2>竞品 APP 官方承接验证</h2>
+      <p>看竞品是否把外部投诉、法务协商、代理维权、黑灰产风险接回 APP 内官方路径。</p>
+    </div>
+  </section>
+  <section class="sectionShell">
+    <div class="appResponseGrid">
+      <div class="responseCard"><div class="badge">度小满</div><h3>代理维权举报专题最直接</h3><p>把代理投诉、征信修复、反催收等灰产话术做成举报专题，并提供立即举报和材料上传。</p></div>
+      <div class="responseCard"><div class="badge">奇富借条</div><h3>消费者权益中心更完整</h3><p>投诉、诈骗举报、意见反馈、服务进度、客服和消保教育集中在同一套官方承接体系。</p></div>
+      <div class="responseCard"><div class="badge">分期乐</div><h3>能力点存在但较分散</h3><p>已有服务大厅、在线客服、服务进度、黑产举报、安全中心、协商还款问题，但缺少统一承接中心。</p></div>
+    </div>
+    <table class="responseTable">
+      <thead><tr><th>外部风险</th><th>APP 内应看什么</th><th>当前竞品参考</th><th>我方机会</th></tr></thead>
+      <tbody>
+        <tr><td>法务协商 / 代理维权</td><td>代理维权举报、反灰产教育、材料上传</td><td>度小满</td><td>建立反代理维权/征信修复/付费停催专题</td></tr>
+        <tr><td>投诉外溢</td><td>我要投诉、意见反馈、服务进度</td><td>奇富借条</td><td>收拢投诉反馈、服务进度和客服承接</td></tr>
+        <tr><td>协商还款</td><td>还款困难入口、协商边界、官方客服</td><td>分期乐在线客服已有热门问题</td><td>把协商问题前置到还款/账单/逾期场景</td></tr>
+        <tr><td>征信 / 费用焦虑</td><td>征信 FAQ、合同账单、费用核查入口</td><td>奇富、分期乐已有部分分类</td><td>补齐高压问题解释与官方核查入口</td></tr>
+      </tbody>
+    </table>
+    <div class="evidenceGrid">
+      <div class="evidenceCard"><img src="assets/complaint-entry/duxiaoman-agent-report.png" alt="度小满代理维权举报中心"><div><b>度小满｜代理维权举报中心</b><span>直接对抗代理投诉、征信修复、专业反催收等灰产话术。</span></div></div>
+      <div class="evidenceCard"><img src="assets/complaint-entry/duxiaoman-report-form.png" alt="度小满举报表单"><div><b>度小满｜举报表单</b><span>姓名、联系方式、举报描述、材料上传，形成正式提交入口。</span></div></div>
+      <div class="evidenceCard"><img src="assets/complaint-entry/qifu-consumer-rights.png" alt="奇富消费者权益保护"><div><b>奇富借条｜消费者权益保护</b><span>消保、隐私、客服、满意度调查集中展示。</span></div></div>
+      <div class="evidenceCard"><img src="assets/complaint-entry/qifu-complaint-service.png" alt="奇富我要投诉"><div><b>奇富借条｜我要投诉 / 诈骗举报</b><span>客服页内同时出现意见反馈、我要投诉、诈骗举报、服务进度。</span></div></div>
+      <div class="evidenceCard"><img src="assets/complaint-entry/fenqile-online-service.png" alt="分期乐在线客服"><div><b>分期乐｜在线客服</b><span>热门问题已出现“支持协商还款吗”，具备承接基础。</span></div></div>
+      <div class="evidenceCard"><img src="assets/complaint-entry/jd-feedback.png" alt="京东金融意见反馈"><div><b>京东金融｜意见反馈</b><span>通用反馈入口可见，但金融投诉/消保专项承接不够明确。</span></div></div>
+    </div>
   </section>
 
   <section class="sectionHeader">
