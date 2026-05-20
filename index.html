@@ -123,16 +123,17 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 @media(max-width:640px){.execSummary{grid-template-columns:1fr}}
 @media(max-width:900px){.grid,.donutRow,.insight{grid-template-columns:1fr}.header{flex-direction:column}.barLine{grid-template-columns:120px 1fr 48px}}
 
-/* visual simplification: avoid box-inside-box heaviness */
-.sectionShell > .card.compare{box-shadow:none;border-color:#e8eef7}
-.sectionShell > .grid .card{box-shadow:none}
-.sectionShell > .insight .mini{box-shadow:none}
-.pathDeepCard,.liCard,.responseCard,.nextCard,.xhsItem,.pathCard{box-shadow:none}
-.evidenceCard{box-shadow:none}
-.responseTable{box-shadow:none}
+/* section hierarchy: one large block per part, simple content inside */
 .execSummary{margin-bottom:34px}
-.sectionHeader{border-top:1px solid #e8eef7;padding-top:24px}
-.execSummary + .sectionHeader{border-top:0;padding-top:0}
+.sectionHeader{margin:28px 0 0;background:rgba(255,255,255,.68);border:1px solid #e4eaf3;border-bottom:0;border-radius:18px 18px 0 0;padding:22px 22px 12px;box-shadow:0 14px 34px rgba(15,23,42,.055)}
+.sectionHeader + .sectionShell{background:rgba(255,255,255,.68);border:1px solid #e4eaf3;border-top:0;border-radius:0 0 18px 18px;padding:8px 22px 22px;margin-bottom:30px;box-shadow:0 18px 38px rgba(15,23,42,.06)}
+.sectionShell > .card.compare{box-shadow:none;border-color:#edf2f7;background:rgba(255,255,255,.72)}
+.sectionShell > .grid .card{box-shadow:none;border-color:#edf2f7;background:rgba(255,255,255,.72)}
+.sectionShell > .insight .mini{box-shadow:none;border-color:#edf2f7;background:rgba(255,255,255,.72)}
+.pathDeepCard,.liCard,.responseCard,.nextCard,.xhsItem,.pathCard{box-shadow:none;border-color:#edf2f7;background:rgba(255,255,255,.76)}
+.evidenceCard{box-shadow:none;border-color:#edf2f7;background:#fff}
+.responseTable{box-shadow:none;border-color:#edf2f7}
+@media(max-width:900px){.sectionHeader{padding:18px 16px 10px}.sectionHeader + .sectionShell{padding:6px 16px 18px}}
 </style>
 </head>
 <body>
