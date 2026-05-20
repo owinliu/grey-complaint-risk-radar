@@ -113,6 +113,14 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .evidenceCard span{display:block;color:#64748b;font-size:12px;line-height:1.5}
 @media(max-width:1100px){.appResponseGrid,.evidenceGrid{grid-template-columns:1fr 1fr}.evidenceCard img{height:320px}}
 @media(max-width:720px){.appResponseGrid,.evidenceGrid{grid-template-columns:1fr}.evidenceCard img{height:300px}.responseTable{font-size:12px}}
+
+.execSummary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0 8px}
+.execCard{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 10px 26px rgba(15,23,42,.05)}
+.execCard .label{display:inline-flex;border-radius:8px;background:#eff6ff;color:#2563eb;font-size:12px;font-weight:850;padding:4px 8px;margin-bottom:10px}
+.execCard h3{font-size:15px;line-height:1.35;margin:0 0 8px;letter-spacing:-.01em}
+.execCard p{font-size:13px;line-height:1.58;color:#475569;margin:0}
+@media(max-width:1100px){.execSummary{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.execSummary{grid-template-columns:1fr}}
 @media(max-width:900px){.grid,.donutRow,.insight{grid-template-columns:1fr}.header{flex-direction:column}.barLine{grid-template-columns:120px 1fr 48px}}
 </style>
 </head>
@@ -126,11 +134,18 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
     </div>
     <div class="badge">默认视图：<b id="defaultName">分期乐</b></div>
   </header>
+
+  <section class="execSummary" aria-label="一屏结论">
+    <div class="execCard"><div class="label">风险在哪里</div><h3>费用、催收、协商、征信是高压场景</h3><p>黑猫投诉显示，用户问题集中在费用争议、退费诉求、催收骚扰、协商还款和征信焦虑。</p></div>
+    <div class="execCard"><div class="label">灰产怎么切入</div><h3>利用用户不知道官方怎么处理</h3><p>小红书上，外部法务、反催收、退费代理、征信修复内容接住用户焦虑。</p></div>
+    <div class="execCard"><div class="label">竞品怎么应对</div><h3>开始把风险接回 APP 内</h3><p>度小满做代理维权举报，奇富做消费者权益中心，部分风险已前置到官方入口。</p></div>
+    <div class="execCard"><div class="label">我们怎么改</div><h3>建立官方承接中心</h3><p>优先收拢投诉反馈、黑产举报、协商说明、费用核查、征信 FAQ 和服务进度。</p></div>
+  </section>
   <section class="sectionHeader">
     <div>
       <div class="kicker">PART 01 · BLACK CAT</div>
-      <h2>高频问题聚类分析（黑猫）</h2>
-      <p>用黑猫投诉识别竞品高频风险主题，默认展示分期乐，可切换全部大盘和不同 APP。</p>
+      <h2>外部风险集中在哪些问题</h2>
+      <p>黑猫投诉高频问题聚类，默认展示分期乐，可切换全部大盘和不同 APP。</p>
     </div>
   </section>
   <section class="sectionShell">
@@ -163,8 +178,8 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   <section class="sectionHeader">
     <div>
       <div class="kicker">PART 02 · XIAOHONGSHU</div>
-      <h2>灰产路径分析和用户痛点挖掘（小红书）</h2>
-      <p>用小红书观察用户真实表达、评论区追问，以及法务协商、反催收、退费代理等传播路径。</p>
+      <h2>灰产如何接住用户痛点</h2>
+      <p>小红书用户表达与传播路径，观察法务协商、反催收、退费代理等内容如何承接焦虑。</p>
     </div>
   </section>
   <section class="sectionShell">
@@ -225,15 +240,15 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   <section class="sectionHeader">
     <div>
       <div class="kicker">PART 03 · APP RESPONSE</div>
-      <h2>竞品 APP 官方承接验证</h2>
-      <p>看竞品是否把外部投诉、法务协商、代理维权、黑灰产风险接回 APP 内官方路径。</p>
+      <h2>竞品如何把风险接回 APP 内</h2>
+      <p>验证投诉、举报、消保、客服入口是否能把外部风险接回官方处理路径。</p>
     </div>
   </section>
   <section class="sectionShell">
     <div class="appResponseGrid">
-      <div class="responseCard"><div class="badge">度小满</div><h3>代理维权举报专题最直接</h3><p>把代理投诉、征信修复、反催收等灰产话术做成举报专题，并提供立即举报和材料上传。</p></div>
-      <div class="responseCard"><div class="badge">奇富借条</div><h3>消费者权益中心更完整</h3><p>投诉、诈骗举报、意见反馈、服务进度、客服和消保教育集中在同一套官方承接体系。</p></div>
-      <div class="responseCard"><div class="badge">分期乐</div><h3>能力点存在但较分散</h3><p>已有服务大厅、在线客服、服务进度、黑产举报、安全中心、协商还款问题，但缺少统一承接中心。</p></div>
+      <div class="responseCard"><div class="badge">度小满</div><h3>反灰产专题最直接</h3><p>代理维权举报中心 + 举报表单，直接覆盖征信修复、反催收、代理投诉等外部话术。</p></div>
+      <div class="responseCard"><div class="badge">奇富借条</div><h3>官方承接中心最完整</h3><p>消保中心 + 我要投诉 + 诈骗举报 + 服务进度，把问题处理和权益教育集中承接。</p></div>
+      <div class="responseCard"><div class="badge">分期乐</div><h3>已有能力但入口分散</h3><p>客服、黑产举报、安全中心、协商问题已存在，下一步应收拢为统一官方承接中心。</p></div>
     </div>
     <table class="responseTable">
       <thead><tr><th>外部风险</th><th>APP 内应看什么</th><th>当前竞品参考</th><th>我方机会</th></tr></thead>
@@ -257,14 +272,14 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   <section class="sectionHeader">
     <div>
       <div class="kicker">NEXT STEP</div>
-      <h2>下一步：样本做准 → 问题看清 → 动作落地</h2>
+      <h2>下一步：定口径 → 做专题 → 推动作</h2>
     </div>
   </section>
   <section class="sectionShell">
     <div class="nextGrid">
-      <div class="nextCard"><div class="step">01</div><h3>样本做准</h3><p>过滤无关内容，保留真实有效的竞品风险和灰产线索。</p></div>
-      <div class="nextCard"><div class="step">02</div><h3>问题看清</h3><p>围绕费用、催收、协商还款、征信、灰产话术形成竞品对比。</p></div>
-      <div class="nextCard"><div class="step">03</div><h3>动作落地</h3><p>把外部风险转成产品、客服、消保可执行的优化建议。</p></div>
+      <div class="nextCard"><div class="step">01</div><h3>定口径</h3><p>固定风险主题、有效样本标准和重点竞品范围。</p></div>
+      <div class="nextCard"><div class="step">02</div><h3>做专题</h3><p>先做投诉承接、协商还款、费用解释、征信说明四个 APP 对比专题。</p></div>
+      <div class="nextCard"><div class="step">03</div><h3>推动作</h3><p>输出产品、客服、消保可落地的优化动作清单。</p></div>
     </div>
   </section>
 </div>
