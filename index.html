@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>灰产投诉风险主题可视化</title>
+<style>
+:root {
+  --bg:#f8fafc; --panel:#ffffff; --text:#111827; --muted:#64748b; --border:#e2e8f0;
+  --shadow:0 18px 45px rgba(15,23,42,.08); --radius:12px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#f8fafc,#eef2ff);color:var(--text)}
+.wrapper{max-width:1180px;margin:0 auto;padding:28px 22px 44px}
+.header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
+.eyebrow{font-size:13px;color:#475569;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+h1{font-size:32px;line-height:1.15;margin:8px 0 8px;letter-spacing:-.03em}
+.sub{color:var(--muted);font-size:15px;line-height:1.7;max-width:760px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,.7);box-shadow:0 8px 20px rgba(15,23,42,.05);font-size:13px;color:#334155;white-space:nowrap}
+.controls{position:sticky;top:0;z-index:3;backdrop-filter:blur(16px);background:rgba(248,250,252,.78);border:1px solid rgba(226,232,240,.8);border-radius:10px;padding:10px;margin:18px 0 22px;display:flex;gap:8px;flex-wrap:wrap;box-shadow:none}
+button{border:1px solid var(--border);background:#fff;color:#334155;border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;transition:.18s ease;min-height:36px}
+button:hover{border-color:#2563eb;color:#2563eb;background:#eff6ff}
+button.active{background:#2563eb;color:#fff;border-color:#2563eb}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
+.card{background:rgba(255,255,255,.88);border:1px solid rgba(226,232,240,.9);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.card h2{margin:0 0 14px;font-size:18px;letter-spacing:-.02em}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.kpi{border:1px solid var(--border);background:#fff;border-radius:10px;padding:14px}
+.kpi .v{font-size:24px;font-weight:800;letter-spacing:-.03em}
+.kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
+.donutRow{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center}
+.donut{width:240px;height:240px;border-radius:50%;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(15,23,42,.05)}
+.donut:after{content:"";position:absolute;inset:48px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1px var(--border)}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;pointer-events:none}
+.center .total{font-size:34px;font-weight:900;letter-spacing:-.06em}
+.center .label{font-size:12px;color:var(--muted)}
+.legend{display:flex;flex-direction:column;gap:9px}
+.legendItem{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:center;font-size:13px;color:#334155}
+.dot{width:12px;height:12px;border-radius:4px}
+.pct{font-variant-numeric:tabular-nums;color:#0f172a;font-weight:700}
+.bars{display:flex;flex-direction:column;gap:13px}
+.barLine{display:grid;grid-template-columns:150px 1fr 58px;gap:12px;align-items:center;font-size:13px}
+.barName{color:#334155;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.fill{height:100%;border-radius:999px;transition:width .45s ease}
+.count{font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.insight{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.insight .mini{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px}
+.mini b{display:block;font-size:14px;margin-bottom:8px} .mini p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.compare{margin-top:20px}
+.matrix{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center}
+.stack{height:18px;border-radius:999px;overflow:hidden;background:#e5e7eb;display:flex}
+.seg{height:100%}
+.appName{font-size:13px;color:#334155;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.pathGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:16px;position:relative}
+.pathGrid:before{content:"";position:absolute;left:8%;right:8%;top:28px;height:2px;background:linear-gradient(90deg,#2563eb,#93c5fd);z-index:0}
+.pathCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:58px 14px 16px;min-height:160px;position:relative;z-index:1}
+.pathCard:before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:22px;height:22px;border-radius:999px;background:#2563eb;box-shadow:0 0 0 6px #eff6ff}
+.pathCard:not(:last-child):after{content:"→";position:absolute;right:-18px;top:16px;color:#2563eb;font-weight:900;font-size:18px;z-index:3}
+.pathCard .tag{position:absolute;top:12px;left:12px;display:inline-flex;border-radius:7px;background:#eff6ff;color:#2563eb;font-size:12px;font-weight:800;padding:4px 8px}
+.pathCard h3{font-size:15px;line-height:1.35;margin:0 0 8px;letter-spacing:-.01em;text-align:center}
+.pathCard p{font-size:13px;line-height:1.55;color:#475569;margin:0;text-align:center}
+.xhsList{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.xhsItem{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
+.xhsItem b{display:block;font-size:14px;margin-bottom:6px}
+.xhsItem span{display:block;font-size:13px;color:#475569;line-height:1.55}
+@media(max-width:1000px){.pathGrid{grid-template-columns:1fr}.pathGrid:before{left:24px;right:auto;top:20px;bottom:20px;width:2px;height:auto;background:linear-gradient(180deg,#2563eb,#93c5fd)}.pathCard{padding:18px 16px 18px 64px;min-height:auto}.pathCard:before{left:24px;top:50%;transform:translate(-50%,-50%)}.pathCard:not(:last-child):after{content:"↓";left:17px;right:auto;top:auto;bottom:-18px}.pathCard h3,.pathCard p{text-align:left}.xhsList{grid-template-columns:1fr}}
+@media(max-width:640px){.pathGrid{grid-template-columns:1fr}}
+
+.sectionHeader{margin:30px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.sectionHeader .kicker{font-size:12px;font-weight:800;color:#2563eb;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.sectionHeader h2{font-size:24px;line-height:1.2;margin:0;letter-spacing:-.03em}
+.sectionHeader p{margin:6px 0 0;color:#64748b;font-size:14px;line-height:1.6;max-width:720px}
+.sectionShell{background:rgba(255,255,255,.52);border:1px solid rgba(203,213,225,.9);border-radius:16px;padding:18px;box-shadow:0 14px 35px rgba(15,23,42,.06);margin-bottom:26px}
+.sectionShell .grid{margin-top:0}
+@media(max-width:900px){.sectionHeader{align-items:flex-start;flex-direction:column}.sectionShell{padding:12px}}
+
+.pathCards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.pathDeepCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:grid;gap:12px}
+.pathDeepCard h3{margin:0;font-size:16px;letter-spacing:-.01em}
+.pathMeta{display:grid;grid-template-columns:82px 1fr;gap:8px;font-size:13px;line-height:1.55}
+.pathMeta b{color:#2563eb}
+.pathMeta span{color:#475569}
+.learnImprove{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.liCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px}
+.liCard h3{margin:0 0 10px;font-size:16px}
+.liCard ul{margin:0;padding-left:18px;color:#475569;font-size:13px;line-height:1.75}
+@media(max-width:900px){.pathCards,.learnImprove{grid-template-columns:1fr}}
+
+.nextGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.nextCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px}
+.nextCard .step{display:inline-flex;background:#eff6ff;color:#2563eb;border-radius:8px;padding:4px 8px;font-size:12px;font-weight:800;margin-bottom:12px}
+.nextCard h3{margin:0 0 8px;font-size:16px}
+.nextCard p{margin:0;color:#475569;font-size:13px;line-height:1.6}
+@media(max-width:900px){.nextGrid{grid-template-columns:1fr}}
+@media(max-width:900px){.grid,.donutRow,.insight{grid-template-columns:1fr}.header{flex-direction:column}.barLine{grid-template-columns:120px 1fr 48px}}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="header">
+    <div>
+      <div class="eyebrow">风险雷达探索</div>
+      <h1>风险雷达探索</h1>
+      <div class="sub">黑猫投诉用于竞品主题统计，小红书用于分析用户真实表达与灰产传播路径。</div>
+    </div>
+    <div class="badge">默认视图：<b id="defaultName">分期乐</b></div>
+  </header>
+  <section class="sectionHeader">
+    <div>
+      <div class="kicker">PART 01 · BLACK CAT</div>
+      <h2>高频问题聚类分析（黑猫）</h2>
+      <p>用黑猫投诉识别竞品高频风险主题，默认展示分期乐，可切换全部大盘和不同 APP。</p>
+    </div>
+  </section>
+  <section class="sectionShell">
+  <nav class="controls" id="controls" aria-label="选择展示对象"></nav>
+
+  <main class="grid">
+    <section class="card">
+      <h2 id="title">分期乐风险主题占比</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="totalKpi">-</div><div class="l">主题命中总量</div></div>
+        <div class="kpi"><div class="v" id="topKpi">-</div><div class="l">第一风险主题</div></div>
+        <div class="kpi"><div class="v" id="focusKpi">-</div><div class="l">建议优先关注</div></div>
+      </div>
+      <div class="donutRow">
+        <div class="donut" id="donut"><div class="center"><div class="total" id="centerTotal">-</div><div class="label">theme hits</div></div></div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>主题排序</h2>
+      <div class="bars" id="bars"></div>
+      
+    </section>
+  </main>
+
+  <section class="insight" id="insights"></section>
+  </section>
+
+  <section class="sectionHeader">
+    <div>
+      <div class="kicker">PART 02 · XIAOHONGSHU</div>
+      <h2>灰产路径分析和用户痛点挖掘（小红书）</h2>
+      <p>用小红书观察用户真实表达、评论区追问，以及法务协商、反催收、退费代理等传播路径。</p>
+    </div>
+  </section>
+  <section class="sectionShell">
+  <section class="card compare">
+    <h2>用户真实表达与灰产传播路径</h2>
+    <div class="pathCards">
+      <div class="pathDeepCard">
+        <h3>协商还款路径</h3>
+        <div class="pathMeta"><b>用户问题</b><span>还不上、怕逾期、想延期、想停催、想减免。</span></div>
+        <div class="pathMeta"><b>外部话术</b><span>没逾期如何协商、逾期后怎么沟通、延期/停息/二次分期。</span></div>
+        <div class="pathMeta"><b>我方应对</b><span>前置还款困难入口，明确可申请项、不可承诺项和官方处理边界。</span></div>
+      </div>
+      <div class="pathDeepCard">
+        <h3>退费退息路径</h3>
+        <div class="pathMeta"><b>用户问题</b><span>觉得利息高、会员费/担保费不合理、想拿回多收费用。</span></div>
+        <div class="pathMeta"><b>外部话术</b><span>退息退费教程、教你拿回多收的钱、查合同/综合年化。</span></div>
+        <div class="pathMeta"><b>我方应对</b><span>强化费用明细、合同查询、账单解释和官方申诉核查入口。</span></div>
+      </div>
+      <div class="pathDeepCard">
+        <h3>催收恐惧路径</h3>
+        <div class="pathMeta"><b>用户问题</b><span>怕爆通讯录、怕联系家人/单位、怕上门、怕威胁恐吓。</span></div>
+        <div class="pathMeta"><b>外部话术</b><span>暴力催收怎么办、哪些催收违法、遇到催收如何报警。</span></div>
+        <div class="pathMeta"><b>我方应对</b><span>明确催收边界、投诉反馈入口、留证建议和客服安抚口径。</span></div>
+      </div>
+      <div class="pathDeepCard">
+        <h3>征信/起诉焦虑路径</h3>
+        <div class="pathMeta"><b>用户问题</b><span>怕征信、怕起诉、怕冻结微信/银行卡、怕律师函。</span></div>
+        <div class="pathMeta"><b>外部话术</b><span>逾期会不会被起诉、如何不影响征信、征信修复、法务处理。</span></div>
+        <div class="pathMeta"><b>我方应对</b><span>提供征信影响 FAQ、逾期后果说明和反“征信修复”提醒。</span></div>
+      </div>
+    </div>
+    <div class="learnImprove">
+      <div class="liCard">
+        <h3>可借鉴</h3>
+        <ul>
+          <li>用用户语言表达：还不上怎么办、会不会爆通讯录、能不能协商。</li>
+          <li>按场景组织内容：没逾期、已逾期、被催收、费用不清楚。</li>
+          <li>防骗提醒具体化：不加私人微信/QQ，不信征信修复，不信付费停催。</li>
+        </ul>
+      </div>
+      <div class="liCard">
+        <h3>可改善</h3>
+        <ul>
+          <li>官方协商/还款困难入口。</li>
+          <li>费用解释、合同查询、账单明细。</li>
+          <li>催收边界与投诉入口。</li>
+          <li>征信/起诉/冻结 FAQ。</li>
+          <li>反法务协商、反催收、反退费代理提醒。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  </section>
+  </section>
+
+  <section class="sectionHeader">
+    <div>
+      <div class="kicker">NEXT STEP</div>
+      <h2>下一步：样本做准 → 问题看清 → 动作落地</h2>
+    </div>
+  </section>
+  <section class="sectionShell">
+    <div class="nextGrid">
+      <div class="nextCard"><div class="step">01</div><h3>样本做准</h3><p>过滤无关内容，保留真实有效的竞品风险和灰产线索。</p></div>
+      <div class="nextCard"><div class="step">02</div><h3>问题看清</h3><p>围绕费用、催收、协商还款、征信、灰产话术形成竞品对比。</p></div>
+      <div class="nextCard"><div class="step">03</div><h3>动作落地</h3><p>把外部风险转成产品、客服、消保可执行的优化建议。</p></div>
+    </div>
+  </section>
+</div>
+<script>
+const DATA = {"全部大盘": {"费用/息费争议": 249, "退款/退费诉求": 256, "客服承接不足": 143, "催收骚扰/暴力催收": 130, "协商还款/延期停催": 66, "隐私/信息泄露": 63, "征信/法务风险焦虑": 52, "灰产/代理话术": 12, "其他/待复核": 8}, "分期乐": {"费用/息费争议": 48, "退款/退费诉求": 41, "客服承接不足": 25, "催收骚扰/暴力催收": 14, "协商还款/延期停催": 7, "隐私/信息泄露": 6, "征信/法务风险焦虑": 6, "灰产/代理话术": 2, "其他/待复核": 2}, "有钱花/度小满": {"费用/息费争议": 43, "退款/退费诉求": 44, "催收骚扰/暴力催收": 39, "协商还款/延期停催": 23, "客服承接不足": 29, "隐私/信息泄露": 18, "征信/法务风险焦虑": 12, "灰产/代理话术": 4, "其他/待复核": 1}, "小赢卡贷": {"费用/息费争议": 40, "退款/退费诉求": 34, "催收骚扰/暴力催收": 13, "征信/法务风险焦虑": 2, "客服承接不足": 19, "协商还款/延期停催": 7, "隐私/信息泄露": 3, "灰产/代理话术": 1, "其他/待复核": 1}, "马上消费金融/安逸花": {"费用/息费争议": 43, "退款/退费诉求": 43, "催收骚扰/暴力催收": 15, "征信/法务风险焦虑": 12, "客服承接不足": 19, "其他/待复核": 4, "协商还款/延期停催": 7, "灰产/代理话术": 5, "隐私/信息泄露": 7}, "360借条/奇富": {"费用/息费争议": 27, "退款/退费诉求": 33, "客服承接不足": 13, "催收骚扰/暴力催收": 15, "协商还款/延期停催": 7, "隐私/信息泄露": 9, "征信/法务风险焦虑": 6}, "拍拍贷": {"费用/息费争议": 29, "退款/退费诉求": 31, "客服承接不足": 16, "催收骚扰/暴力催收": 17, "征信/法务风险焦虑": 10, "隐私/信息泄露": 11, "协商还款/延期停催": 4}, "京东金融": {"催收骚扰/暴力催收": 17, "协商还款/延期停催": 11, "客服承接不足": 22, "隐私/信息泄露": 9, "费用/息费争议": 19, "退款/退费诉求": 30, "征信/法务风险焦虑": 4}};
+const ORDER = ["费用/息费争议", "催收骚扰/暴力催收", "退款/退费诉求", "协商还款/延期停催", "征信/法务风险焦虑", "客服承接不足", "隐私/信息泄露", "灰产/代理话术", "其他/待复核"];
+const COLORS = {"费用/息费争议": "#f59e0b", "催收骚扰/暴力催收": "#ef4444", "退款/退费诉求": "#8b5cf6", "协商还款/延期停催": "#06b6d4", "征信/法务风险焦虑": "#64748b", "客服承接不足": "#10b981", "隐私/信息泄露": "#f97316", "灰产/代理话术": "#111827", "其他/待复核": "#94a3b8"};
+const DEFAULT = '分期乐';
+const controls = document.getElementById('controls');
+let current = DEFAULT;
+function sortedEntries(name){
+  const raw = DATA[name] || {};
+  return ORDER.map(k=>[k, raw[k]||0]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+}
+function total(entries){return entries.reduce((s,x)=>s+x[1],0)}
+function renderControls(){
+  Object.keys(DATA).forEach(name=>{
+    const btn=document.createElement('button'); btn.textContent=name; btn.onclick=()=>{current=name; render();}; btn.dataset.name=name; controls.appendChild(btn);
+  });
+}
+function render(){
+  [...controls.children].forEach(b=>b.classList.toggle('active', b.dataset.name===current));
+  const entries=sortedEntries(current); const t=total(entries)||1; const top=entries[0]||['-',0];
+  document.getElementById('title').textContent = current + '风险主题占比';
+  document.getElementById('totalKpi').textContent = total(entries);
+  document.getElementById('topKpi').textContent = top[0].replace('/暴力催收','');
+  document.getElementById('focusKpi').textContent = focusText(top[0]);
+  document.getElementById('centerTotal').textContent = total(entries);
+  let acc=0; const gradient=entries.map(([k,v])=>{const start=acc/t*100; acc+=v; const end=acc/t*100; return `${COLORS[k]||'#94a3b8'} ${start}% ${end}%`;}).join(', ');
+  document.getElementById('donut').style.background = `conic-gradient(${gradient || '#e5e7eb 0 100%'})`;
+  const legend=document.getElementById('legend'); legend.innerHTML='';
+  entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); legend.insertAdjacentHTML('beforeend',`<div class="legendItem"><span class="dot" style="background:${COLORS[k]}"></span><span>${k}</span><span class="pct">${pct}%</span></div>`);});
+  const bars=document.getElementById('bars'); bars.innerHTML='';
+  entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); bars.insertAdjacentHTML('beforeend',`<div class="barLine"><div class="barName">${k}</div><div class="track"><div class="fill" style="width:${pct}%;background:${COLORS[k]}"></div></div><div class="count">${v}</div></div>`);});
+  renderInsights(entries);
+}
+function focusText(theme){
+  if(theme.includes('费用')) return '费用解释';
+  if(theme.includes('催收')) return '催收边界';
+  if(theme.includes('协商')) return '还款帮助';
+  if(theme.includes('退款')) return '退费承接';
+  if(theme.includes('征信')) return '征信解释';
+  if(theme.includes('客服')) return '客服闭环';
+  return '人工复核';
+}
+function renderInsights(entries){
+  const box=document.getElementById('insights'); box.innerHTML='';
+  const top=entries.slice(0,3);
+  const copy={
+    '费用/息费争议':'优先检查费用披露、合同/账单明细、会员/担保/服务费解释是否足够清楚。',
+    '催收骚扰/暴力催收':'优先检查催收边界、第三方联系人、投诉承接和安抚口径。',
+    '退款/退费诉求':'用户已进入补偿/退费预期，需要明确可退与不可退规则。',
+    '协商还款/延期停催':'需要官方还款困难入口，避免用户转向外部法务/反催收。',
+    '征信/法务风险焦虑':'需要把征信、起诉、冻结等高压问题解释清楚，降低灰产利用空间。',
+    '客服承接不足':'需要标准话术和工单闭环，避免用户感知“没人处理”。',
+    '隐私/信息泄露':'属于高敏合规风险，需重点看通讯录、第三方联系人和信息授权。',
+    '灰产/代理话术':'关注外部法务协商、征信修复、停催延期等导流风险。'
+  };
+  top.forEach(([k,v],i)=>box.insertAdjacentHTML('beforeend',`<div class="mini"><b>Top${i+1} · ${k}（${v}）</b><p>${copy[k]||'需要结合原文进一步复核。'}</p></div>`));
+}
+renderControls(); render();
+</script>
+</body>
+</html>
