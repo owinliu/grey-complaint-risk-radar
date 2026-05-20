@@ -73,9 +73,9 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .sectionHeader .kicker{font-size:12px;font-weight:800;color:#2563eb;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .sectionHeader h2{font-size:24px;line-height:1.2;margin:0;letter-spacing:-.03em}
 .sectionHeader p{margin:6px 0 0;color:#64748b;font-size:14px;line-height:1.6;max-width:720px}
-.sectionShell{background:rgba(255,255,255,.52);border:1px solid rgba(203,213,225,.9);border-radius:16px;padding:18px;box-shadow:0 14px 35px rgba(15,23,42,.06);margin-bottom:26px}
+.sectionShell{margin-bottom:30px}
 .sectionShell .grid{margin-top:0}
-@media(max-width:900px){.sectionHeader{align-items:flex-start;flex-direction:column}.sectionShell{padding:12px}}
+@media(max-width:900px){.sectionHeader{align-items:flex-start;flex-direction:column}}
 
 .pathCards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .pathDeepCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:grid;gap:12px}
@@ -122,6 +122,17 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 @media(max-width:1100px){.execSummary{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.execSummary{grid-template-columns:1fr}}
 @media(max-width:900px){.grid,.donutRow,.insight{grid-template-columns:1fr}.header{flex-direction:column}.barLine{grid-template-columns:120px 1fr 48px}}
+
+/* visual simplification: avoid box-inside-box heaviness */
+.sectionShell > .card.compare{box-shadow:none;border-color:#e8eef7}
+.sectionShell > .grid .card{box-shadow:none}
+.sectionShell > .insight .mini{box-shadow:none}
+.pathDeepCard,.liCard,.responseCard,.nextCard,.xhsItem,.pathCard{box-shadow:none}
+.evidenceCard{box-shadow:none}
+.responseTable{box-shadow:none}
+.execSummary{margin-bottom:34px}
+.sectionHeader{border-top:1px solid #e8eef7;padding-top:24px}
+.execSummary + .sectionHeader{border-top:0;padding-top:0}
 </style>
 </head>
 <body>
