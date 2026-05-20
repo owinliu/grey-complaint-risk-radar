@@ -28,6 +28,9 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .kpi{border:1px solid var(--border);background:#fff;border-radius:10px;padding:14px}
 .kpi .v{font-size:24px;font-weight:800;letter-spacing:-.03em}
 .kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
+.riskConclusion{margin:0 0 18px;border:1px solid #bfdbfe;background:linear-gradient(135deg,#eff6ff 0%,#fff 72%);border-radius:10px;padding:14px 16px;color:#334155;font-size:14px;line-height:1.65}
+.riskConclusion b{color:#1d4ed8;font-weight:900}
+.riskConclusion span{color:#475569}
 .donutRow{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center}
 .donut{width:240px;height:240px;border-radius:50%;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(15,23,42,.05)}
 .donut:after{content:"";position:absolute;inset:48px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1px var(--border)}
@@ -189,11 +192,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   <main class="grid">
     <section class="card">
       <h2 id="title">分期乐风险主题占比</h2>
-      <div class="kpis">
-        <div class="kpi"><div class="v" id="totalKpi">-</div><div class="l">主题命中总量</div></div>
-        <div class="kpi"><div class="v" id="topKpi">-</div><div class="l">第一风险主题</div></div>
-        <div class="kpi"><div class="v" id="focusKpi">-</div><div class="l">建议优先关注</div></div>
-      </div>
+      <div class="riskConclusion" id="riskConclusion"></div>
       <div class="donutRow">
         <div class="donut" id="donut"><div class="center"><div class="total" id="centerTotal">-</div><div class="label">theme hits</div></div></div>
         <div class="legend" id="legend"></div>
@@ -339,9 +338,7 @@ function render(){
   [...controls.children].forEach(b=>b.classList.toggle('active', b.dataset.name===current));
   const entries=sortedEntries(current); const t=total(entries)||1; const top=entries[0]||['-',0];
   document.getElementById('title').textContent = current + '风险主题占比';
-  document.getElementById('totalKpi').textContent = total(entries);
-  document.getElementById('topKpi').textContent = top[0].replace('/暴力催收','');
-  document.getElementById('focusKpi').textContent = focusText(top[0]);
+  document.getElementById('riskConclusion').innerHTML = riskConclusionText(current, entries);
   document.getElementById('centerTotal').textContent = total(entries);
   let acc=0; const gradient=entries.map(([k,v])=>{const start=acc/t*100; acc+=v; const end=acc/t*100; return `${COLORS[k]||'#94a3b8'} ${start}% ${end}%`;}).join(', ');
   document.getElementById('donut').style.background = `conic-gradient(${gradient || '#e5e7eb 0 100%'})`;
@@ -350,6 +347,28 @@ function render(){
   const bars=document.getElementById('bars'); bars.innerHTML='';
   entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); bars.insertAdjacentHTML('beforeend',`<div class="barLine"><div class="barName">${k}</div><div class="track"><div class="fill" style="width:${pct}%;background:${COLORS[k]}"></div></div><div class="count">${v}</div></div>`);});
   renderInsights(entries);
+}
+function riskConclusionText(name, entries){
+  const top3 = entries.slice(0,3).map(x=>x[0]);
+  const readable = top3.map(k=>k.replace('/暴力催收','')).join('、');
+  const action = actionText(top3);
+  const prefix = name === '全部大盘' ? '全部大盘' : name;
+  return `<b>当前判断：</b><span>${prefix}风险主要集中在${readable}，建议优先关注${action}。</span>`;
+}
+function actionText(themes){
+  const actions=[];
+  const add=x=>{ if(!actions.includes(x)) actions.push(x); };
+  themes.forEach(theme=>{
+    if(theme.includes('费用')) add('费用解释和账单明细');
+    if(theme.includes('退款')) add('退费规则和申诉承接');
+    if(theme.includes('客服')) add('客服响应和工单闭环');
+    if(theme.includes('催收')) add('催收边界和投诉入口');
+    if(theme.includes('协商')) add('官方协商/还款困难入口');
+    if(theme.includes('征信')) add('征信与法务风险说明');
+    if(theme.includes('隐私')) add('隐私授权和第三方联系人说明');
+    if(theme.includes('灰产')) add('反灰产/代理话术提醒');
+  });
+  return actions.slice(0,3).join('、') || '人工复核';
 }
 function focusText(theme){
   if(theme.includes('费用')) return '费用解释';
