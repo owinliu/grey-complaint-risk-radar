@@ -136,6 +136,11 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .pathDeepCard,.liCard,.responseCard,.nextCard,.xhsItem,.pathCard{box-shadow:none;border-color:#edf2f7;background:rgba(255,255,255,.78)}
 .evidenceCard{box-shadow:none;border-color:#edf2f7;background:#fff}
 .responseTable{box-shadow:none;border-color:#edf2f7}
+
+.painSectionTitle,.summarySectionTitle{display:flex;align-items:center;gap:10px;margin:2px 0 14px;font-size:15px;font-weight:900;color:#0f172a;letter-spacing:-.01em}
+.painSectionTitle:before,.summarySectionTitle:before{content:"";width:4px;height:18px;border-radius:999px;background:#2563eb}
+.summarySectionTitle{margin-top:20px}
+.learnImprove{padding-top:4px}
 </style>
 </head>
 <body>
@@ -197,8 +202,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
     </div>
   </section>
   <section class="sectionShell">
-  <section class="card compare">
-    <h2>用户真实表达与灰产传播路径</h2>
+  <div class="painSectionTitle">用户痛点路径</div>
     <div class="pathCards">
       <div class="pathDeepCard">
         <h3>协商还款路径</h3>
@@ -225,6 +229,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
         <div class="pathMeta"><b>我方应对</b><span>提供征信影响 FAQ、逾期后果说明和反“征信修复”提醒。</span></div>
       </div>
     </div>
+    <div class="summarySectionTitle">可借鉴与可改善</div>
     <div class="learnImprove">
       <div class="liCard">
         <h3>可借鉴</h3>
