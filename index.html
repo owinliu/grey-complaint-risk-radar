@@ -249,8 +249,8 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 
   <section class="insight" id="insights"></section>
   <div class="detailLinkCard">
-    <div><b>各 APP 投诉问题分类与原始投诉</b><span>基础看板只展示汇总判断，执行同学可跳转查看具体 APP 下已分类的投诉问题和对应投诉原文。</span></div>
-    <a href="https://feishu.cn/docx/OcK4dVAhpooL74xgN1GcxTqvnUb" target="_blank" rel="noopener">查看分类投诉原文 →</a>
+    <div><b id="detailTitle">各 APP 投诉问题分类与原始投诉</b><span id="detailDesc">基础看板只展示汇总判断，可跳转查看具体 APP 下已分类投诉原文。</span></div>
+    <a id="detailLink" href="https://feishu.cn/docx/GGlLd0hgmodRs5xcp03cRUFUnyf" target="_blank" rel="noopener">查看分类投诉原文 →</a>
   </div>
   </section>
 
@@ -367,6 +367,16 @@ const DATA = {"全部大盘": {"费用/息费争议": 249, "退款/退费诉求"
 const ORDER = ["费用/息费争议", "催收骚扰/暴力催收", "退款/退费诉求", "协商还款/延期停催", "征信/法务风险焦虑", "客服承接不足", "隐私/信息泄露", "灰产/代理话术", "其他/待复核"];
 const COLORS = {"费用/息费争议": "#f59e0b", "催收骚扰/暴力催收": "#ef4444", "退款/退费诉求": "#8b5cf6", "协商还款/延期停催": "#06b6d4", "征信/法务风险焦虑": "#64748b", "客服承接不足": "#10b981", "隐私/信息泄露": "#f97316", "灰产/代理话术": "#111827", "其他/待复核": "#94a3b8"};
 const DEFAULT = '分期乐';
+const DETAIL_DOCS = {
+  '全部大盘':'https://feishu.cn/docx/GGlLd0hgmodRs5xcp03cRUFUnyf',
+  '分期乐':'https://feishu.cn/docx/HSQcdWoJBoilyAxySX7c45HDnWb',
+  '京东金融':'https://feishu.cn/docx/V0wndRGTpoORMsx07x0c9rssnog',
+  '马上消费金融/安逸花':'https://feishu.cn/docx/CnpAdqjNWoI09ux5wEtcXEIinUg',
+  '小赢卡贷':'https://feishu.cn/docx/A8n3dLcoAobcaGxTk70cWzSQnNd',
+  '有钱花/度小满':'https://feishu.cn/docx/LybXdHUhwo3xVhxBVKIc6g6HnLf',
+  '360借条/奇富':'https://feishu.cn/docx/Lt6jdN6UjoI9Z2xnWQvcIc4vn1q',
+  '拍拍贷':'https://feishu.cn/docx/CUN3dKnvwosRx8x6I0nc6R3AnCe'
+};
 const controls = document.getElementById('controls');
 let current = DEFAULT;
 function sortedEntries(name){
@@ -392,6 +402,17 @@ function render(){
   const bars=document.getElementById('bars'); bars.innerHTML='';
   entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); bars.insertAdjacentHTML('beforeend',`<div class="barLine"><div class="barName">${k}</div><div class="track"><div class="fill" style="width:${pct}%;background:${COLORS[k]}"></div></div><div class="count">${v}</div></div>`);});
   renderInsights(entries);
+  renderDetailLink(current);
+}
+function renderDetailLink(name){
+  const isAll = name === '全部大盘';
+  const title = isAll ? '全部 APP 投诉问题分类与原始投诉' : `${name}投诉问题分类与原始投诉`;
+  const cta = isAll ? '查看全部 APP 分类投诉原文 →' : `查看${name}分类投诉原文 →`;
+  document.getElementById('detailTitle').textContent = title;
+  document.getElementById('detailDesc').textContent = '基础看板只展示汇总判断，可跳转查看具体 APP 下已分类投诉原文。';
+  const link = document.getElementById('detailLink');
+  link.textContent = cta;
+  link.href = DETAIL_DOCS[name] || DETAIL_DOCS['全部大盘'];
 }
 function riskConclusionText(name, entries){
   const top3 = entries.slice(0,3).map(x=>x[0]);
