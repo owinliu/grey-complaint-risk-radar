@@ -11,7 +11,17 @@
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 *{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#f8fafc,#eef2ff);color:var(--text)}
-.wrapper{max-width:1180px;margin:0 auto;padding:28px 22px 44px}
+.pageShell{max-width:1380px;margin:0 auto;display:grid;grid-template-columns:150px minmax(0,1180px);gap:24px;padding:0 22px}
+.wrapper{max-width:1180px;margin:0 auto;padding:28px 0 44px;width:100%}
+.timeRail{position:sticky;top:28px;align-self:start;margin-top:32px;padding:4px 0 0 6px;background:transparent;border:0;box-shadow:none}
+.timeRailTitle{font-size:12px;font-weight:900;color:#94a3b8;letter-spacing:.08em;text-transform:uppercase;margin:0 0 16px 0}
+.timeRailList{position:relative;display:grid;gap:12px;padding-left:18px}
+.timeRailList:before{content:"";position:absolute;left:5px;top:10px;bottom:10px;width:1px;background:linear-gradient(180deg,#2563eb,#dbeafe)}
+.timeRailItem{position:relative;display:block;padding:0;text-decoration:none;color:#334155;background:transparent;border:0}
+.timeRailItem:before{content:"";position:absolute;left:-17px;top:5px;width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid #2563eb;box-shadow:0 0 0 4px #eff6ff}
+.timeRailItem strong{display:block;font-size:14px;line-height:1.35;color:#64748b;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em}.timeRailItem.current strong{color:#1d4ed8;font-weight:950}.timeRailItem.current:before{background:#2563eb;border-color:#2563eb;box-shadow:0 0 0 5px #dbeafe}.timeRailItem:hover strong{color:#1d4ed8}
+@media(max-width:1180px){.pageShell{display:block;padding:0 22px}.wrapper{padding-top:20px}.timeRail{position:relative;top:auto;margin:20px 0 0;padding:0}.timeRailList{display:flex;gap:18px;flex-wrap:wrap;padding-left:18px}.timeRailList:before{left:5px;right:auto;top:10px;bottom:auto;width:calc(100% - 22px);height:1px;background:#dbeafe}.timeRailItem{padding-top:18px}.timeRailItem:before{left:-17px;top:3px}}
+@media(max-width:640px){.pageShell{padding:0 16px}.wrapper{padding:18px 0 40px}.timeRailTitle{margin-bottom:12px}}
 .header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
 .eyebrow{font-size:13px;color:#475569;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 h1{font-size:32px;line-height:1.15;margin:8px 0 8px;letter-spacing:-.03em}
@@ -22,13 +32,14 @@ button{border:1px solid var(--border);background:#fff;color:#334155;border-radiu
 button:hover{border-color:#2563eb;color:#2563eb;background:#eff6ff}
 button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
+.riskGrid{grid-template-columns:1fr}
 .card{background:rgba(255,255,255,.88);border:1px solid rgba(226,232,240,.9);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
 .card h2{margin:0 0 14px;font-size:18px;letter-spacing:-.02em}
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
 .kpi{border:1px solid var(--border);background:#fff;border-radius:10px;padding:14px}
 .kpi .v{font-size:24px;font-weight:800;letter-spacing:-.03em}
 .kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
-.riskConclusion{margin:0 0 18px;border:1px solid #bfdbfe;background:linear-gradient(135deg,#eff6ff 0%,#fff 72%);border-radius:10px;padding:14px 16px;color:#334155;font-size:14px;line-height:1.65}
+.riskConclusion{margin:0 0 18px;color:#334155;font-size:14px;line-height:1.65}
 .riskConclusion b{color:#1d4ed8;font-weight:900}
 .riskConclusion span{color:#475569}
 .complaintOverview{display:grid;grid-template-columns:1.08fr .92fr;gap:16px;margin:0 0 20px}
@@ -48,7 +59,8 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .complaintRead b{color:#1d4ed8;font-weight:900}
 .complaintRead .readTag{display:inline-flex;margin-bottom:12px;border-radius:8px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:850;padding:4px 8px}
 @media(max-width:900px){.complaintOverview{grid-template-columns:1fr}.rankItem{grid-template-columns:138px 1fr 74px}}
-.donutRow{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center}
+.donutRow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:24px;align-items:start}
+.donutPanel{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center}
 .donut{width:240px;height:240px;border-radius:50%;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(15,23,42,.05)}
 .donut:after{content:"";position:absolute;inset:48px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1px var(--border)}
 .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;pointer-events:none}
@@ -56,6 +68,10 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .center .label{font-size:12px;color:var(--muted)}
 .legend{display:flex;flex-direction:column;gap:9px}
 .legendItem{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:center;font-size:13px;color:#334155}
+.topIssueList{display:flex;flex-direction:column;gap:12px}
+.topIssueTitle{font-size:13px;font-weight:900;color:#0f172a;letter-spacing:-.01em;margin-bottom:2px}
+.topIssueItem{background:#fff;border:1px solid #dbeafe;border-radius:12px;padding:14px 15px;box-shadow:0 8px 20px rgba(15,23,42,.04)}
+.topIssueItem b{display:block;font-size:14px;color:#0f172a;margin-bottom:7px}.topIssueItem p{margin:0;color:#64748b;font-size:13px;line-height:1.58}
 .dot{width:12px;height:12px;border-radius:4px}
 .pct{font-variant-numeric:tabular-nums;color:#0f172a;font-weight:700}
 .bars{display:flex;flex-direction:column;gap:13px}
@@ -91,13 +107,13 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 @media(max-width:1000px){.pathGrid{grid-template-columns:1fr}.pathGrid:before{left:24px;right:auto;top:20px;bottom:20px;width:2px;height:auto;background:linear-gradient(180deg,#2563eb,#93c5fd)}.pathCard{padding:18px 16px 18px 64px;min-height:auto}.pathCard:before{left:24px;top:50%;transform:translate(-50%,-50%)}.pathCard:not(:last-child):after{content:"↓";left:17px;right:auto;top:auto;bottom:-18px}.pathCard h3,.pathCard p{text-align:left}.xhsList{grid-template-columns:1fr}}
 @media(max-width:640px){.pathGrid{grid-template-columns:1fr}}
 
-.sectionHeader{margin:30px 0 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.sectionHeader{margin:30px 0 14px;display:block}
 .sectionHeader .kicker{font-size:12px;font-weight:800;color:#2563eb;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .sectionHeader h2{font-size:24px;line-height:1.2;margin:0;letter-spacing:-.03em}
-.sectionHeader p{margin:6px 0 0;color:#64748b;font-size:14px;line-height:1.6;max-width:720px}
+.sectionHeader p{margin:6px 0 0;color:#64748b;font-size:14px;line-height:1.55;max-width:none;width:100%}
 .sectionShell{margin-bottom:30px}
 .sectionShell .grid{margin-top:0}
-@media(max-width:900px){.sectionHeader{align-items:flex-start;flex-direction:column}}
+
 
 .pathCards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .pathDeepCard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:grid;gap:12px}
@@ -136,7 +152,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 @media(max-width:1100px){.appResponseGrid,.evidenceGrid{grid-template-columns:1fr 1fr}.evidenceCard img{height:320px}}
 @media(max-width:720px){.appResponseGrid,.evidenceGrid{grid-template-columns:1fr}.evidenceCard img{height:300px}.responseTable{font-size:12px}}
 
-.execSummary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0 8px}
+.execSummary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 8px}
 .execCard{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 10px 26px rgba(15,23,42,.05)}
 .execCard .label{display:inline-flex;border-radius:8px;background:#eff6ff;color:#2563eb;font-size:12px;font-weight:850;padding:4px 8px;margin-bottom:10px}
 .execCard h3{font-size:15px;line-height:1.35;margin:0 0 8px;letter-spacing:-.01em}
@@ -183,11 +199,28 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 
 .learnImprove .liCard{background:linear-gradient(135deg,#eff6ff 0%,#ffffff 76%);border-color:#bfdbfe}
 .learnImprove .liCard h3{color:#1d4ed8}
+
+/* Part02 XHS solution library */
+.xhsSolutionShell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;margin-top:16px}.xhsSolutionTabs{display:grid;gap:8px;align-content:start}.xhsSolutionTab{border:1px solid #e2e8f0;background:#fff;color:#334155;border-radius:12px;padding:12px;text-align:left;cursor:pointer;transition:.18s ease}.xhsSolutionTab:hover{border-color:#2563eb;background:#eff6ff}.xhsSolutionTab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 12px 26px rgba(29,78,216,.18)}.xhsSolutionTab b{display:block;font-size:13px;line-height:1.35;margin-bottom:4px}.xhsSolutionTab span{display:block;font-size:12px;line-height:1.45;color:inherit;opacity:.78}
+.xhsSolutionDetail{background:linear-gradient(135deg,#fff 0%,#f8fbff 100%);border:1px solid #dbeafe;border-radius:16px;padding:18px;box-shadow:0 14px 30px rgba(15,23,42,.06)}.xhsSolutionHead{margin-bottom:14px}.xhsSolutionHead .tag{display:inline-flex;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:900;padding:4px 9px;margin-bottom:8px}.xhsSolutionHead h3{margin:0 0 7px;font-size:22px;letter-spacing:-.03em}.xhsSolutionHead p{margin:0;color:#475569;font-size:14px;line-height:1.68;max-width:880px}
+.xhsComponentStack{display:grid;gap:14px}.xhsComponent{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px}.xhsComponentHead{margin-bottom:12px}.xhsComponentHead h4{margin:0;font-size:17px;letter-spacing:-.02em;color:#0f172a}.xhsTemplateSteps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.xhsTemplateStep{background:#f8fbff;border:1px solid #dbeafe;border-radius:12px;padding:12px}.xhsTemplateStep b{display:block;color:#1d4ed8;font-size:13px;margin-bottom:8px}.xhsTemplateStep ul{margin:0;padding-left:18px;color:#334155;font-size:13px;line-height:1.62}.xhsTemplateStep li{margin:3px 0}
+.xhsEvidenceNote{margin-top:14px;background:linear-gradient(135deg,#eff6ff,#fff);border:1px solid #bfdbfe;border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;gap:14px;align-items:center;color:#475569;font-size:13px;line-height:1.6}.xhsEvidenceNote b{display:block;color:#1d4ed8;font-size:14px;margin-bottom:2px}.xhsEvidenceNote span{display:block;color:#475569;font-size:13px;line-height:1.6}.xhsEvidenceNote .pill{white-space:nowrap;color:#2563eb;font-weight:900;text-decoration:none;font-size:13px}.xhsEvidenceNote .pill:hover{text-decoration:underline}
+@media(max-width:1050px){.xhsSolutionShell{grid-template-columns:1fr}.xhsSolutionTabs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.xhsSolutionTabs,.xhsTemplateSteps{grid-template-columns:1fr}.xhsEvidenceNote{flex-direction:column;align-items:flex-start}.xhsEvidenceNote .pill{white-space:normal}}
+
 </style>
 </head>
 <body>
+<div class="pageShell">
+  <aside class="timeRail" aria-label="时间维度导航">
+    <div class="timeRailTitle">分析周期</div>
+    <div class="timeRailList">
+      <a class="timeRailItem current" href="#summary" data-period="2026.05.26"><strong>2026.05.26</strong></a>
+      <a class="timeRailItem" href="#summary" data-period="2026.05.20"><strong>2026.05.20</strong></a>
+    </div>
+  </aside>
 <div class="wrapper">
-  <header class="header">
+  <header class="header" id="summary">
     <div>
       <div class="eyebrow">风险雷达探索</div>
       <h1>风险雷达探索</h1>
@@ -196,12 +229,11 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   </header>
 
   <section class="execSummary" aria-label="一屏结论">
-    <div class="execCard"><div class="label">风险在哪里</div><h3>费用、催收、协商、征信是高压场景</h3><p>黑猫投诉显示，用户问题集中在费用争议、退费诉求、催收骚扰、协商还款和征信焦虑。</p></div>
-    <div class="execCard"><div class="label">灰产怎么切入</div><h3>利用用户不知道官方怎么处理</h3><p>小红书上，外部法务、反催收、退费代理、征信修复内容接住用户焦虑。</p></div>
-    <div class="execCard"><div class="label">竞品怎么应对</div><h3>开始把风险接回 APP 内</h3><p>度小满做代理维权举报，奇富做消费者权益中心，部分风险已前置到官方入口。</p></div>
-    <div class="execCard"><div class="label">我们怎么改</div><h3>建立官方承接中心</h3><p>优先收拢投诉反馈、黑产举报、协商说明、费用核查、征信 FAQ 和服务进度。</p></div>
+    <div class="execCard"><div class="label">外部投诉压力</div><h3>费用、催收、协商、征信是高压场景</h3><p>黑猫投诉显示，用户问题集中在费用争议、退费诉求、催收骚扰、协商还款和征信焦虑。</p></div>
+    <div class="execCard"><div class="label">灰产承接链路</div><h3>把用户焦虑包装成可复制处理方法</h3><p>小红书内容通过话术包装、投诉引导、评论暗语和私域承接，放大平台处理压力。</p></div>
+    <div class="execCard"><div class="label">我方治理机会</div><h3>用官方承接降低外部代办空间</h3><p>优先补齐投诉反馈、费用核查、协商说明、征信 FAQ、反灰产提醒和服务进度。</p></div>
   </section>
-  <section class="sectionHeader">
+  <section class="sectionHeader" id="part-black-cat">
     <div>
       <div class="kicker">PART 01 · BLACK CAT</div>
       <h2>外部风险集中在哪些问题</h2>
@@ -212,171 +244,62 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   <div class="complaintOverview" aria-label="黑猫商家近30天投诉概览">
     <div class="complaintRank">
       <h3>黑猫商家近30天投诉量排序</h3>
-      <div class="rankList">
-        <div class="rankItem"><div class="rankName top"><span class="rankNo top">1.</span>京东金融</div><div class="rankTrack"><div class="rankFill" style="width:100%"></div></div><div class="rankValue">11952<span class="rankDelta">—</span></div></div>
-        <div class="rankItem"><div class="rankName top"><span class="rankNo top">2.</span>分期乐</div><div class="rankTrack"><div class="rankFill" style="width:55%"></div></div><div class="rankValue">6555<span class="rankDelta">—</span></div></div>
-        <div class="rankItem"><div class="rankName top"><span class="rankNo top">3.</span>马上消费金融/安逸花</div><div class="rankTrack"><div class="rankFill" style="width:28%"></div></div><div class="rankValue">3400<span class="rankDelta">—</span></div></div>
-        <div class="rankItem"><div class="rankName"><span class="rankNo">4.</span>小赢卡贷</div><div class="rankTrack"><div class="rankFill" style="width:22%"></div></div><div class="rankValue">2641<span class="rankDelta">—</span></div></div>
-        <div class="rankItem"><div class="rankName"><span class="rankNo">5.</span>有钱花/度小满</div><div class="rankTrack"><div class="rankFill" style="width:13%"></div></div><div class="rankValue">1579<span class="rankDelta">—</span></div></div>
-        <div class="rankItem"><div class="rankName"><span class="rankNo">6.</span>360借条/奇富</div><div class="rankTrack"><div class="rankFill" style="width:11%"></div></div><div class="rankValue">1371<span class="rankDelta">—</span></div></div>
-        <div class="rankItem"><div class="rankName"><span class="rankNo">7.</span>拍拍贷</div><div class="rankTrack"><div class="rankFill" style="width:11%"></div></div><div class="rankValue">1369<span class="rankDelta">—</span></div></div>
-      </div>
+      <div class="rankList" id="rankList"></div>
     </div>
     <div class="complaintRead">
       <span class="readTag">先看外部热度</span>
-      <h3>投诉压力集中在头部平台，分期乐处在第二梯队高位</h3>
-      <p>黑猫商家近30天数据看，外部投诉压力主要集中在<b>京东金融、分期乐、马上消费金融/安逸花</b>。分期乐位于高位，说明外部风险不是零散个案，而是已经形成持续可见的投诉压力。下面继续拆解用户集中投诉什么，以及哪些问题容易被包装成退费、退息、协商还款等代理维权话术。</p>
+      <h3 id="complaintReadTitle">投诉压力集中在头部平台，分期乐处在第二梯队高位</h3>
+      <p id="complaintReadText"></p>
     </div>
   </div>
   <nav class="controls" id="controls" aria-label="选择展示对象"></nav>
 
-  <main class="grid">
+  <main class="grid riskGrid">
     <section class="card">
       <h2 id="title">分期乐风险主题占比</h2>
       <div class="riskConclusion" id="riskConclusion"></div>
       <div class="donutRow">
-        <div class="donut" id="donut"><div class="center"><div class="total" id="centerTotal">-</div><div class="label">theme hits</div></div></div>
-        <div class="legend" id="legend"></div>
+        <div class="donutPanel">
+          <div class="donut" id="donut"><div class="center"><div class="total" id="centerTotal">-</div><div class="label">theme hits</div></div></div>
+          <div class="legend" id="legend" aria-label="完整风险主题占比"></div>
+        </div>
+        <div class="topIssueList" id="topIssues" aria-label="Top3风险主题解读"></div>
       </div>
     </section>
-
-    <section class="card">
-      <h2>主题排序</h2>
-      <div class="bars" id="bars"></div>
-      
-    </section>
   </main>
-
-  <section class="insight" id="insights"></section>
   <div class="detailLinkCard">
     <div><b id="detailTitle">各 APP 投诉问题分类与原始投诉</b><span id="detailDesc">基础看板只展示汇总判断，可跳转查看具体 APP 下已分类投诉原文。</span></div>
-    <a id="detailLink" href="https://feishu.cn/docx/GGlLd0hgmodRs5xcp03cRUFUnyf" target="_blank" rel="noopener">查看分类投诉原文 →</a>
+    <a id="detailLink" href="https://my.feishu.cn/docx/GGlLd0hgmodRs5xcp03cRUFUnyf" target="_blank" rel="noopener">查看分类投诉原文 →</a>
   </div>
   </section>
 
-  <section class="sectionHeader">
+  <section class="sectionHeader" id="part-xhs">
     <div>
       <div class="kicker">PART 02 · XIAOHONGSHU</div>
-      <h2>灰产如何接住用户痛点</h2>
-      <p>小红书用户表达与传播路径，观察法务协商、反催收、退费代理等内容如何承接焦虑。</p>
+      <h2>小红书黑灰产方案图谱：从协商指导到私域转化</h2>
+      <p>围绕逾期焦虑搭建的方案体系：先教用户怎么说，再告诉用户哪里说错、材料怎么准备、哪个平台怎么谈；平台未满足诉求时，再引导用户转向监管投诉等外部路径，最终可能被私信、律所、合同、后付和成功费方案承接。</p>
     </div>
   </section>
   <section class="sectionShell">
-  <div class="painSectionTitle">用户痛点路径</div>
-    <div class="pathCards">
-      <div class="pathDeepCard">
-        <h3>协商还款路径</h3>
-        <div class="pathMeta"><b>用户问题</b><span>还不上、怕逾期、想延期、想停催、想减免。</span></div>
-        <div class="pathMeta"><b>外部话术</b><span>没逾期如何协商、逾期后怎么沟通、延期/停息/二次分期。</span></div>
-        <div class="pathMeta"><b>我方应对</b><span>前置还款困难入口，明确可申请项、不可承诺项和官方处理边界。</span></div>
-      </div>
-      <div class="pathDeepCard">
-        <h3>退费退息路径</h3>
-        <div class="pathMeta"><b>用户问题</b><span>觉得利息高、会员费/担保费不合理、想拿回多收费用。</span></div>
-        <div class="pathMeta"><b>外部话术</b><span>退息退费教程、教你拿回多收的钱、查合同/综合年化。</span></div>
-        <div class="pathMeta"><b>我方应对</b><span>强化费用明细、合同查询、账单解释和官方申诉核查入口。</span></div>
-      </div>
-      <div class="pathDeepCard">
-        <h3>催收恐惧路径</h3>
-        <div class="pathMeta"><b>用户问题</b><span>怕爆通讯录、怕联系家人/单位、怕上门、怕威胁恐吓。</span></div>
-        <div class="pathMeta"><b>外部话术</b><span>暴力催收怎么办、哪些催收违法、遇到催收如何报警。</span></div>
-        <div class="pathMeta"><b>我方应对</b><span>明确催收边界、投诉反馈入口、留证建议和客服安抚口径。</span></div>
-      </div>
-      <div class="pathDeepCard">
-        <h3>征信/起诉焦虑路径</h3>
-        <div class="pathMeta"><b>用户问题</b><span>怕征信、怕起诉、怕冻结微信/银行卡、怕律师函。</span></div>
-        <div class="pathMeta"><b>外部话术</b><span>逾期会不会被起诉、如何不影响征信、征信修复、法务处理。</span></div>
-        <div class="pathMeta"><b>我方应对</b><span>提供征信影响 FAQ、逾期后果说明和反“征信修复”提醒。</span></div>
-      </div>
+    <div class="xhsSolutionShell">
+      <div class="xhsSolutionTabs" id="xhsSolutionTabs" aria-label="黑灰产方案选择"></div>
+      <div class="xhsSolutionDetail" id="xhsSolutionDetail"></div>
     </div>
-    <div class="summarySectionTitle">可借鉴与可改善</div>
-    <div class="learnImprove">
-      <div class="liCard">
-        <h3>可借鉴</h3>
-        <ul>
-          <li>用用户语言表达：还不上怎么办、会不会爆通讯录、能不能协商。</li>
-          <li>按场景组织内容：没逾期、已逾期、被催收、费用不清楚。</li>
-          <li>防骗提醒具体化：不加私人微信/QQ，不信征信修复，不信付费停催。</li>
-        </ul>
-      </div>
-      <div class="liCard">
-        <h3>可改善</h3>
-        <ul>
-          <li>官方协商/还款困难入口。</li>
-          <li>费用解释、合同查询、账单明细。</li>
-          <li>催收边界与投诉入口。</li>
-          <li>征信/起诉/冻结 FAQ。</li>
-          <li>反法务协商、反催收、反退费代理提醒。</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  </section>
-  </section>
 
-
-
-  <section class="sectionHeader">
-    <div>
-      <div class="kicker">PART 03 · APP RESPONSE</div>
-      <h2>竞品如何把风险接回 APP 内</h2>
-      <p>验证投诉、举报、消保、客服入口是否能把外部风险接回官方处理路径。</p>
-    </div>
-  </section>
-  <section class="sectionShell">
-    <div class="appResponseGrid">
-      <div class="responseCard dxm"><div class="badge">度小满</div><h3>反灰产专题最直接</h3><p>代理维权举报中心 + 举报表单，直接覆盖征信修复、反催收、代理投诉等外部话术。</p></div>
-      <div class="responseCard qf"><div class="badge">奇富借条</div><h3>官方承接中心最完整</h3><p>消保中心 + 我要投诉 + 诈骗举报 + 服务进度，把问题处理和权益教育集中承接。</p></div>
-      <div class="responseCard fqlblue"><div class="badge">分期乐</div><h3>已有能力但入口分散</h3><p>客服、黑产举报、安全中心、协商问题已存在，下一步应收拢为统一官方承接中心。</p></div>
-    </div>
-    <table class="responseTable">
-      <thead><tr><th>外部风险</th><th>APP 内应看什么</th><th>当前竞品参考</th><th>我方机会</th></tr></thead>
-      <tbody>
-        <tr><td>法务协商 / 代理维权</td><td>代理维权举报、反灰产教育、材料上传</td><td>度小满</td><td>建立反代理维权/征信修复/付费停催专题</td></tr>
-        <tr><td>投诉外溢</td><td>我要投诉、意见反馈、服务进度</td><td>奇富借条</td><td>收拢投诉反馈、服务进度和客服承接</td></tr>
-        <tr><td>协商还款</td><td>还款困难入口、协商边界、官方客服</td><td>分期乐在线客服已有热门问题</td><td>把协商问题前置到还款/账单/逾期场景</td></tr>
-        <tr><td>征信 / 费用焦虑</td><td>征信 FAQ、合同账单、费用核查入口</td><td>奇富、分期乐已有部分分类</td><td>补齐高压问题解释与官方核查入口</td></tr>
-      </tbody>
-    </table>
-    <div class="evidenceGrid">
-      <div class="evidenceCard"><img src="assets/complaint-entry/duxiaoman-agent-report.png" alt="度小满代理维权举报中心"><div><b>度小满｜代理维权举报中心</b><span>直接对抗代理投诉、征信修复、专业反催收等灰产话术。</span></div></div>
-      <div class="evidenceCard"><img src="assets/complaint-entry/duxiaoman-report-form.png" alt="度小满举报表单"><div><b>度小满｜举报表单</b><span>姓名、联系方式、举报描述、材料上传，形成正式提交入口。</span></div></div>
-      <div class="evidenceCard"><img src="assets/complaint-entry/qifu-consumer-rights.png" alt="奇富消费者权益保护"><div><b>奇富借条｜消费者权益保护</b><span>消保、隐私、客服、满意度调查集中展示。</span></div></div>
-      <div class="evidenceCard"><img src="assets/complaint-entry/qifu-complaint-service.png" alt="奇富我要投诉"><div><b>奇富借条｜我要投诉 / 诈骗举报</b><span>客服页内同时出现意见反馈、我要投诉、诈骗举报、服务进度。</span></div></div>
-      <div class="evidenceCard"><img src="assets/complaint-entry/fenqile-online-service.png" alt="分期乐在线客服"><div><b>分期乐｜在线客服</b><span>热门问题已出现“支持协商还款吗”，具备承接基础。</span></div></div>
-      <div class="evidenceCard"><img src="assets/complaint-entry/jd-feedback.png" alt="京东金融意见反馈"><div><b>京东金融｜意见反馈</b><span>通用反馈入口可见，但金融投诉/消保专项承接不够明确。</span></div></div>
-    </div>
-  </section>
-
-  <section class="sectionHeader">
-    <div>
-      <div class="kicker">NEXT STEP</div>
-      <h2>下一步：定口径 → 做专题 → 推动作</h2>
-    </div>
-  </section>
-  <section class="sectionShell">
-    <div class="nextGrid">
-      <div class="nextCard"><div class="step">01</div><h3>定口径</h3><p>固定风险主题、有效样本标准和重点竞品范围。</p></div>
-      <div class="nextCard"><div class="step">02</div><h3>做专题</h3><p>先做投诉承接、协商还款、费用解释、征信说明四个 APP 对比专题。</p></div>
-      <div class="nextCard"><div class="step">03</div><h3>推动作</h3><p>输出产品、客服、消保可落地的优化动作清单。</p></div>
+    <div class="xhsEvidenceNote" id="xhs-evidence">
+      <div><b>完整证据与深度分析</b><span>详细内容：完整帖子原文、评论承接、截图/OCR 提取内容、详细分析和高危账号画像</span></div>
+      <a class="pill" href="https://my.feishu.cn/docx/T5Chdrjt6oPldxxTdOlcomr3nHc" target="_blank" rel="noopener">查看完整分析文档 →</a>
     </div>
   </section>
 </div>
 <script>
-const DATA = {"全部大盘": {"费用/息费争议": 249, "退款/退费诉求": 256, "客服承接不足": 143, "催收骚扰/暴力催收": 130, "协商还款/延期停催": 66, "隐私/信息泄露": 63, "征信/法务风险焦虑": 52, "灰产/代理话术": 12, "其他/待复核": 8}, "分期乐": {"费用/息费争议": 48, "退款/退费诉求": 41, "客服承接不足": 25, "催收骚扰/暴力催收": 14, "协商还款/延期停催": 7, "隐私/信息泄露": 6, "征信/法务风险焦虑": 6, "灰产/代理话术": 2, "其他/待复核": 2}, "有钱花/度小满": {"费用/息费争议": 43, "退款/退费诉求": 44, "催收骚扰/暴力催收": 39, "协商还款/延期停催": 23, "客服承接不足": 29, "隐私/信息泄露": 18, "征信/法务风险焦虑": 12, "灰产/代理话术": 4, "其他/待复核": 1}, "小赢卡贷": {"费用/息费争议": 40, "退款/退费诉求": 34, "催收骚扰/暴力催收": 13, "征信/法务风险焦虑": 2, "客服承接不足": 19, "协商还款/延期停催": 7, "隐私/信息泄露": 3, "灰产/代理话术": 1, "其他/待复核": 1}, "马上消费金融/安逸花": {"费用/息费争议": 43, "退款/退费诉求": 43, "催收骚扰/暴力催收": 15, "征信/法务风险焦虑": 12, "客服承接不足": 19, "其他/待复核": 4, "协商还款/延期停催": 7, "灰产/代理话术": 5, "隐私/信息泄露": 7}, "360借条/奇富": {"费用/息费争议": 27, "退款/退费诉求": 33, "客服承接不足": 13, "催收骚扰/暴力催收": 15, "协商还款/延期停催": 7, "隐私/信息泄露": 9, "征信/法务风险焦虑": 6}, "拍拍贷": {"费用/息费争议": 29, "退款/退费诉求": 31, "客服承接不足": 16, "催收骚扰/暴力催收": 17, "征信/法务风险焦虑": 10, "隐私/信息泄露": 11, "协商还款/延期停催": 4}, "京东金融": {"催收骚扰/暴力催收": 17, "协商还款/延期停催": 11, "客服承接不足": 22, "隐私/信息泄露": 9, "费用/息费争议": 19, "退款/退费诉求": 30, "征信/法务风险焦虑": 4}};
+const REPORTS = {"2026.05.20": {"data": {"全部大盘": {"费用/息费争议": 249, "退款/退费诉求": 256, "客服承接不足": 143, "催收骚扰/暴力催收": 130, "协商还款/延期停催": 66, "隐私/信息泄露": 63, "征信/法务风险焦虑": 52, "灰产/代理话术": 12, "其他/待复核": 8}, "分期乐": {"费用/息费争议": 48, "退款/退费诉求": 41, "客服承接不足": 25, "催收骚扰/暴力催收": 14, "协商还款/延期停催": 7, "隐私/信息泄露": 6, "征信/法务风险焦虑": 6, "灰产/代理话术": 2, "其他/待复核": 2}, "有钱花/度小满": {"费用/息费争议": 43, "退款/退费诉求": 44, "催收骚扰/暴力催收": 39, "协商还款/延期停催": 23, "客服承接不足": 29, "隐私/信息泄露": 18, "征信/法务风险焦虑": 12, "灰产/代理话术": 4, "其他/待复核": 1}, "小赢卡贷": {"费用/息费争议": 40, "退款/退费诉求": 34, "催收骚扰/暴力催收": 13, "征信/法务风险焦虑": 2, "客服承接不足": 19, "协商还款/延期停催": 7, "隐私/信息泄露": 3, "灰产/代理话术": 1, "其他/待复核": 1}, "马上消费金融/安逸花": {"费用/息费争议": 43, "退款/退费诉求": 43, "催收骚扰/暴力催收": 15, "征信/法务风险焦虑": 12, "客服承接不足": 19, "其他/待复核": 4, "协商还款/延期停催": 7, "灰产/代理话术": 5, "隐私/信息泄露": 7}, "360借条/奇富": {"费用/息费争议": 27, "退款/退费诉求": 33, "客服承接不足": 13, "催收骚扰/暴力催收": 15, "协商还款/延期停催": 7, "隐私/信息泄露": 9, "征信/法务风险焦虑": 6}, "拍拍贷": {"费用/息费争议": 29, "退款/退费诉求": 31, "客服承接不足": 16, "催收骚扰/暴力催收": 17, "征信/法务风险焦虑": 10, "隐私/信息泄露": 11, "协商还款/延期停催": 4}, "京东金融": {"催收骚扰/暴力催收": 17, "协商还款/延期停催": 11, "客服承接不足": 22, "隐私/信息泄露": 9, "费用/息费争议": 19, "退款/退费诉求": 30, "征信/法务风险焦虑": 4}}, "rank": [{"app": "京东金融", "valid30d": 11952, "rank": 1, "rankDelta": "—"}, {"app": "分期乐", "valid30d": 6555, "rank": 2, "rankDelta": "—"}, {"app": "马上消费金融/安逸花", "valid30d": 3400, "rank": 3, "rankDelta": "—"}, {"app": "小赢卡贷", "valid30d": 2641, "rank": 4, "rankDelta": "—"}, {"app": "有钱花/度小满", "valid30d": 1579, "rank": 5, "rankDelta": "—"}, {"app": "360借条/奇富", "valid30d": 1371, "rank": 6, "rankDelta": "—"}, {"app": "拍拍贷", "valid30d": 1369, "rank": 7, "rankDelta": "—"}], "docs": {"全部大盘": "https://my.feishu.cn/docx/BaotdpPBsoZndZxHiwlci8Xange", "分期乐": "https://my.feishu.cn/docx/Qrsud0Wrhou5IIxZWxcc30rhnKc", "京东金融": "https://my.feishu.cn/docx/N5jFdsQIWos661x6kjrcrrCHnqg", "马上消费金融/安逸花": "https://my.feishu.cn/docx/Uu1ydOguZo8h4Qxx91LcTRsnnSg", "小赢卡贷": "https://my.feishu.cn/docx/RZktdIaDBo1cOUxnlX8cqUHsnWf", "有钱花/度小满": "https://my.feishu.cn/docx/LmBEdQNanoSEdUxOb61ctV8knDe", "360借条/奇富": "https://my.feishu.cn/docx/CH8SdaZhjo8rtXx540rcrw7JnXc", "拍拍贷": "https://my.feishu.cn/docx/EStPdlbp2oVeJNxEQFgcUkPznJK"}, "readPrefix": "2026.05.20 批次的黑猫商家近30天数据看"}, "2026.05.26": {"data": {"全部大盘": {"费用/息费争议": 110, "退款/退费诉求": 100, "客服承接不足": 118, "催收骚扰/暴力催收": 81, "协商还款/延期停催": 125, "隐私/信息泄露": 19, "征信/法务风险焦虑": 23, "灰产/代理话术": 14}, "分期乐": {"费用/息费争议": 20, "退款/退费诉求": 18, "客服承接不足": 20, "催收骚扰/暴力催收": 20, "协商还款/延期停催": 20, "隐私/信息泄露": 3, "征信/法务风险焦虑": 3, "灰产/代理话术": 1}, "有钱花/度小满": {"费用/息费争议": 13, "退款/退费诉求": 12, "客服承接不足": 20, "催收骚扰/暴力催收": 18, "协商还款/延期停催": 20, "隐私/信息泄露": 4, "征信/法务风险焦虑": 3, "灰产/代理话术": 2}, "小赢卡贷": {"费用/息费争议": 20, "退款/退费诉求": 17, "客服承接不足": 19, "催收骚扰/暴力催收": 19, "协商还款/延期停催": 20, "隐私/信息泄露": 2, "征信/法务风险焦虑": 4, "灰产/代理话术": 2}, "马上消费金融/安逸花": {"费用/息费争议": 20, "退款/退费诉求": 20, "客服承接不足": 20, "催收骚扰/暴力催收": 3, "协商还款/延期停催": 20, "隐私/信息泄露": 3, "征信/法务风险焦虑": 2, "灰产/代理话术": 1}, "360借条/奇富": {"费用/息费争议": 16, "退款/退费诉求": 13, "客服承接不足": 16, "催收骚扰/暴力催收": 10, "协商还款/延期停催": 20, "隐私/信息泄露": 4, "征信/法务风险焦虑": 3, "灰产/代理话术": 4}, "拍拍贷": {"费用/息费争议": 16, "退款/退费诉求": 15, "客服承接不足": 16, "催收骚扰/暴力催收": 9, "协商还款/延期停催": 19, "隐私/信息泄露": 2, "征信/法务风险焦虑": 6, "灰产/代理话术": 4}, "京东金融": {"费用/息费争议": 5, "退款/退费诉求": 5, "客服承接不足": 7, "催收骚扰/暴力催收": 2, "协商还款/延期停催": 6, "隐私/信息泄露": 1, "征信/法务风险焦虑": 2}}, "rank": [{"app": "京东金融", "companyName": "京东金融", "valid30d": 11692, "reply30d": 11648, "complete30d": 862, "rank": 1, "previousRank": 1, "rankDelta": "—", "previousValid30d": 11952}, {"app": "分期乐", "companyName": "分期乐", "valid30d": 5895, "reply30d": 5882, "complete30d": 1045, "rank": 2, "previousRank": 2, "rankDelta": "—", "previousValid30d": 6555}, {"app": "马上消费金融/安逸花", "companyName": "马上消费金融", "valid30d": 2859, "reply30d": 2859, "complete30d": 207, "rank": 3, "previousRank": 3, "rankDelta": "—", "previousValid30d": 3400}, {"app": "小赢卡贷", "companyName": "小赢卡贷", "valid30d": 2324, "reply30d": 2324, "complete30d": 233, "rank": 4, "previousRank": 4, "rankDelta": "—", "previousValid30d": 2641}, {"app": "有钱花/度小满", "companyName": "有钱花", "valid30d": 1402, "reply30d": 1402, "complete30d": 312, "rank": 5, "previousRank": 5, "rankDelta": "—", "previousValid30d": 1579}, {"app": "拍拍贷", "companyName": "拍拍贷", "valid30d": 1261, "reply30d": 1259, "complete30d": 128, "rank": 6, "previousRank": 7, "rankDelta": "+1", "previousValid30d": 1369}, {"app": "360借条/奇富", "companyName": "360借条", "valid30d": 1258, "reply30d": 1258, "complete30d": 138, "rank": 7, "previousRank": 6, "rankDelta": "-1", "previousValid30d": 1371}], "docs": {"全部大盘": "https://my.feishu.cn/docx/AJWEdwY4woIpIUxOerbc9Ki7nQg", "分期乐": "https://my.feishu.cn/docx/IP7PdRHChod4pcxNkfgcAefinrd", "京东金融": "https://my.feishu.cn/docx/IQtOdVE3xoNzOgxmr1vcoiuzn4c", "马上消费金融/安逸花": "https://my.feishu.cn/docx/T9w5dgI9EocQEGxgZNhcuCzhnyf", "小赢卡贷": "https://my.feishu.cn/docx/MIHAdoR8no3n8cxrbnEc86UGnPd", "有钱花/度小满": "https://my.feishu.cn/docx/G5UHdCfovornMoxrLc8cgfIrnhe", "360借条/奇富": "https://my.feishu.cn/docx/GVjkd6N06ojcYPxh3qCcAbVKnnh", "拍拍贷": "https://my.feishu.cn/docx/KbUzdVF3uoZ4fMxQpJkcE0SUnCb"}, "readPrefix": "2026.05.26 批次的黑猫商家近30天数据看"}};
+let activePeriod = '2026.05.26';
+let DATA = REPORTS[activePeriod].data;
+let DETAIL_DOCS = REPORTS[activePeriod].docs;
 const ORDER = ["费用/息费争议", "催收骚扰/暴力催收", "退款/退费诉求", "协商还款/延期停催", "征信/法务风险焦虑", "客服承接不足", "隐私/信息泄露", "灰产/代理话术", "其他/待复核"];
 const COLORS = {"费用/息费争议": "#f59e0b", "催收骚扰/暴力催收": "#ef4444", "退款/退费诉求": "#8b5cf6", "协商还款/延期停催": "#06b6d4", "征信/法务风险焦虑": "#64748b", "客服承接不足": "#10b981", "隐私/信息泄露": "#f97316", "灰产/代理话术": "#111827", "其他/待复核": "#94a3b8"};
 const DEFAULT = '分期乐';
-const DETAIL_DOCS = {
-  '全部大盘':'https://feishu.cn/docx/BaotdpPBsoZndZxHiwlci8Xange',
-  '分期乐':'https://feishu.cn/docx/Qrsud0Wrhou5IIxZWxcc30rhnKc',
-  '京东金融':'https://feishu.cn/docx/N5jFdsQIWos661x6kjrcrrCHnqg',
-  '马上消费金融/安逸花':'https://feishu.cn/docx/Uu1ydOguZo8h4Qxx91LcTRsnnSg',
-  '小赢卡贷':'https://feishu.cn/docx/RZktdIaDBo1cOUxnlX8cqUHsnWf',
-  '有钱花/度小满':'https://feishu.cn/docx/LmBEdQNanoSEdUxOb61ctV8knDe',
-  '360借条/奇富':'https://feishu.cn/docx/CH8SdaZhjo8rtXx540rcrw7JnXc',
-  '拍拍贷':'https://feishu.cn/docx/EStPdlbp2oVeJNxEQFgcUkPznJK'
-};
 const controls = document.getElementById('controls');
 let current = DEFAULT;
 function sortedEntries(name){
@@ -384,7 +307,992 @@ function sortedEntries(name){
   return ORDER.map(k=>[k, raw[k]||0]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
 }
 function total(entries){return entries.reduce((s,x)=>s+x[1],0)}
+
+const XHS_SOLUTIONS = [
+  {
+    "id": "negotiate",
+    "tab": "协商还款方案",
+    "sub": "话术、材料、平台打法",
+    "title": "协商还款方案",
+    "summary": "黑灰产不是单纯劝用户联系客服，而是提供话术脚本、纠错话术、材料模板、平台政策地图和监管兜底，让用户感觉“我终于知道该怎么谈”。",
+    "components": [
+      {
+        "title": "协商话术模板",
+        "provide": "四轮沟通脚本",
+        "feeling": "我终于知道怎么说",
+        "specific": [
+          "第一轮：联系人工客服",
+          "第二轮：找真正能处理的协商/贷后部门",
+          "第三轮：跟平台或银行走材料与回电流程",
+          "第四轮：监管/投诉兜底"
+        ],
+        "quotes": [
+          "你好，现在实在没有偿还能力了，我想申请协商延长1年。",
+          "我也不是故意找茬，只是像我这种特殊情况，能不能特殊处理一下？",
+          "你们应该有专门处理延期的部门吧，麻烦直接帮我转接一下。",
+          "三方催收，我不想跟他们谈。",
+          "我只不过是暂时没有能力还，麻烦您帮我转一下相关部门或者领导，或者等回电都可以。",
+          "我目前真的无力承担还款，把自己的情况详细讲述一遍，特别强调困难。",
+          "我有诚意主动沟通还款。",
+          "请帮忙反馈我的情况给相关部门或者领导。",
+          "希望能和贵司沟通还款。",
+          "记住一个重要热线号码：12378。",
+          "我不是不还，是暂时没有一次性偿还能力。",
+          "如果没有反馈，我还会再次拨打。"
+        ],
+        "impact": "把客服沟通训练成脚本推进：转部门、等回电、补材料、监管兜底，增加客服和消保承接压力。",
+        "lead": "相关内容把协商沟通拆成四轮固定脚本，让用户照着念、照着转部门、照着升级。",
+        "sections": [
+          {
+            "title": "第一轮：联系人工客服",
+            "quotes": [
+              "你好，现在实在没有偿还能力了，我想申请协商延长1年。",
+              "我也不是故意找茬，只是像我这种特殊情况，能不能特殊处理一下？",
+              "你们应该有专门处理延期的部门吧，麻烦直接帮我转接一下。"
+            ]
+          },
+          {
+            "title": "第二轮：找真正能处理的部门",
+            "quotes": [
+              "三方催收，我不想跟他们谈。",
+              "我只不过是暂时没有能力还，麻烦您帮我转一下相关部门或者领导，或者等回电都可以。"
+            ]
+          },
+          {
+            "title": "第三轮：困难叙述 + 还款意愿",
+            "quotes": [
+              "我目前真的无力承担还款，把自己的情况详细讲述一遍，特别强调困难。",
+              "我有诚意主动沟通还款。",
+              "请帮忙反馈我的情况给相关部门或者领导。",
+              "希望能和贵司沟通还款。"
+            ]
+          },
+          {
+            "title": "第四轮：监管/投诉兜底",
+            "quotes": [
+              "记住一个重要热线号码：12378。",
+              "告诉他们你在某平台有一笔欠款，现在暂时没有一次性偿还能力，但每个月可以拿出几百块去还款，想要一个协商号码。"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "话术纠错模板",
+        "provide": "雷区表达、替代表达",
+        "feeling": "原来失败是因为我说错",
+        "specific": [
+          "把失败归因于“话术不对、表达不专业、说了雷区”",
+          "列出不能说的词，再给替代表达",
+          "暗示不会说就需要专业人员/律所介入"
+        ],
+        "quotes": [
+          "不要直接说：停息挂账。",
+          "不要直接说：只还本金。",
+          "不要直接说：别人有政策。",
+          "不要直接说：必须按第70条分期。",
+          "不要直接说：延迟1-3年还款。",
+          "我目前确实遇到困难，不是恶意逾期。",
+          "我有还款意愿，但没有一次性偿还能力。",
+          "希望根据我的实际收入制定一个能执行的新方案。",
+          "请帮我转接能处理协商/分期/延期的部门。"
+        ],
+        "impact": "制造用户对“专业话术”的依赖，把审核规则误解成话术考试。",
+        "lead": "相关内容把协商失败解释成“说错话”，再给用户一套禁用表达和替代表达。",
+        "sections": [
+          {
+            "title": "不要这样说",
+            "quotes": [
+              "停息挂账。",
+              "只还本金。",
+              "别人有政策。",
+              "必须按第70条分期。",
+              "延迟1-3年还款。"
+            ]
+          },
+          {
+            "title": "改成这样说",
+            "quotes": [
+              "我目前确实遇到困难，不是恶意逾期。",
+              "我有还款意愿，但没有一次性偿还能力。",
+              "希望根据我的实际收入制定一个能执行的新方案。",
+              "请帮我转接能处理协商/分期/延期的部门。"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "材料准备模板",
+        "provide": "困难证明、流水、征信、还款计划书",
+        "feeling": "我可以按清单准备",
+        "specific": [
+          "整理所有平台、金额、利率、还款期限",
+          "准备困难证明、收入流水、征信、合同账单和负债截图",
+          "确认每月可承受还款金额",
+          "被拒后补材料、重组困难叙述或投诉推动"
+        ],
+        "quotes": [
+          "负债逾期别慌，保姆级协商流程来了。",
+          "先把所有债务、金额、利率、还款期限整理清楚。",
+          "准备失业证明、诊断书、收入流水等困难证明。",
+          "按短信链接上传身份证、困难证明、征信报告、负债截图。",
+          "不要继续以贷养贷，不要失联，不要乱承诺还款时间。"
+        ],
+        "impact": "外部材料清单越细，越容易被用户当成官方流程，平台需要明确材料边界和审核口径。",
+        "lead": "相关内容把协商包装成材料准备工程，让用户按清单准备证明、流水、征信和还款计划。",
+        "sections": [
+          {
+            "title": "材料清单",
+            "quotes": [
+              "失业证明、诊断书、低保证明、工资条。",
+              "收入流水、征信报告、负债截图、身份证。",
+              "还款计划书、合同/账单截图、短信记录。"
+            ]
+          },
+          {
+            "title": "配套话术",
+            "quotes": [
+              "负债逾期别慌，保姆级协商流程来了。",
+              "先把所有债务、金额、利率、还款期限整理清楚。",
+              "准备失业证明、诊断书、收入流水等困难证明。",
+              "按平台要求格式提交材料。",
+              "不要继续以贷养贷，不要失联，不要乱承诺还款时间。"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "平台政策地图",
+        "provide": "哪些平台好谈、怎么转专员",
+        "feeling": "我知道不同平台打法",
+        "specific": [
+          "按平台、银行、资方列名单",
+          "告诉用户哪些优先处理、哪些可协商、哪些能分期/延期/减免",
+          "客服说无政策时继续索要分期政策或转专员"
+        ],
+        "quotes": [
+          "欠这5家平台的，先恭喜你了。",
+          "年底有欠这八家，可以恭喜你了。",
+          "4月信用卡先还这24家。",
+          "不同平台政策不一样。",
+          "有些平台现在更好谈。",
+          "先处理这几家，压力会小很多。",
+          "拨客服电话转人工。",
+          "客服称无政策/权限时继续索要分期政策。",
+          "要求客服转交专员，1-3个工作日联系。"
+        ],
+        "impact": "把平台差异包装成“攻略地图”，放大用户对特殊政策、特殊入口的预期。",
+        "lead": "相关内容把平台、银行、资方差异包装成攻略地图，让用户相信不同平台有不同打法。",
+        "sections": [
+          {
+            "title": "名单型标题",
+            "quotes": [
+              "欠这5家平台的，先恭喜你了。",
+              "年底有欠这八家，可以恭喜你了。",
+              "4月信用卡先还这24家。"
+            ]
+          },
+          {
+            "title": "政策差异话术",
+            "quotes": [
+              "不同平台政策不一样。",
+              "有些平台现在更好谈。",
+              "先处理这几家，压力会小很多。"
+            ]
+          },
+          {
+            "title": "转专员打法",
+            "quotes": [
+              "拨客服电话转人工。",
+              "客服称无政策/权限时继续索要分期政策。",
+              "要求客服转交专员，1-3个工作日联系。"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "投诉升级路径",
+        "provide": "12378、投诉、监管登记",
+        "feeling": "平台拒绝也还有办法",
+        "specific": [
+          "普通客服沟通无效后，转向热线、监管、黑猫、金融消保",
+          "准备平台、资方、诉求、账单、短信和录音",
+          "等待平台/资方回电，无效则重复投诉或升级"
+        ],
+        "quotes": [
+          "拨打12378不是直接投诉，而是让他们帮忙找协商的号码。",
+          "接通后，跟他们讲你在某银行/平台有一笔欠款，现在暂时没能力还，但每个月能拿出 xx 钱来还款，想要某行/平台的协商号码。",
+          "他们就会给你一个号码。",
+          "你只要打这个号码，把自己的情况和诉求跟平台客服说清楚，之后等着平台回电。",
+          "银行拒绝可再次拨打12378反馈。"
+        ],
+        "impact": "投诉渠道被训练成协商推进工具，容易带来模板化投诉和重复工单。",
+        "lead": "相关内容把12378、投诉和监管登记包装成平台拒绝后的继续推进方式。",
+        "sections": [
+          {
+            "title": "12378 协商号码话术",
+            "quotes": [
+              "拨打12378不是直接投诉，而是让他们帮忙找协商的号码。",
+              "接通后，跟他们讲你在某银行/平台有一笔欠款，现在暂时没能力还，但每个月能拿出 xx 钱来还款，想要某行/平台的协商号码。",
+              "他们就会给你一个号码。"
+            ]
+          },
+          {
+            "title": "等待回电与再次反馈",
+            "quotes": [
+              "你只要打这个号码，把自己的情况和诉求跟平台客服说清楚，之后等着平台回电。",
+              "银行拒绝可再次拨打12378反馈。"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "collection",
+    "tab": "催收反制方案",
+    "sub": "不接催收、通讯录、上门",
+    "title": "催收反制方案",
+    "summary": "围绕用户最怕的亲友、单位、通讯录和上门外访，相关内容提供“不接也不失联”、第三方联系反制、证据留存和投诉模板。",
+    "components": [
+      {
+        "title": "不接催收也不失联",
+        "provide": "主动报备、录音留证、固定时段联系",
+        "feeling": "我可以不接催收但不算失联",
+        "specific": [
+          "重新定义“失联”",
+          "建议定期主动联系官方客服",
+          "每次通话录音作为不失联证据",
+          "查询本金、利息、罚息、违约金"
+        ],
+        "quotes": [
+          "不接所有催收电话，不等于失联。",
+          "失联不是你想的那样。",
+          "定期主动给官方客服去电说明真实状况和还款意愿。",
+          "电话必须录音作为不失联证据。",
+          "说明上班不便接催收，可短信留言或固定时段来电。"
+        ],
+        "impact": "降低用户接听贷后电话概率，增加官方触达和还款沟通成本。",
+        "sections": [
+          {
+            "title": "重新定义“失联”",
+            "quotes": [
+              "不接所有催收电话，不等于失联。",
+              "失联不是你想的那样。"
+            ]
+          },
+          {
+            "title": "建议定期主动联系官方客服",
+            "quotes": [
+              "定期主动给官方客服去电说明真实状况和还款意愿。"
+            ]
+          },
+          {
+            "title": "每次通话录音作为不失联证据",
+            "quotes": [
+              "电话必须录音作为不失联证据。"
+            ]
+          },
+          {
+            "title": "查询本金、利息、罚息、违约金",
+            "quotes": [
+              "说明上班不便接催收，可短信留言或固定时段来电。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供主动报备、录音留证、固定时段联系，让用户感觉“我可以不接催收但不算失联”。"
+      },
+      {
+        "title": "通讯录/单位反制",
+        "provide": "不得联系第三方、录音截图投诉",
+        "feeling": "我知道怎么保护家人和工作",
+        "specific": [
+          "要求不得联系家人、单位、通讯录联系人",
+          "保存电话、短信、邮件、截图、录音",
+          "影响工作则反向强调降低还款能力"
+        ],
+        "quotes": [
+          "未经我本人允许，不得向第三方透露我的债务信息。",
+          "不要联系我的家人、单位或通讯录联系人。",
+          "影响我的工作只会降低我的还款能力。",
+          "如果继续骚扰或威胁，我会保留录音和截图并投诉。"
+        ],
+        "impact": "把所有第三方联系都变成潜在投诉点，平台需要更清楚披露催收边界。",
+        "sections": [
+          {
+            "title": "要求不得联系家人、单位、通讯录联系人",
+            "quotes": [
+              "未经我本人允许，不得向第三方透露我的债务信息。",
+              "不要联系我的家人、单位或通讯录联系人。"
+            ]
+          },
+          {
+            "title": "保存电话、短信、邮件、截图、录音",
+            "quotes": [
+              "影响我的工作只会降低我的还款能力。"
+            ]
+          },
+          {
+            "title": "影响工作则反向强调降低还款能力",
+            "quotes": [
+              "如果继续骚扰或威胁，我会保留录音和截图并投诉。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供不得联系第三方、录音截图投诉，让用户感觉“我知道怎么保护家人和工作”。"
+      },
+      {
+        "title": "上门/外访核验",
+        "provide": "身份、委托书、合同、授权材料核验",
+        "feeling": "上门也有话术能应对",
+        "specific": [
+          "要求核验工作证、身份证明、委托书、借款合同",
+          "确认代表哪家平台、哪家公司、工号",
+          "单位或村委会无义务配合调查"
+        ],
+        "quotes": [
+          "请先提供你的身份、委托证明、借款合同或授权材料。",
+          "请明确你代表哪家平台、哪家公司、工号是多少。",
+          "单位或村委会无义务配合你们调查。"
+        ],
+        "impact": "外访解释不清会被外部模板定性为威胁或违规。",
+        "sections": [
+          {
+            "title": "要求核验工作证、身份证明、委托书、借款合同",
+            "quotes": [
+              "请先提供你的身份、委托证明、借款合同或授权材料。"
+            ]
+          },
+          {
+            "title": "确认代表哪家平台、哪家公司、工号",
+            "quotes": [
+              "请明确你代表哪家平台、哪家公司、工号是多少。"
+            ]
+          },
+          {
+            "title": "单位或村委会无义务配合调查",
+            "quotes": [
+              "单位或村委会无义务配合你们调查。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供身份、委托书、合同、授权材料核验，让用户感觉“上门也有话术能应对”。"
+      }
+    ]
+  },
+  {
+    "id": "complaint",
+    "tab": "投诉施压方案",
+    "sub": "监管、黑猫、材料升级",
+    "title": "投诉施压方案",
+    "summary": "把投诉渠道从用户反馈工具，包装成推动协商、停催、退费、回电的施压工具。",
+    "components": [
+      {
+        "title": "监管热线施压",
+        "provide": "12378、金融监管、等待贷后回电",
+        "feeling": "平台不处理，我还能找监管推动",
+        "specific": [
+          "把12378包装成获取协商号码的入口",
+          "登记诉求后等待贷后回电",
+          "拒绝后再次反馈"
+        ],
+        "quotes": [
+          "12378真的能协商吗？",
+          "自己协商不成功，牢记一个热线。",
+          "接通后讲你暂时没有一次性偿还能力，但每个月可以拿出几百块。",
+          "3个工作日内等待银行贷后管理部电话。",
+          "银行拒绝可再次拨打12378反馈。"
+        ],
+        "impact": "监管投诉被训练成业务协商节点，增加外部工单和监管响应压力。",
+        "sections": [
+          {
+            "title": "把12378包装成获取协商号码的入口",
+            "quotes": [
+              "12378真的能协商吗？",
+              "自己协商不成功，牢记一个热线。"
+            ]
+          },
+          {
+            "title": "登记诉求后等待贷后回电",
+            "quotes": [
+              "接通后讲你暂时没有一次性偿还能力，但每个月可以拿出几百块。",
+              "3个工作日内等待银行贷后管理部电话。"
+            ]
+          },
+          {
+            "title": "拒绝后再次反馈",
+            "quotes": [
+              "银行拒绝可再次拨打12378反馈。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供12378、金融监管、等待贷后回电，让用户感觉“平台不处理，我还能找监管推动”。"
+      },
+      {
+        "title": "投诉材料包",
+        "provide": "平台、资方、账单、短信、录音、截图",
+        "feeling": "我知道投诉要准备什么材料",
+        "specific": [
+          "准备平台、资方、诉求、账单、短信、录音",
+          "上传私人号码催收证据",
+          "使用12321、黑猫、监管或协会举报"
+        ],
+        "quotes": [
+          "记录来电号码和通话内容，向平台客服核验号码是否备案。",
+          "查不到则称违规，上传录音短信截图。",
+          "3天停催+2大投诉通道。"
+        ],
+        "impact": "材料模板化后，投诉内容会高度同质化，识别和核查成本上升。",
+        "sections": [
+          {
+            "title": "准备平台、资方、诉求、账单、短信、录音",
+            "quotes": [
+              "记录来电号码和通话内容，向平台客服核验号码是否备案。"
+            ]
+          },
+          {
+            "title": "上传私人号码催收证据",
+            "quotes": [
+              "查不到则称违规，上传录音短信截图。"
+            ]
+          },
+          {
+            "title": "使用12321、黑猫、监管或协会举报",
+            "quotes": [
+              "3天停催+2大投诉通道。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供平台、资方、账单、短信、录音、截图，让用户感觉“我知道投诉要准备什么材料”。"
+      }
+    ]
+  },
+  {
+    "id": "judicial",
+    "tab": "司法节点应对",
+    "sub": "起诉、支付令、冻结",
+    "title": "司法节点应对",
+    "summary": "围绕起诉、传票、支付令、冻结、执保、管辖权异议，相关内容提供核验、应对和继续协商的话术。",
+    "components": [
+      {
+        "title": "起诉真伪与民事纠纷解释",
+        "provide": "12368核验、案号、法院、法官、开庭信息",
+        "feeling": "我不用先恐慌，可以核验真假",
+        "specific": [
+          "确认法院短信、电话、文书真实性",
+          "索取诉状和证据",
+          "准备收入困难、还款意愿、合同、录音和征信"
+        ],
+        "quotes": [
+          "逾期最坏结果不是坐牢。",
+          "就算被起诉也是民事纠纷，不用坐牢。",
+          "先用12368或法院网确认起诉真伪。",
+          "索取诉状和证据，准备征信、合同、录音等材料。"
+        ],
+        "impact": "法务通知如果表达不清，会被外部解释为恐吓、假短信或套路。",
+        "sections": [
+          {
+            "title": "确认法院短信、电话、文书真实性",
+            "quotes": [
+              "逾期最坏结果不是坐牢。",
+              "就算被起诉也是民事纠纷，不用坐牢。"
+            ]
+          },
+          {
+            "title": "索取诉状和证据",
+            "quotes": [
+              "先用12368或法院网确认起诉真伪。"
+            ]
+          },
+          {
+            "title": "准备收入困难、还款意愿、合同、录音和征信",
+            "quotes": [
+              "索取诉状和证据，准备征信、合同、录音等材料。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供12368核验、案号、法院、法官、开庭信息，让用户感觉“我不用先恐慌，可以核验真假”。"
+      },
+      {
+        "title": "支付令/冻结/管辖权异议",
+        "provide": "15天窗口、执保核验、异地法院异议",
+        "feeling": "司法节点也有操作空间",
+        "specific": [
+          "支付令强调15天书面异议窗口",
+          "冻结/执保先确认是否已起诉",
+          "异地法院考虑管辖权异议",
+          "借司法流程时间窗口继续协商"
+        ],
+        "quotes": [
+          "支付令不是判决书，但如果不理它，15天后对方就能申请强制执行。",
+          "账户被冻结显示执保，先确认到底有没有被起诉。",
+          "执保只是法院对财产保全案件编的号，不一定官司已经打起来了。",
+          "异地法院可邮寄民事管辖权异议申请书。"
+        ],
+        "impact": "司法节点被包装成继续谈判的窗口，平台需要提供清晰核验入口和说明。",
+        "sections": [
+          {
+            "title": "支付令强调15天书面异议窗口",
+            "quotes": [
+              "支付令不是判决书，但如果不理它，15天后对方就能申请强制执行。"
+            ]
+          },
+          {
+            "title": "冻结/执保先确认是否已起诉",
+            "quotes": [
+              "账户被冻结显示执保，先确认到底有没有被起诉。"
+            ]
+          },
+          {
+            "title": "异地法院考虑管辖权异议",
+            "quotes": [
+              "执保只是法院对财产保全案件编的号，不一定官司已经打起来了。"
+            ]
+          },
+          {
+            "title": "借司法流程时间窗口继续协商",
+            "quotes": [
+              "异地法院可邮寄民事管辖权异议申请书。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供15天窗口、执保核验、异地法院异议，让用户感觉“司法节点也有操作空间”。"
+      }
+    ]
+  },
+  {
+    "id": "agency",
+    "tab": "第三方代办承接",
+    "sub": "分60期、绿色通道、律所",
+    "title": "第三方代办承接",
+    "summary": "在用户觉得自己不会谈、说错话、材料不全之后，第三方开始出现：律师团队、绿色通道、合同后付、结果承诺。",
+    "components": [
+      {
+        "title": "结果承诺获客",
+        "provide": "分60期、延5年、月还几百、不爆通讯录",
+        "feeling": "有人能帮我谈出更好的结果",
+        "specific": [
+          "用逾期、催收、亲友知道筛选高焦虑人群",
+          "放出停催、减免、延5年、分60期等强结果",
+          "绑定律所、律师、债务规划团队"
+        ],
+        "quotes": [
+          "逾期停催自由还。",
+          "减免延5年还。",
+          "逾期分60期自由还，月还几百，不爆通讯录。",
+          "降低每期还款额，月还上千到月还几百。",
+          "持牌律所资质，律师十年实战经验丰富。"
+        ],
+        "impact": "强结果制造不切实际预期，并把用户导向收费代办。",
+        "sections": [
+          {
+            "title": "用逾期、催收、亲友知道筛选高焦虑人群",
+            "quotes": [
+              "逾期停催自由还。",
+              "减免延5年还。"
+            ]
+          },
+          {
+            "title": "放出停催、减免、延5年、分60期等强结果",
+            "quotes": [
+              "逾期分60期自由还，月还几百，不爆通讯录。",
+              "降低每期还款额，月还上千到月还几百。"
+            ]
+          },
+          {
+            "title": "绑定律所、律师、债务规划团队",
+            "quotes": [
+              "持牌律所资质，律师十年实战经验丰富。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供分60期、延5年、月还几百、不爆通讯录，让用户感觉“有人能帮我谈出更好的结果”。"
+      },
+      {
+        "title": "绿色通道/律所代办",
+        "provide": "专业团队、特殊入口、处理透明",
+        "feeling": "我自己不行，但机构可以帮我办",
+        "specific": [
+          "包装协商方案出台、绿色通道、及时止损",
+          "强调律师团队/债务规划团队替用户沟通",
+          "签合同、真实案例评估、处理透明"
+        ],
+        "quotes": [
+          "协商方案出台啦！",
+          "让专业律师团队用科学的方法来帮助你。",
+          "三大安心保障：签正规合同、真实案例评估、处理透明。",
+          "每个人情况不同，方案也不同。",
+          "网贷&信用卡平台均可协商。"
+        ],
+        "impact": "“绿色通道”会让用户相信存在官方渠道之外的特殊入口。",
+        "sections": [
+          {
+            "title": "包装协商方案出台、绿色通道、及时止损",
+            "quotes": [
+              "协商方案出台啦！",
+              "让专业律师团队用科学的方法来帮助你。"
+            ]
+          },
+          {
+            "title": "强调律师团队/债务规划团队替用户沟通",
+            "quotes": [
+              "三大安心保障：签正规合同、真实案例评估、处理透明。",
+              "每个人情况不同，方案也不同。"
+            ]
+          },
+          {
+            "title": "签合同、真实案例评估、处理透明",
+            "quotes": [
+              "网贷&信用卡平台均可协商。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供专业团队、特殊入口、处理透明，让用户感觉“我自己不行，但机构可以帮我办”。"
+      },
+      {
+        "title": "后付/合同/阶段费",
+        "provide": "无定金、后付、合同、第三方监管",
+        "feeling": "听起来不像骗子，可以试试",
+        "specific": [
+          "用无定金/后付降低防备",
+          "合同、第三方监管、阶段费增加信任",
+          "演变为定金、中期款、尾款"
+        ],
+        "quotes": [
+          "优先选有第三方监管的交易方式，资金安全最重要。",
+          "服务前一定签好具备法律效力的合同。",
+          "我们没有定金，成功后再付。",
+          "前期不用付任何，办理后才付。",
+          "定金 + 中期款 + 尾款。"
+        ],
+        "impact": "费用时点是内容风险走向交易风险的关键证据。",
+        "sections": [
+          {
+            "title": "用无定金/后付降低防备",
+            "quotes": [
+              "优先选有第三方监管的交易方式，资金安全最重要。",
+              "服务前一定签好具备法律效力的合同。"
+            ]
+          },
+          {
+            "title": "合同、第三方监管、阶段费增加信任",
+            "quotes": [
+              "我们没有定金，成功后再付。",
+              "前期不用付任何，办理后才付。"
+            ]
+          },
+          {
+            "title": "演变为定金、中期款、尾款",
+            "quotes": [
+              "定金 + 中期款 + 尾款。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供无定金、后付、合同、第三方监管，让用户感觉“听起来不像骗子，可以试试”。"
+      }
+    ]
+  },
+  {
+    "id": "private",
+    "tab": "私域转化与信息收集",
+    "sub": "私信、负债表、征信身份证",
+    "title": "私域转化与信息收集",
+    "summary": "公开内容只讲一部分，评论和私信继续承接，最终收集平台、金额、逾期时间、收入、征信、身份证、联系方式等敏感信息。",
+    "components": [
+      {
+        "title": "评论区承接",
+        "provide": "私信暗语、金额询问、平台适配",
+        "feeling": "我这个情况可以被单独分析",
+        "specific": [
+          "公开笔记制造需求",
+          "用每个人情况不同解释不能公开细讲",
+          "评论区承接能不能做、怎么联系、平台适配"
+        ],
+        "quotes": [
+          "涉及多少金额？什么时间逾？",
+          "私信我你的情况。",
+          "你现在欠多少？评论区说说，我来帮你分析。",
+          "每个人情况不一样，方案也不同。",
+          "因为平台限制，很多细节没有发布。",
+          "发一下。",
+          "222。",
+          "这里[私信R]。",
+          "丝[私信R]我沟通方案。"
+        ],
+        "impact": "评论区是灰产闭环的关键，不看评论会漏掉转化链路。",
+        "sections": [
+          {
+            "title": "公开笔记制造需求",
+            "quotes": [
+              "涉及多少金额？什么时间逾？",
+              "私信我你的情况。",
+              "你现在欠多少？评论区说说，我来帮你分析。"
+            ]
+          },
+          {
+            "title": "用每个人情况不同解释不能公开细讲",
+            "quotes": [
+              "每个人情况不一样，方案也不同。",
+              "因为平台限制，很多细节没有发布。",
+              "发一下。"
+            ]
+          },
+          {
+            "title": "评论区承接能不能做、怎么联系、平台适配",
+            "quotes": [
+              "222。",
+              "这里[私信R]。",
+              "丝[私信R]我沟通方案。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供私信暗语、金额询问、平台适配，让用户感觉“我这个情况可以被单独分析”。"
+      },
+      {
+        "title": "负债信息收集",
+        "provide": "负债信息表、征信、身份证、收入、联系方式",
+        "feeling": "我提交资料后能得到方案",
+        "specific": [
+          "收集平台、金额、逾期时间、收入、是否被催收",
+          "要求填写负债信息表",
+          "上传账单、征信、身份证和联系方式",
+          "输出方案、报价、签约或拉群"
+        ],
+        "quotes": [
+          "点击下方【立即咨询】获取各平台规划方案。",
+          "仅受理网贷银行等总欠款大于2万以上的债务。",
+          "1对1梳理债务，制定还款方案。",
+          "信用卡、网贷一笔笔理清楚，金额、利率、影响全透明。",
+          "填负债信息表，签署合同，拉协商群。"
+        ],
+        "impact": "涉及敏感金融和身份信息，可能引发二次诈骗、隐私泄露、冒名投诉或错误代办。",
+        "sections": [
+          {
+            "title": "收集平台、金额、逾期时间、收入、是否被催收",
+            "quotes": [
+              "点击下方【立即咨询】获取各平台规划方案。",
+              "仅受理网贷银行等总欠款大于2万以上的债务。"
+            ]
+          },
+          {
+            "title": "要求填写负债信息表",
+            "quotes": [
+              "1对1梳理债务，制定还款方案。"
+            ]
+          },
+          {
+            "title": "上传账单、征信、身份证和联系方式",
+            "quotes": [
+              "信用卡、网贷一笔笔理清楚，金额、利率、影响全透明。"
+            ]
+          },
+          {
+            "title": "输出方案、报价、签约或拉群",
+            "quotes": [
+              "填负债信息表，签署合同，拉协商群。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供负债信息表、征信、身份证、收入、联系方式，让用户感觉“我提交资料后能得到方案”。"
+      }
+    ]
+  },
+  {
+    "id": "scam",
+    "tab": "二次收割风险",
+    "sub": "黑律、尾款、呼叫转移",
+    "title": "二次收割风险包",
+    "summary": "用户试图解决逾期问题时，被“律所资质、成功案例、合同后付、协商群”进一步收割。",
+    "components": [
+      {
+        "title": "黑律/法务骗局链路",
+        "provide": "证照背书、成功截图、语音报价、协商群",
+        "feeling": "看起来正规，很多人已经成功",
+        "specific": [
+          "加V后发送营业执照、律师证",
+          "朋友圈展示协商成功截图",
+          "语音沟通负债和收入避免留痕",
+          "交定金后填负债表、签合同、拉群",
+          "设置呼叫转移，催付尾款",
+          "尾款后催收仍继续，群里人消失"
+        ],
+        "quotes": [
+          "诱导你加V，给你发营业执照、律师证等。",
+          "朋友圈都是协商成功的截图广告，洗脑。",
+          "假装共情你的负债焦虑，聊天拉近信任。",
+          "语音沟通负债和收入情况，协商报价（不留痕）。",
+          "交完定金让你填个负债信息表，签署合同后交中期款。",
+          "过段时间让设置呼叫转移，催付尾款。",
+          "尾款一付，催收电话和短信依旧不断，群里慢慢找不到人。"
+        ],
+        "impact": "灰产不只制造投诉，也会收割试图解决问题的用户；平台需要前置第三方法务协商风险提醒。",
+        "sections": [
+          {
+            "title": "加V后发送营业执照、律师证",
+            "quotes": [
+              "诱导你加V，给你发营业执照、律师证等。",
+              "朋友圈都是协商成功的截图广告，洗脑。"
+            ]
+          },
+          {
+            "title": "朋友圈展示协商成功截图",
+            "quotes": [
+              "假装共情你的负债焦虑，聊天拉近信任。"
+            ]
+          },
+          {
+            "title": "语音沟通负债和收入避免留痕",
+            "quotes": [
+              "语音沟通负债和收入情况，协商报价（不留痕）。"
+            ]
+          },
+          {
+            "title": "交定金后填负债表、签合同、拉群",
+            "quotes": [
+              "交完定金让你填个负债信息表，签署合同后交中期款。"
+            ]
+          },
+          {
+            "title": "设置呼叫转移，催付尾款",
+            "quotes": [
+              "过段时间让设置呼叫转移，催付尾款。"
+            ]
+          },
+          {
+            "title": "尾款后催收仍继续，群里人消失",
+            "quotes": [
+              "尾款一付，催收电话和短信依旧不断，群里慢慢找不到人。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供证照背书、成功截图、语音报价、协商群，让用户感觉“看起来正规，很多人已经成功”。"
+      }
+    ]
+  },
+  {
+    "id": "financegap",
+    "tab": "金融信息差外溢",
+    "sub": "贷款中介、授信、包装",
+    "title": "金融信息差外溢",
+    "summary": "这类内容从贷后协商外溢到贷前生态：贷款中介、银行经理、授信额度、审批、渠道、虚假材料和信息倒卖。",
+    "components": [
+      {
+        "title": "贷款中介/银行信息差",
+        "provide": "行业内部话题、授信解释、渠道包装",
+        "feeling": "原来金融机构还有很多内部门道",
+        "specific": [
+          "用银行、贷款、中介、客户经理、审批、授信吸引用户",
+          "把贷款审批、授信额度、客户经理合作解释成懂行才知道",
+          "用举报、黑中介、监管约谈、行业吃瓜提高传播",
+          "潜在导向贷款咨询、融资、授信包装、负债置换"
+        ],
+        "quotes": [
+          "贷款中介举报银行经理。",
+          "315后，很多贷款黑中介要进去了。",
+          "网贷斩杀线其实很低。",
+          "银行给了额度，但我一分钱没用，这算不算负债？",
+          "从会计意义上不算实际负债，但银行风控会评估潜在资金压力。",
+          "不法贷款中介涉及虚假宣传、伪造材料、AB贷、职业背债人、AI换脸骗贷、倒卖个人信息。"
+        ],
+        "impact": "治理不只在贷后，还涉及贷前包装、授信咨询、负债置换、虚假材料和用户信息倒卖。",
+        "sections": [
+          {
+            "title": "用银行、贷款、中介、客户经理、审批、授信吸引用户",
+            "quotes": [
+              "贷款中介举报银行经理。",
+              "315后，很多贷款黑中介要进去了。"
+            ]
+          },
+          {
+            "title": "把贷款审批、授信额度、客户经理合作解释成懂行才知道",
+            "quotes": [
+              "网贷斩杀线其实很低。",
+              "银行给了额度，但我一分钱没用，这算不算负债？"
+            ]
+          },
+          {
+            "title": "用举报、黑中介、监管约谈、行业吃瓜提高传播",
+            "quotes": [
+              "从会计意义上不算实际负债，但银行风控会评估潜在资金压力。"
+            ]
+          },
+          {
+            "title": "潜在导向贷款咨询、融资、授信包装、负债置换",
+            "quotes": [
+              "不法贷款中介涉及虚假宣传、伪造材料、AB贷、职业背债人、AI换脸骗贷、倒卖个人信息。"
+            ]
+          }
+        ],
+        "lead": "相关内容提供行业内部话题、授信解释、渠道包装，让用户感觉“原来金融机构还有很多内部门道”。"
+      }
+    ]
+  }
+];
+function renderXhsSolutions(){
+  const tabs=document.getElementById('xhsSolutionTabs');
+  const detail=document.getElementById('xhsSolutionDetail');
+  if(!tabs || !detail) return;
+  tabs.innerHTML='';
+  XHS_SOLUTIONS.forEach((item,idx)=>{
+    tabs.insertAdjacentHTML('beforeend', `<button type="button" class="xhsSolutionTab ${idx===0?'active':''}" data-id="${item.id}"><b>${item.tab}</b><span>${item.sub}</span></button>`);
+  });
+  const render=(id)=>{
+    const item=XHS_SOLUTIONS.find(x=>x.id===id) || XHS_SOLUTIONS[0];
+    detail.innerHTML=`
+      <div class="xhsSolutionHead"><div class="tag">方案图谱</div><h3>${item.title}</h3><p>${item.summary}</p></div>
+      <div class="xhsComponentStack">
+        ${item.components.map(c=>`
+          <article class="xhsComponent">
+            <div class="xhsComponentHead">
+              <h4>${c.title}</h4>
+            </div>
+            <div class="xhsTemplateSteps">
+              ${(c.sections || []).map(sec=>`<div class="xhsTemplateStep"><b>${sec.title}</b><ul>${(sec.quotes || []).map(q=>`<li>“${q}”</li>`).join('')}</ul></div>`).join('')}
+            </div>
+          </article>`).join('')}
+      </div>`;
+  };
+  tabs.addEventListener('click', e=>{
+    const btn=e.target.closest('.xhsSolutionTab');
+    if(!btn) return;
+    tabs.querySelectorAll('.xhsSolutionTab').forEach(b=>b.classList.toggle('active', b===btn));
+    render(btn.dataset.id);
+  });
+  render(XHS_SOLUTIONS[0].id);
+}
+
+function setActivePeriod(period){
+  if(!REPORTS[period]) return;
+  activePeriod = period;
+  DATA = REPORTS[period].data;
+  DETAIL_DOCS = REPORTS[period].docs;
+  current = DATA[current] ? current : DEFAULT;
+  [...document.querySelectorAll('.timeRailItem')].forEach(a=>a.classList.toggle('current', a.dataset.period===period));
+  renderPeriodSummary();
+  renderControls();
+  render();
+}
+function renderPeriodSummary(){
+  const report=REPORTS[activePeriod];
+  renderRank(report.rank || []);
+  const top=(report.rank || []).slice(0,3).map(r=>r.app).join('、');
+  document.getElementById('complaintReadTitle').textContent='投诉压力集中在头部平台，分期乐处在第二梯队高位';
+  document.getElementById('complaintReadText').innerHTML=`${report.readPrefix}，外部投诉压力主要集中在<b>${top}</b>。分期乐位于第二梯队高位，说明外部风险不是零散舆情，而是持续可见的投诉压力；后续重点看用户集中投诉什么，以及哪些问题容易被包装成退费、退息、协商还款等代理维权话术。`;
+}
+function renderRank(rank){
+  const el=document.getElementById('rankList');
+  const max=Math.max(...rank.map(r=>Number(r.valid30d)||0),1);
+  el.innerHTML=(rank||[]).map((r,idx)=>{
+    const top=idx<3?' top':'';
+    const val=Number(r.valid30d)||0;
+    const width=Math.round(val/max*100);
+    const delta=r.rankDelta || '—';
+    const dcls=String(delta).startsWith('+')?' up':(String(delta).startsWith('-')?' down':'');
+    return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}<span class="rankDelta${dcls}">${delta}</span></div></div>`;
+  }).join('');
+}
+
 function renderControls(){
+  controls.innerHTML='';
   Object.keys(DATA).forEach(name=>{
     const btn=document.createElement('button'); btn.textContent=name; btn.onclick=()=>{current=name; render();}; btn.dataset.name=name; controls.appendChild(btn);
   });
@@ -399,9 +1307,8 @@ function render(){
   document.getElementById('donut').style.background = `conic-gradient(${gradient || '#e5e7eb 0 100%'})`;
   const legend=document.getElementById('legend'); legend.innerHTML='';
   entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); legend.insertAdjacentHTML('beforeend',`<div class="legendItem"><span class="dot" style="background:${COLORS[k]}"></span><span>${k}</span><span class="pct">${pct}%</span></div>`);});
-  const bars=document.getElementById('bars'); bars.innerHTML='';
-  entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); bars.insertAdjacentHTML('beforeend',`<div class="barLine"><div class="barName">${k}</div><div class="track"><div class="fill" style="width:${pct}%;background:${COLORS[k]}"></div></div><div class="count">${v}</div></div>`);});
-  renderInsights(entries);
+  const topIssues=document.getElementById('topIssues'); topIssues.innerHTML='';
+  entries.slice(0,3).forEach(([k,v],i)=>{topIssues.insertAdjacentHTML('beforeend',`<div class="topIssueItem"><b>Top${i+1} · ${k}（${v}）</b><p>${topIssueCopy(k)}</p></div>`);});
   renderDetailLink(current);
 }
 function renderDetailLink(name){
@@ -445,9 +1352,7 @@ function focusText(theme){
   if(theme.includes('客服')) return '客服闭环';
   return '人工复核';
 }
-function renderInsights(entries){
-  const box=document.getElementById('insights'); box.innerHTML='';
-  const top=entries.slice(0,3);
+function topIssueCopy(theme){
   const copy={
     '费用/息费争议':'优先检查费用披露、合同/账单明细、会员/担保/服务费解释是否足够清楚。',
     '催收骚扰/暴力催收':'优先检查催收边界、第三方联系人、投诉承接和安抚口径。',
@@ -456,11 +1361,14 @@ function renderInsights(entries){
     '征信/法务风险焦虑':'需要把征信、起诉、冻结等高压问题解释清楚，降低灰产利用空间。',
     '客服承接不足':'需要标准话术和工单闭环，避免用户感知“没人处理”。',
     '隐私/信息泄露':'属于高敏合规风险，需重点看通讯录、第三方联系人和信息授权。',
-    '灰产/代理话术':'关注外部法务协商、征信修复、停催延期等导流风险。'
+    '灰产/代理话术':'关注外部法务协商、征信修复、停催延期等导流风险。',
+    '其他/待复核':'需要结合原文进一步复核，避免把低相关样本纳入核心判断。'
   };
-  top.forEach(([k,v],i)=>box.insertAdjacentHTML('beforeend',`<div class="mini"><b>Top${i+1} · ${k}（${v}）</b><p>${copy[k]||'需要结合原文进一步复核。'}</p></div>`));
+  return copy[theme] || '需要结合原文进一步复核。';
 }
-renderControls(); render();
+document.querySelectorAll('.timeRailItem[data-period]').forEach(a=>a.addEventListener('click', e=>{e.preventDefault(); setActivePeriod(a.dataset.period);}));
+renderXhsSolutions(); setActivePeriod(activePeriod);
 </script>
+</div>
 </body>
 </html>
