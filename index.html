@@ -40,6 +40,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .kpi .v{font-size:24px;font-weight:800;letter-spacing:-.03em}
 .kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
 .riskConclusion{margin:0 0 18px;color:#334155;font-size:14px;line-height:1.65}
+.titleWindow{color:#64748b;font-size:18px;font-weight:800}
 .riskConclusion b{color:#1d4ed8;font-weight:900}
 .riskConclusion span{color:#475569}
 .complaintOverview{display:grid;grid-template-columns:1.08fr .92fr;gap:16px;margin:0 0 20px}
@@ -56,6 +57,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .rankDelta.up{background:#fee2e2;color:#dc2626}.rankDelta.down{background:#dcfce7;color:#15803d}
 .complaintRead{background:linear-gradient(135deg,#eff6ff 0%,#ffffff 74%)}
 .complaintRead p{margin:0;color:#475569;font-size:14px;line-height:1.72}
+.complaintRead p + p{margin-top:8px}
 .complaintRead b{color:#1d4ed8;font-weight:900}
 .complaintRead .readTag{display:inline-flex;margin-bottom:12px;border-radius:8px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:850;padding:4px 8px}
 @media(max-width:900px){.complaintOverview{grid-template-columns:1fr}.rankItem{grid-template-columns:138px 1fr 74px}}
@@ -236,18 +238,17 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   <section class="sectionHeader" id="part-black-cat">
     <div>
       <div class="kicker">PART 01 · BLACK CAT</div>
-      <h2>外部风险集中在哪些问题</h2>
-      <p>黑猫投诉高频问题聚类，默认展示分期乐，可切换全部大盘和不同 APP。</p>
+      <h2>黑猫投诉滚动周风险主题</h2>
+      <p>黑猫上各 APP 展示的投诉不一定是实时，按商家列表自身最新日期向前滚动 7 天统计高频投诉主题；默认展示分期乐，可切换全部大盘和不同 APP。</p>
     </div>
   </section>
   <section class="sectionShell">
   <div class="complaintOverview" aria-label="黑猫商家近30天投诉概览">
     <div class="complaintRank">
-      <h3>黑猫商家近30天投诉量排序</h3>
+      <h3 id="complaintRankTitle">黑猫商家近30天投诉量排序</h3>
       <div class="rankList" id="rankList"></div>
     </div>
     <div class="complaintRead">
-      <span class="readTag">先看外部热度</span>
       <h3 id="complaintReadTitle">投诉压力集中在头部平台，分期乐处在第二梯队高位</h3>
       <p id="complaintReadText"></p>
     </div>
@@ -293,7 +294,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   </section>
 </div>
 <script>
-const REPORTS = {"2026.05.20": {"data": {"全部大盘": {"费用/息费争议": 249, "退款/退费诉求": 256, "客服承接不足": 143, "催收骚扰/暴力催收": 130, "协商还款/延期停催": 66, "隐私/信息泄露": 63, "征信/法务风险焦虑": 52, "灰产/代理话术": 12, "其他/待复核": 8}, "分期乐": {"费用/息费争议": 48, "退款/退费诉求": 41, "客服承接不足": 25, "催收骚扰/暴力催收": 14, "协商还款/延期停催": 7, "隐私/信息泄露": 6, "征信/法务风险焦虑": 6, "灰产/代理话术": 2, "其他/待复核": 2}, "有钱花/度小满": {"费用/息费争议": 43, "退款/退费诉求": 44, "催收骚扰/暴力催收": 39, "协商还款/延期停催": 23, "客服承接不足": 29, "隐私/信息泄露": 18, "征信/法务风险焦虑": 12, "灰产/代理话术": 4, "其他/待复核": 1}, "小赢卡贷": {"费用/息费争议": 40, "退款/退费诉求": 34, "催收骚扰/暴力催收": 13, "征信/法务风险焦虑": 2, "客服承接不足": 19, "协商还款/延期停催": 7, "隐私/信息泄露": 3, "灰产/代理话术": 1, "其他/待复核": 1}, "马上消费金融/安逸花": {"费用/息费争议": 43, "退款/退费诉求": 43, "催收骚扰/暴力催收": 15, "征信/法务风险焦虑": 12, "客服承接不足": 19, "其他/待复核": 4, "协商还款/延期停催": 7, "灰产/代理话术": 5, "隐私/信息泄露": 7}, "360借条/奇富": {"费用/息费争议": 27, "退款/退费诉求": 33, "客服承接不足": 13, "催收骚扰/暴力催收": 15, "协商还款/延期停催": 7, "隐私/信息泄露": 9, "征信/法务风险焦虑": 6}, "拍拍贷": {"费用/息费争议": 29, "退款/退费诉求": 31, "客服承接不足": 16, "催收骚扰/暴力催收": 17, "征信/法务风险焦虑": 10, "隐私/信息泄露": 11, "协商还款/延期停催": 4}, "京东金融": {"催收骚扰/暴力催收": 17, "协商还款/延期停催": 11, "客服承接不足": 22, "隐私/信息泄露": 9, "费用/息费争议": 19, "退款/退费诉求": 30, "征信/法务风险焦虑": 4}}, "rank": [{"app": "京东金融", "valid30d": 11952, "rank": 1, "rankDelta": "—"}, {"app": "分期乐", "valid30d": 6555, "rank": 2, "rankDelta": "—"}, {"app": "马上消费金融/安逸花", "valid30d": 3400, "rank": 3, "rankDelta": "—"}, {"app": "小赢卡贷", "valid30d": 2641, "rank": 4, "rankDelta": "—"}, {"app": "有钱花/度小满", "valid30d": 1579, "rank": 5, "rankDelta": "—"}, {"app": "360借条/奇富", "valid30d": 1371, "rank": 6, "rankDelta": "—"}, {"app": "拍拍贷", "valid30d": 1369, "rank": 7, "rankDelta": "—"}], "docs": {"全部大盘": "https://my.feishu.cn/docx/BaotdpPBsoZndZxHiwlci8Xange", "分期乐": "https://my.feishu.cn/docx/Qrsud0Wrhou5IIxZWxcc30rhnKc", "京东金融": "https://my.feishu.cn/docx/N5jFdsQIWos661x6kjrcrrCHnqg", "马上消费金融/安逸花": "https://my.feishu.cn/docx/Uu1ydOguZo8h4Qxx91LcTRsnnSg", "小赢卡贷": "https://my.feishu.cn/docx/RZktdIaDBo1cOUxnlX8cqUHsnWf", "有钱花/度小满": "https://my.feishu.cn/docx/LmBEdQNanoSEdUxOb61ctV8knDe", "360借条/奇富": "https://my.feishu.cn/docx/CH8SdaZhjo8rtXx540rcrw7JnXc", "拍拍贷": "https://my.feishu.cn/docx/EStPdlbp2oVeJNxEQFgcUkPznJK"}, "readPrefix": "2026.05.20 批次的黑猫商家近30天数据看"}, "2026.05.26": {"data": {"全部大盘": {"费用/息费争议": 110, "退款/退费诉求": 100, "客服承接不足": 118, "催收骚扰/暴力催收": 81, "协商还款/延期停催": 125, "隐私/信息泄露": 19, "征信/法务风险焦虑": 23, "灰产/代理话术": 14}, "分期乐": {"费用/息费争议": 20, "退款/退费诉求": 18, "客服承接不足": 20, "催收骚扰/暴力催收": 20, "协商还款/延期停催": 20, "隐私/信息泄露": 3, "征信/法务风险焦虑": 3, "灰产/代理话术": 1}, "有钱花/度小满": {"费用/息费争议": 13, "退款/退费诉求": 12, "客服承接不足": 20, "催收骚扰/暴力催收": 18, "协商还款/延期停催": 20, "隐私/信息泄露": 4, "征信/法务风险焦虑": 3, "灰产/代理话术": 2}, "小赢卡贷": {"费用/息费争议": 20, "退款/退费诉求": 17, "客服承接不足": 19, "催收骚扰/暴力催收": 19, "协商还款/延期停催": 20, "隐私/信息泄露": 2, "征信/法务风险焦虑": 4, "灰产/代理话术": 2}, "马上消费金融/安逸花": {"费用/息费争议": 20, "退款/退费诉求": 20, "客服承接不足": 20, "催收骚扰/暴力催收": 3, "协商还款/延期停催": 20, "隐私/信息泄露": 3, "征信/法务风险焦虑": 2, "灰产/代理话术": 1}, "360借条/奇富": {"费用/息费争议": 16, "退款/退费诉求": 13, "客服承接不足": 16, "催收骚扰/暴力催收": 10, "协商还款/延期停催": 20, "隐私/信息泄露": 4, "征信/法务风险焦虑": 3, "灰产/代理话术": 4}, "拍拍贷": {"费用/息费争议": 16, "退款/退费诉求": 15, "客服承接不足": 16, "催收骚扰/暴力催收": 9, "协商还款/延期停催": 19, "隐私/信息泄露": 2, "征信/法务风险焦虑": 6, "灰产/代理话术": 4}, "京东金融": {"费用/息费争议": 5, "退款/退费诉求": 5, "客服承接不足": 7, "催收骚扰/暴力催收": 2, "协商还款/延期停催": 6, "隐私/信息泄露": 1, "征信/法务风险焦虑": 2}}, "rank": [{"app": "京东金融", "companyName": "京东金融", "valid30d": 11692, "reply30d": 11648, "complete30d": 862, "rank": 1, "previousRank": 1, "rankDelta": "—", "previousValid30d": 11952}, {"app": "分期乐", "companyName": "分期乐", "valid30d": 5895, "reply30d": 5882, "complete30d": 1045, "rank": 2, "previousRank": 2, "rankDelta": "—", "previousValid30d": 6555}, {"app": "马上消费金融/安逸花", "companyName": "马上消费金融", "valid30d": 2859, "reply30d": 2859, "complete30d": 207, "rank": 3, "previousRank": 3, "rankDelta": "—", "previousValid30d": 3400}, {"app": "小赢卡贷", "companyName": "小赢卡贷", "valid30d": 2324, "reply30d": 2324, "complete30d": 233, "rank": 4, "previousRank": 4, "rankDelta": "—", "previousValid30d": 2641}, {"app": "有钱花/度小满", "companyName": "有钱花", "valid30d": 1402, "reply30d": 1402, "complete30d": 312, "rank": 5, "previousRank": 5, "rankDelta": "—", "previousValid30d": 1579}, {"app": "拍拍贷", "companyName": "拍拍贷", "valid30d": 1261, "reply30d": 1259, "complete30d": 128, "rank": 6, "previousRank": 7, "rankDelta": "+1", "previousValid30d": 1369}, {"app": "360借条/奇富", "companyName": "360借条", "valid30d": 1258, "reply30d": 1258, "complete30d": 138, "rank": 7, "previousRank": 6, "rankDelta": "-1", "previousValid30d": 1371}], "docs": {"全部大盘": "https://my.feishu.cn/docx/AJWEdwY4woIpIUxOerbc9Ki7nQg", "分期乐": "https://my.feishu.cn/docx/IP7PdRHChod4pcxNkfgcAefinrd", "京东金融": "https://my.feishu.cn/docx/IQtOdVE3xoNzOgxmr1vcoiuzn4c", "马上消费金融/安逸花": "https://my.feishu.cn/docx/T9w5dgI9EocQEGxgZNhcuCzhnyf", "小赢卡贷": "https://my.feishu.cn/docx/MIHAdoR8no3n8cxrbnEc86UGnPd", "有钱花/度小满": "https://my.feishu.cn/docx/G5UHdCfovornMoxrLc8cgfIrnhe", "360借条/奇富": "https://my.feishu.cn/docx/GVjkd6N06ojcYPxh3qCcAbVKnnh", "拍拍贷": "https://my.feishu.cn/docx/KbUzdVF3uoZ4fMxQpJkcE0SUnCb"}, "readPrefix": "2026.05.26 批次的黑猫商家近30天数据看"}};
+const REPORTS = {"2026.05.20":{"data":{"全部大盘":{"费用/息费争议":249,"退款/退费诉求":256,"客服承接不足":143,"催收骚扰/暴力催收":130,"协商还款/延期停催":66,"隐私/信息泄露":63,"征信/法务风险焦虑":52,"灰产/代理话术":12,"其他/待复核":8},"分期乐":{"费用/息费争议":48,"退款/退费诉求":41,"客服承接不足":25,"催收骚扰/暴力催收":14,"协商还款/延期停催":7,"隐私/信息泄露":6,"征信/法务风险焦虑":6,"灰产/代理话术":2,"其他/待复核":2},"有钱花/度小满":{"费用/息费争议":43,"退款/退费诉求":44,"催收骚扰/暴力催收":39,"协商还款/延期停催":23,"客服承接不足":29,"隐私/信息泄露":18,"征信/法务风险焦虑":12,"灰产/代理话术":4,"其他/待复核":1},"小赢卡贷":{"费用/息费争议":40,"退款/退费诉求":34,"催收骚扰/暴力催收":13,"征信/法务风险焦虑":2,"客服承接不足":19,"协商还款/延期停催":7,"隐私/信息泄露":3,"灰产/代理话术":1,"其他/待复核":1},"马上消费金融/安逸花":{"费用/息费争议":43,"退款/退费诉求":43,"催收骚扰/暴力催收":15,"征信/法务风险焦虑":12,"客服承接不足":19,"其他/待复核":4,"协商还款/延期停催":7,"灰产/代理话术":5,"隐私/信息泄露":7},"360借条/奇富":{"费用/息费争议":27,"退款/退费诉求":33,"客服承接不足":13,"催收骚扰/暴力催收":15,"协商还款/延期停催":7,"隐私/信息泄露":9,"征信/法务风险焦虑":6},"拍拍贷":{"费用/息费争议":29,"退款/退费诉求":31,"客服承接不足":16,"催收骚扰/暴力催收":17,"征信/法务风险焦虑":10,"隐私/信息泄露":11,"协商还款/延期停催":4},"京东金融":{"催收骚扰/暴力催收":17,"协商还款/延期停催":11,"客服承接不足":22,"隐私/信息泄露":9,"费用/息费争议":19,"退款/退费诉求":30,"征信/法务风险焦虑":4}},"rank":[{"app":"京东金融","valid30d":11952,"rank":1,"rankDelta":"—"},{"app":"分期乐","valid30d":6555,"rank":2,"rankDelta":"—"},{"app":"马上消费金融/安逸花","valid30d":3400,"rank":3,"rankDelta":"—"},{"app":"小赢卡贷","valid30d":2641,"rank":4,"rankDelta":"—"},{"app":"有钱花/度小满","valid30d":1579,"rank":5,"rankDelta":"—"},{"app":"360借条/奇富","valid30d":1371,"rank":6,"rankDelta":"—"},{"app":"拍拍贷","valid30d":1369,"rank":7,"rankDelta":"—"}],"docs":{"全部大盘":"https://my.feishu.cn/docx/BaotdpPBsoZndZxHiwlci8Xange","分期乐":"https://my.feishu.cn/docx/Qrsud0Wrhou5IIxZWxcc30rhnKc","京东金融":"https://my.feishu.cn/docx/N5jFdsQIWos661x6kjrcrrCHnqg","马上消费金融/安逸花":"https://my.feishu.cn/docx/Uu1ydOguZo8h4Qxx91LcTRsnnSg","小赢卡贷":"https://my.feishu.cn/docx/RZktdIaDBo1cOUxnlX8cqUHsnWf","有钱花/度小满":"https://my.feishu.cn/docx/LmBEdQNanoSEdUxOb61ctV8knDe","360借条/奇富":"https://my.feishu.cn/docx/CH8SdaZhjo8rtXx540rcrw7JnXc","拍拍贷":"https://my.feishu.cn/docx/EStPdlbp2oVeJNxEQFgcUkPznJK"},"readPrefix":"2026.05.20 批次的黑猫商家近30天数据看","rankDate":"2026.05.20"},"2026.05.26":{"data":{"全部大盘":{"费用/息费争议":2306,"退款/退费诉求":2199,"客服承接不足":1710,"催收骚扰/暴力催收":1040,"协商还款/延期停催":1979,"隐私/信息泄露":478,"征信/法务风险焦虑":326,"灰产/代理话术":244,"其他/待复核":1},"分期乐":{"费用/息费争议":909,"退款/退费诉求":853,"客服承接不足":666,"催收骚扰/暴力催收":294,"协商还款/延期停催":974,"隐私/信息泄露":122,"征信/法务风险焦虑":132,"灰产/代理话术":45},"有钱花/度小满":{"费用/息费争议":136,"退款/退费诉求":125,"客服承接不足":150,"催收骚扰/暴力催收":124,"协商还款/延期停催":168,"隐私/信息泄露":49,"征信/法务风险焦虑":29,"灰产/代理话术":35},"小赢卡贷":{"费用/息费争议":392,"退款/退费诉求":331,"客服承接不足":214,"催收骚扰/暴力催收":123,"协商还款/延期停催":201,"隐私/信息泄露":54,"征信/法务风险焦虑":35,"灰产/代理话术":27},"马上消费金融/安逸花":{"费用/息费争议":409,"退款/退费诉求":387,"客服承接不足":273,"催收骚扰/暴力催收":121,"协商还款/延期停催":177,"隐私/信息泄露":68,"征信/法务风险焦虑":42,"灰产/代理话术":30},"360借条/奇富":{"费用/息费争议":133,"退款/退费诉求":134,"客服承接不足":100,"催收骚扰/暴力催收":87,"协商还款/延期停催":95,"隐私/信息泄露":45,"征信/法务风险焦虑":15,"灰产/代理话术":31},"拍拍贷":{"费用/息费争议":174,"退款/退费诉求":178,"客服承接不足":115,"催收骚扰/暴力催收":115,"协商还款/延期停催":133,"隐私/信息泄露":59,"征信/法务风险焦虑":33,"灰产/代理话术":32},"京东金融":{"费用/息费争议":153,"退款/退费诉求":191,"客服承接不足":192,"催收骚扰/暴力催收":176,"协商还款/延期停催":231,"隐私/信息泄露":81,"征信/法务风险焦虑":40,"灰产/代理话术":44,"其他/待复核":1}},"rank":[{"app":"京东金融","companyName":"京东金融","valid30d":11692,"reply30d":11648,"complete30d":862,"rank":1,"previousRank":1,"rankDelta":"—","previousValid30d":11952},{"app":"分期乐","companyName":"分期乐","valid30d":5895,"reply30d":5882,"complete30d":1045,"rank":2,"previousRank":2,"rankDelta":"—","previousValid30d":6555},{"app":"马上消费金融/安逸花","companyName":"马上消费金融","valid30d":2859,"reply30d":2859,"complete30d":207,"rank":3,"previousRank":3,"rankDelta":"—","previousValid30d":3400},{"app":"小赢卡贷","companyName":"小赢卡贷","valid30d":2324,"reply30d":2324,"complete30d":233,"rank":4,"previousRank":4,"rankDelta":"—","previousValid30d":2641},{"app":"有钱花/度小满","companyName":"有钱花","valid30d":1402,"reply30d":1402,"complete30d":312,"rank":5,"previousRank":5,"rankDelta":"—","previousValid30d":1579},{"app":"拍拍贷","companyName":"拍拍贷","valid30d":1261,"reply30d":1259,"complete30d":128,"rank":6,"previousRank":7,"rankDelta":"+1","previousValid30d":1369},{"app":"360借条/奇富","companyName":"360借条","valid30d":1258,"reply30d":1258,"complete30d":138,"rank":7,"previousRank":6,"rankDelta":"-1","previousValid30d":1371}],"docs":{"全部大盘":"https://feishu.cn/docx/R5CXdbm9AorLSax3foYctqzLnFb","分期乐":"https://feishu.cn/docx/BaJtdZ4Xpo9eimxEAGUcnxe8nod","有钱花/度小满":"https://feishu.cn/docx/TUsPdOcyjoirxAx8ns8cv9nknqH","小赢卡贷":"https://feishu.cn/docx/AynMdVPMFomLuXxM85DcTesYnfh","马上消费金融/安逸花":"https://feishu.cn/docx/GFU8dsJDfo40CIxGof5cKvzvnkg","360借条/奇富":"https://feishu.cn/docx/Vb10dlsNToar3WxhPAvcUrvanQb","拍拍贷":"https://feishu.cn/docx/U3Pwds1Urof8zkxsJg6cmijunOh","京东金融":"https://feishu.cn/docx/E3R8dJohqopjvexP5QXcQq9UnIe"},"readPrefix":"各APP按自身商家列表最新日期向前滚动7天看","windows":{"全部大盘":{"label":"各APP按自身商家列表最新日期向前滚动7天"},"分期乐":{"since":"2026-05-14","until":"2026-05-20"},"有钱花/度小满":{"since":"2026-05-14","until":"2026-05-20"},"小赢卡贷":{"since":"2026-05-14","until":"2026-05-20"},"马上消费金融/安逸花":{"since":"2026-05-14","until":"2026-05-20"},"360借条/奇富":{"since":"2026-05-13","until":"2026-05-19"},"拍拍贷":{"since":"2026-05-14","until":"2026-05-20"},"京东金融":{"since":"2026-05-21","until":"2026-05-27"}},"rankDate":"2026.05.26"}};
 let activePeriod = '2026.05.26';
 let DATA = REPORTS[activePeriod].data;
 let DETAIL_DOCS = REPORTS[activePeriod].docs;
@@ -1273,10 +1274,24 @@ function setActivePeriod(period){
 }
 function renderPeriodSummary(){
   const report=REPORTS[activePeriod];
+  const rankDate = report.rankDate || activePeriod;
+  const rankTitle = document.getElementById('complaintRankTitle');
+  if(rankTitle) rankTitle.textContent = `黑猫商家近30天投诉量排序（数据抓取日：${rankDate}）`;
   renderRank(report.rank || []);
   const top=(report.rank || []).slice(0,3).map(r=>r.app).join('、');
+  const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
+  let trendText='';
+  if(fenqile && fenqile.previousValid30d){
+    const currentVal=Number(fenqile.valid30d)||0;
+    const previousVal=Number(fenqile.previousValid30d)||0;
+    const diff=previousVal-currentVal;
+    const pct=previousVal ? (diff/previousVal*100).toFixed(1) : '0.0';
+    if(diff>0) trendText=`；分期乐近30天投诉量较上期下降 <b>${diff}</b> 条，降幅 <b>${pct}%</b>`;
+    else if(diff<0) trendText=`；分期乐近30天投诉量较上期增加 <b>${Math.abs(diff)}</b> 条，增幅 <b>${Math.abs(Number(pct)).toFixed(1)}%</b>`;
+  }
   document.getElementById('complaintReadTitle').textContent='投诉压力集中在头部平台，分期乐处在第二梯队高位';
-  document.getElementById('complaintReadText').innerHTML=`${report.readPrefix}，外部投诉压力主要集中在<b>${top}</b>。分期乐位于第二梯队高位，说明外部风险不是零散舆情，而是持续可见的投诉压力；后续重点看用户集中投诉什么，以及哪些问题容易被包装成退费、退息、协商还款等代理维权话术。`;
+  const trendPara = trendText ? `<p>• ${trendText.replace(/^；/, '')}。</p>` : '';
+  document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力主要集中在<b>${top}</b>。</p><p>• 分期乐位于第二梯队高位，说明外部风险不是零散舆情，而是持续可见的投诉压力。</p>${trendPara}`;
 }
 function renderRank(rank){
   const el=document.getElementById('rankList');
@@ -1300,7 +1315,7 @@ function renderControls(){
 function render(){
   [...controls.children].forEach(b=>b.classList.toggle('active', b.dataset.name===current));
   const entries=sortedEntries(current); const t=total(entries)||1; const top=entries[0]||['-',0];
-  document.getElementById('title').textContent = current + '风险主题占比';
+  document.getElementById('title').innerHTML = current + '风险主题占比' + riskWindowTitle(current);
   document.getElementById('riskConclusion').innerHTML = riskConclusionText(current, entries);
   document.getElementById('centerTotal').textContent = total(entries);
   let acc=0; const gradient=entries.map(([k,v])=>{const start=acc/t*100; acc+=v; const end=acc/t*100; return `${COLORS[k]||'#94a3b8'} ${start}% ${end}%`;}).join(', ');
@@ -1321,6 +1336,18 @@ function renderDetailLink(name){
   link.textContent = cta;
   link.href = DETAIL_DOCS[name] || DETAIL_DOCS['全部大盘'];
 }
+function riskWindowTitle(name){
+  const w = (REPORTS[activePeriod] && REPORTS[activePeriod].windows || {})[name];
+  if(!w) return '';
+  if(w.label) return `<span class="titleWindow">（${w.label}）</span>`;
+  const fmt = (s, first=false) => {
+    const m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if(!m) return s || '';
+    return first ? `${m[1]}.${m[2]}.${m[3]}` : `${m[2]}.${m[3]}`;
+  };
+  return `<span class="titleWindow">（${fmt(w.since,true)}-${fmt(w.until,false)}）</span>`;
+}
+
 function riskConclusionText(name, entries){
   const top3 = entries.slice(0,3).map(x=>x[0]);
   const readable = top3.map(k=>k.replace('/暴力催收','')).join('、');
