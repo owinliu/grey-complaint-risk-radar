@@ -472,7 +472,92 @@
         "其他/待复核": 0
       }
     },
-    "rank": [],
+    "rank": [
+      {
+        "app": "京东金融",
+        "companyName": "京东金融",
+        "valid30d": 11309,
+        "reply30d": 11234,
+        "complete30d": 831,
+        "rank": 1,
+        "previousRank": 1,
+        "rankDelta": "—",
+        "previousValid30d": 11692,
+        "valid30dDelta": -383
+      },
+      {
+        "app": "分期乐",
+        "companyName": "分期乐",
+        "valid30d": 5509,
+        "reply30d": 5495,
+        "complete30d": 1005,
+        "rank": 2,
+        "previousRank": 2,
+        "rankDelta": "—",
+        "previousValid30d": 5895,
+        "valid30dDelta": -386
+      },
+      {
+        "app": "马上消费金融/安逸花",
+        "companyName": "马上消费金融",
+        "valid30d": 2535,
+        "reply30d": 2535,
+        "complete30d": 144,
+        "rank": 3,
+        "previousRank": 3,
+        "rankDelta": "—",
+        "previousValid30d": 2859,
+        "valid30dDelta": -324
+      },
+      {
+        "app": "小赢卡贷",
+        "companyName": "小赢卡贷",
+        "valid30d": 2092,
+        "reply30d": 2092,
+        "complete30d": 446,
+        "rank": 4,
+        "previousRank": 4,
+        "rankDelta": "—",
+        "previousValid30d": 2324,
+        "valid30dDelta": -232
+      },
+      {
+        "app": "有钱花/度小满",
+        "companyName": "有钱花",
+        "valid30d": 1315,
+        "reply30d": 1315,
+        "complete30d": 875,
+        "rank": 5,
+        "previousRank": 5,
+        "rankDelta": "—",
+        "previousValid30d": 1402,
+        "valid30dDelta": -87
+      },
+      {
+        "app": "拍拍贷",
+        "companyName": "拍拍贷",
+        "valid30d": 1179,
+        "reply30d": 1177,
+        "complete30d": 165,
+        "rank": 6,
+        "previousRank": 6,
+        "rankDelta": "—",
+        "previousValid30d": 1261,
+        "valid30dDelta": -82
+      },
+      {
+        "app": "360借条/奇富",
+        "companyName": "360借条",
+        "valid30d": 1166,
+        "reply30d": 1166,
+        "complete30d": 123,
+        "rank": 7,
+        "previousRank": 7,
+        "rankDelta": "—",
+        "previousValid30d": 1258,
+        "valid30dDelta": -92
+      }
+    ],
     "docs": {
       "全部大盘": "https://feishu.cn/docx/R5CXdbm9AorLSax3foYctqzLnFb",
       "分期乐": "https://feishu.cn/docx/BaJtdZ4Xpo9eimxEAGUcnxe8nod",
@@ -483,40 +568,40 @@
       "拍拍贷": "https://feishu.cn/docx/U3Pwds1Urof8zkxsJg6cmijunOh",
       "京东金融": "https://feishu.cn/docx/E3R8dJohqopjvexP5QXcQq9UnIe"
     },
-    "readPrefix": "2026.06.02 新周期黑猫数据待更新，本期 Part01 先占位",
+    "readPrefix": "2026.06.02 黑猫商家列表近30天数据看",
     "rankDate": "2026.06.02",
     "windows": {
       "全部大盘": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "分期乐": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "有钱花/度小满": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "小赢卡贷": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "马上消费金融/安逸花": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "360借条/奇富": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "拍拍贷": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       },
       "京东金融": {
-        "label": "待更新"
+        "label": "风险主题待更新"
       }
     },
     "status": {
-      "part01": "placeholder",
+      "part01": "merchant_rank_updated_theme_pending",
       "part02": "updated_from_xhs_merged_detailed_2026_06_01"
     },
     "placeholder": {
-      "part01": "黑猫新周期数据与结论待产出；当前数值置 0，仅保留页面结构。"
+      "part01": "黑猫商家近30天投诉量已更新；新周期风险主题分类与明细结论待补齐。"
     }
   }
 }
