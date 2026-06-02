@@ -559,14 +559,14 @@
       }
     ],
     "docs": {
-      "全部大盘": "https://feishu.cn/docx/R5CXdbm9AorLSax3foYctqzLnFb",
-      "分期乐": "https://feishu.cn/docx/BaJtdZ4Xpo9eimxEAGUcnxe8nod",
-      "有钱花/度小满": "https://feishu.cn/docx/TUsPdOcyjoirxAx8ns8cv9nknqH",
-      "小赢卡贷": "https://feishu.cn/docx/AynMdVPMFomLuXxM85DcTesYnfh",
-      "马上消费金融/安逸花": "https://feishu.cn/docx/GFU8dsJDfo40CIxGof5cKvzvnkg",
-      "360借条/奇富": "https://feishu.cn/docx/Vb10dlsNToar3WxhPAvcUrvanQb",
-      "拍拍贷": "https://feishu.cn/docx/U3Pwds1Urof8zkxsJg6cmijunOh",
-      "京东金融": "https://feishu.cn/docx/E3R8dJohqopjvexP5QXcQq9UnIe"
+      "分期乐": "https://feishu.cn/docx/Izzdd6WwHoYOBSxaMS2crgglnAY",
+      "有钱花/度小满": "https://feishu.cn/docx/AT2XdLgqio4mJgx1uPHc0wfMnPg",
+      "小赢卡贷": "https://feishu.cn/docx/MxBodoYDyobboLxAL1acYG8sneb",
+      "马上消费金融/安逸花": "https://feishu.cn/docx/Kgl2dCmbsoRuT6xjOXeczimcnSa",
+      "拍拍贷": "https://feishu.cn/docx/DHyVdFqVEoaWdpxlewacwjN1nVe",
+      "360借条/奇富": "https://feishu.cn/docx/Xc3CdZsx6onFDkx68XAcpNySnqh",
+      "京东金融": "https://feishu.cn/docx/JBhBdrIsWoIVyexmwGzcfoU3nWd",
+      "全部大盘": "https://feishu.cn/docx/WrtFdxqRzoP6ZuxmWwCcn7nKnqe"
     },
     "readPrefix": "0602 本期完整商家列表样本看",
     "rankDate": "2026.06.02",
@@ -638,6 +638,7 @@
       "themeHitTotal": 9245,
       "jdDroppedNonFinancial": 61,
       "shareMethod": "theme_hits_share_not_complaint_share"
-    }
+    },
+    "docManifest": "radar/grey-complaint-radar/reports/manifests/doc-links-2026-06-02.json"
   }
 }
