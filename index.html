@@ -514,7 +514,7 @@ function themeMeaning(theme, direction){
 }
 function changeSentence(items, direction){
   if(!items.length) return direction === 'up' ? '本期未出现明显占比上升主题。' : '本期未出现明显占比下降主题。';
-  return items.map(x=>`${x.theme}：${fmtPct(x.prev)} → ${fmtPct(x.cur)}`).join('；');
+  return items.map(x=>`${x.theme}占比${direction==='up'?'上升':'下降'} ${Math.abs(x.diff).toFixed(1)}%`).join('；');
 }
 function changeConclusion(items, direction){
   if(!items.length) return '整体结构变化不明显。';
