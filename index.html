@@ -217,6 +217,11 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .periodChangeItem .conclusion{display:block;margin-top:6px;color:#0f172a;font-weight:760}
 @media(max-width:900px){.periodChangeGrid{grid-template-columns:1fr}.periodChangeHead{flex-direction:column}}
 
+.xhsChangeCard{margin:14px 0 16px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:none}
+.xhsChangeHead{margin-bottom:12px}.xhsChangeHead b{display:block;color:#0f172a;font-size:15px;letter-spacing:-.01em}.xhsChangeHead span{display:block;color:#64748b;font-size:13px;line-height:1.58;margin-top:4px}
+.xhsChangeGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.xhsChangeItem{border:1px solid #dbeafe;background:linear-gradient(135deg,#eff6ff 0%,#ffffff 78%);border-radius:12px;padding:12px}.xhsChangeItem h4{margin:0 0 7px;font-size:14px;color:#0f172a;letter-spacing:-.01em}.xhsChangeItem p{margin:0;color:#475569;font-size:13px;line-height:1.58}.xhsChangeItem b{display:block;margin-top:6px;color:#0f172a;font-weight:800}
+@media(max-width:1100px){.xhsChangeGrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.xhsChangeGrid{grid-template-columns:1fr}}
+
 /* Part02 XHS solution library */
 .xhsSolutionShell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;margin-top:16px}.xhsSolutionTabs{display:grid;gap:8px;align-content:start}.xhsSolutionTab{position:relative;border:1px solid #e2e8f0;background:#fff;color:#334155;border-radius:12px;padding:12px;text-align:left;cursor:pointer;transition:.18s ease;overflow:hidden}.xhsSolutionTab:hover{border-color:#2563eb;background:#eff6ff}.xhsSolutionTab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 12px 26px rgba(29,78,216,.18)}.xhsSolutionTab b{display:block;font-size:13px;line-height:1.35;margin-bottom:4px}.xhsSolutionTab span{display:block;font-size:12px;line-height:1.45;color:inherit;opacity:.78}.xhsNewBadge{position:absolute;right:-24px;top:8px;transform:rotate(38deg);width:82px;text-align:center;background:#22c55e;color:#fff;font-size:10px;font-weight:950;letter-spacing:.08em;line-height:18px;box-shadow:0 4px 10px rgba(22,163,74,.22)}.xhsSolutionTab.active .xhsNewBadge{background:#16a34a;color:#fff}
 .xhsSolutionDetail{background:linear-gradient(135deg,#fff 0%,#f8fbff 100%);border:1px solid #dbeafe;border-radius:16px;padding:18px;box-shadow:0 14px 30px rgba(15,23,42,.06)}.xhsSolutionHead{margin-bottom:14px}.xhsSolutionHead .tag{display:inline-flex;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:900;padding:4px 9px;margin-bottom:8px}.xhsSolutionHead h3{margin:0 0 7px;font-size:22px;letter-spacing:-.03em}.xhsSolutionHead p{margin:0;color:#475569;font-size:14px;line-height:1.68;max-width:880px}
@@ -302,6 +307,16 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
     </div>
   </section>
   <section class="sectionShell">
+    <div class="xhsChangeCard" id="xhsChangeCard" style="display:none">
+      <div class="xhsChangeHead"><b>本期黑灰产手段变化</b><span>相比 2026.05.26，本期更清楚看到黑灰产从话术教学走向结果诱导、身份包装、信息采集和收费承接。</span></div>
+      <div class="xhsChangeGrid">
+        <div class="xhsChangeItem"><h4>结果诱导前置</h4><p>最高60期、延期1-5年、不爆通讯录等确定性卖点被放在前台。<b>先用结果吸引用户，再导向咨询和付费方案。</b></p></div>
+        <div class="xhsChangeItem"><h4>法务/律所包装增强</h4><p>律所、执业证号、本地面谈、合同保障、专人跟进等包装更突出。<b>用正规感降低用户防备，把代办包装成可信服务。</b></p></div>
+        <div class="xhsChangeItem"><h4>方案评估承接信息</h4><p>以“先看平台、金额、逾期时间”“根据情况做1对1方案”为由继续沟通。<b>方案评估实际承担私域转化和负债信息采集功能。</b></p></div>
+        <div class="xhsChangeItem"><h4>收费与二次收割显性化</h4><p>合同后付、阶段费、收费争议、黑律避坑和被骗退费内容同步出现。<b>链路已从教程传播延伸到交易收费和二次受害。</b></p></div>
+      </div>
+    </div>
+
     <div class="xhsSolutionShell">
       <div class="xhsSolutionTabs" id="xhsSolutionTabs" aria-label="黑灰产方案选择"></div>
       <div class="xhsSolutionDetail" id="xhsSolutionDetail"></div>
@@ -351,6 +366,12 @@ function renderXhsSectionHeader(){
     sub.textContent='围绕逾期焦虑搭建的方案体系：先教用户怎么说，再告诉用户哪里说错、材料怎么准备、哪个平台怎么谈；平台未满足诉求时，再引导用户转向监管投诉等外部路径，最终可能被私信、律所、合同、后付和成功费方案承接。';
   }
 }
+function renderXhsChangeCard(){
+  const card=document.getElementById('xhsChangeCard');
+  if(!card) return;
+  card.style.display = activePeriod === '2026.06.02' ? 'block' : 'none';
+}
+
 function renderXhsSolutions(){
   const tabs=document.getElementById('xhsSolutionTabs');
   const detail=document.getElementById('xhsSolutionDetail');
@@ -408,6 +429,7 @@ function setActivePeriod(period){
   renderControls();
   render();
   renderXhsSectionHeader();
+  renderXhsChangeCard();
   renderXhsSolutions();
 }
 function renderPeriodSummary(){
