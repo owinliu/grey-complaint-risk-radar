@@ -364,7 +364,7 @@ function renderXhsSolutions(){
               <h4>${c.title}</h4>
             </div>
             <div class="xhsTemplateSteps">
-              ${(c.sections || []).map(sec=>`<div class="xhsTemplateStep ${sec.layout === 'wideTwoCol' ? 'wideTwoCol' : ''}"><b>${sec.title}</b><ul>${(sec.quotes || []).map(q=>`<li>“${q}”</li>`).join('')}</ul></div>`).join('')}
+              ${(c.sections || []).map(sec=>`<div class="xhsTemplateStep ${(sec.layout === 'wideTwoCol' && (c.sections || []).length === 1) ? 'wideTwoCol' : ''}"><b>${sec.title}</b><ul>${(sec.quotes || []).map(q=>`<li>“${q}”</li>`).join('')}</ul></div>`).join('')}
             </div>
           </article>`).join('')}
       </div>`;
