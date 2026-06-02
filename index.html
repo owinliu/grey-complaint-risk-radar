@@ -440,7 +440,8 @@ function renderRank(rank){
     const width=Math.round(val/max*100);
     const delta=r.rankDelta || '—';
     const dcls=String(delta).startsWith('+')?' up':(String(delta).startsWith('-')?' down':'');
-    return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}<span class="rankDelta${dcls}">${delta}</span></div></div>`;
+    const deltaHtml = delta === '—' ? '' : `<span class="rankDelta${dcls}">${delta}</span>`;
+    return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}${deltaHtml}</div></div>`;
   }).join('');
 }
 
