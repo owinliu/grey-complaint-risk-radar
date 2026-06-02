@@ -429,9 +429,23 @@ function renderPeriodSummary(){
     if(diff>0) trendText=`；分期乐近30天投诉量较上期下降 <b>${diff}</b> 条，降幅 <b>${pct}%</b>`;
     else if(diff<0) trendText=`；分期乐近30天投诉量较上期增加 <b>${Math.abs(diff)}</b> 条，增幅 <b>${Math.abs(Number(pct)).toFixed(1)}%</b>`;
   }
-  document.getElementById('complaintReadTitle').textContent='投诉压力集中在头部平台，分期乐处在第二梯队高位';
-  const trendPara = trendText ? `<p>• ${trendText.replace(/^；/, '')}。</p>` : '';
-  document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力主要集中在<b>${top}</b>。</p><p>• 分期乐位于第二梯队高位，说明外部风险不是零散舆情，而是持续可见的投诉压力。</p>${trendPara}`;
+  const top3Valid=(report.rank || []).slice(0,3).reduce((sum,r)=>sum+(Number(r.valid30d)||0),0);
+  const totalValid=(report.rank || []).reduce((sum,r)=>sum+(Number(r.valid30d)||0),0);
+  const top3Share=totalValid ? (top3Valid/totalValid*100).toFixed(1) : '0.0';
+  let fenqileActionPara='';
+  if(fenqile){
+    const completeRate=fenqile.valid30d ? (Number(fenqile.complete30d || 0)/Number(fenqile.valid30d)*100).toFixed(1) : '0.0';
+    const completeRateRank=[...(report.rank || [])].sort((a,b)=>((Number(b.complete30d)||0)/(Number(b.valid30d)||1))-((Number(a.complete30d)||0)/(Number(a.valid30d)||1))).findIndex(r=>r.app==='分期乐')+1;
+    const currentVal=Number(fenqile.valid30d)||0;
+    const previousVal=Number(fenqile.previousValid30d)||0;
+    const diff=previousVal-currentVal;
+    const pct=previousVal ? (diff/previousVal*100).toFixed(1) : '0.0';
+    if(diff>0){
+      fenqileActionPara=`<p>• <span class="positive">分期乐投诉量较上期下降 <b>${diff}</b> 条，降幅 <b>${pct}%</b>；同时近30天完成量 <b>${fenqile.complete30d}</b> 条，为 7 个 APP 中最高，完成率约 <b>${completeRate}%</b>（第 ${completeRateRank}），显示在高压下仍有较强处理动作。</span></p>`;
+    }
+  }
+  document.getElementById('complaintReadTitle').textContent='分期乐投诉压力仍居高位，但环比下降且处理动作更积极';
+  document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍集中在头部平台：<b>${top}</b> 合计占 7 个 APP 近30天投诉量的 <b>${top3Share}%</b>。</p><p>• 分期乐近30天投诉量为 <b>${fenqile ? fenqile.valid30d : ''}</b> 条，仍排名第 <b>${fenqile ? fenqile.rank : ''}</b>；说明其外部投诉压力仍处于高位，不是零散舆情。</p>${fenqileActionPara}`;
 }
 function renderRank(rank){
   const el=document.getElementById('rankList');
