@@ -409,7 +409,7 @@ function renderPeriodSummary(){
     const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
     const fenqileText=fenqile ? `分期乐近30天投诉量 <b>${fenqile.valid30d}</b> 条，仍位于第 <b>${fenqile.rank}</b>；较 0526 下降 <b>${Math.abs(fenqile.valid30dDelta || 0)}</b> 条。` : '';
     document.getElementById('complaintReadTitle').textContent='0602商家近30天投诉量已更新，风险主题分类待补齐';
-    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p>`;
+    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p><p>• 从近30天完成情况看，分期乐完成量 <b>1005</b> 条、完成率约 <b>18.2%</b>，在头部高投诉平台中相对更高，说明投诉承接和处理闭环有持续改善空间，也可以作为后续对外风险治理的积极趋势观察。</p>`;
     return;
   }
   const rankDate = report.rankDate || activePeriod;
