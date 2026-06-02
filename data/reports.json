@@ -381,7 +381,7 @@
     },
     "rankDate": "2026.05.26"
   },
-  "2026.06.01": {
+  "2026.06.02": {
     "data": {
       "全部大盘": {
         "费用/息费争议": 0,
@@ -483,8 +483,8 @@
       "拍拍贷": "https://feishu.cn/docx/U3Pwds1Urof8zkxsJg6cmijunOh",
       "京东金融": "https://feishu.cn/docx/E3R8dJohqopjvexP5QXcQq9UnIe"
     },
-    "readPrefix": "2026.06.01 新周期黑猫数据待更新，本期 Part01 先占位",
-    "rankDate": "2026.06.01",
+    "readPrefix": "2026.06.02 新周期黑猫数据待更新，本期 Part01 先占位",
+    "rankDate": "2026.06.02",
     "windows": {
       "全部大盘": {
         "label": "待更新"
