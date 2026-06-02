@@ -466,7 +466,7 @@ function render(){
   let acc=0; const gradient=entries.map(([k,v])=>{const start=acc/t*100; acc+=v; const end=acc/t*100; return `${COLORS[k]||'#94a3b8'} ${start}% ${end}%`;}).join(', ');
   document.getElementById('donut').style.background = `conic-gradient(${gradient || '#e5e7eb 0 100%'})`;
   const legend=document.getElementById('legend'); legend.innerHTML='';
-  entries.forEach(([k,v])=>{const pct=Math.round(v/t*100); legend.insertAdjacentHTML('beforeend',`<div class="legendItem"><span class="dot" style="background:${COLORS[k]}"></span><span>${k}</span><span class="pct">${pct}%</span></div>`);});
+  entries.forEach(([k,v])=>{const pct=(v/t*100).toFixed(1); legend.insertAdjacentHTML('beforeend',`<div class="legendItem"><span class="dot" style="background:${COLORS[k]}"></span><span>${k}</span><span class="pct">${pct}%</span></div>`);});
   const topIssues=document.getElementById('topIssues'); topIssues.innerHTML='';
   entries.slice(0,3).forEach(([k,v],i)=>{topIssues.insertAdjacentHTML('beforeend',`<div class="topIssueItem"><b>Top${i+1} · ${k}（${v}）</b><p>${topIssueCopy(k)}</p></div>`);});
   renderDetailLink(current);
