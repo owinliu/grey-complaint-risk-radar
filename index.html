@@ -409,7 +409,7 @@ function renderPeriodSummary(){
     const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
     const fenqileText=fenqile ? `分期乐近30天投诉量 <b>${fenqile.valid30d}</b> 条，仍位于第 <b>${fenqile.rank}</b>；较 0526 下降 <b>${Math.abs(fenqile.valid30dDelta || 0)}</b> 条。` : '';
     document.getElementById('complaintReadTitle').textContent='0602商家近30天投诉量已更新，风险主题分类待补齐';
-    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p><p>• 本次先更新商家级近30天投诉量；风险主题占比和明细结论仍待新周期投诉明细补齐，暂不输出主题趋势判断。</p>`;
+    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p>`;
     return;
   }
   const rankDate = report.rankDate || activePeriod;
