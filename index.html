@@ -408,7 +408,8 @@ function renderPeriodSummary(){
     renderRank(report.rank || []);
     const top=(report.rank || []).slice(0,3).map(r=>r.app).join('、');
     const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
-    const fenqileText=fenqile ? `分期乐近30天投诉量 <b>${fenqile.valid30d}</b> 条，仍位于第 <b>${fenqile.rank}</b>；较 0526 下降 <b>${Math.abs(fenqile.valid30dDelta || 0)}</b> 条。` : '';
+    const fenqileDropRate=fenqile && fenqile.previousValid30d ? (Math.abs(fenqile.valid30dDelta || 0) / fenqile.previousValid30d * 100).toFixed(1) : '0.0';
+    const fenqileText=fenqile ? `分期乐近30天投诉量 <b>${fenqile.valid30d}</b> 条，较 0526 下降 <b>${Math.abs(fenqile.valid30dDelta || 0)}</b> 条，下降率约 <b>${fenqileDropRate}%</b>。` : '';
     document.getElementById('complaintReadTitle').textContent='0602商家近30天投诉量已更新，风险主题分类待补齐';
     document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p><p>• 分期乐近30天完成量 <b class="positive">1005</b> 条，完成率约 <b class="positive">18.2%</b>，排名第 <b class="positive">3</b>。在高投诉压力下处理积极。</p>`;
     return;
