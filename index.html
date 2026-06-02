@@ -203,10 +203,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .learnImprove .liCard{background:linear-gradient(135deg,#eff6ff 0%,#ffffff 76%);border-color:#bfdbfe}
 .learnImprove .liCard h3{color:#1d4ed8}
 
-.periodChangeCard{margin:14px 0;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px;box-shadow:none}
-.periodChangeHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
-.periodChangeHead b{display:block;color:#0f172a;font-size:15px;letter-spacing:-.01em}
-.periodChangeHead span{display:block;color:#64748b;font-size:12px;line-height:1.55;margin-top:3px}
+.periodChangeCard{margin:14px 0;background:transparent;border:0;border-radius:0;padding:0;box-shadow:none}
 .periodChangeGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .periodChangeItem{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px}
 .periodChangeItem.up{border-color:#fecaca;background:linear-gradient(135deg,#fff5f5 0%,#ffffff 78%)}
@@ -288,7 +285,6 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
     </section>
   </main>
   <div class="periodChangeCard" id="periodChangeCard" style="display:none">
-    <div class="periodChangeHead"><div><b id="periodChangeTitle">较上期主题结构变化</b><span id="periodChangeDesc">仅比较主题命中占比，不比较绝对投诉条数。</span></div></div>
     <div class="periodChangeGrid" id="periodChangeGrid"></div>
   </div>
 
@@ -544,7 +540,6 @@ function changeConclusion(items, direction){
 function renderPeriodChange(name){
   const box=document.getElementById('periodChangeCard');
   const grid=document.getElementById('periodChangeGrid');
-  const title=document.getElementById('periodChangeTitle');
   if(!box || !grid) return;
   if(activePeriod !== '2026.06.02') { box.style.display='none'; return; }
   const prevPeriod='2026.05.26';
@@ -565,7 +560,6 @@ function renderPeriodChange(name){
     : curTop.some(x=>x.theme.includes('催收') || x.theme.includes('协商'))
       ? `当前重心偏贷后沟通链路，优先看催收边界和协商承接。`
       : `围绕${curTopTheme}补齐解释口径和处理闭环。`;
-  title.textContent = `${name}｜较上期主题结构变化`;
   grid.innerHTML = [
     {kind:'up', h:'占比上升主题 ↑', p:changeSentence(up,'up'), c:changeConclusion(up,'up')},
     {kind:'down', h:'占比下降主题 ↓', p:changeSentence(down,'down'), c:changeConclusion(down,'down')},
