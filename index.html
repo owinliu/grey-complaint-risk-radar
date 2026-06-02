@@ -418,34 +418,24 @@ function renderPeriodSummary(){
   const rankTitle = document.getElementById('complaintRankTitle');
   if(rankTitle) rankTitle.textContent = `黑猫商家近30天投诉量排序（数据抓取日：${rankDate}）`;
   renderRank(report.rank || []);
-  const top=(report.rank || []).slice(0,3).map(r=>r.app).join('、');
-  const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
-  let trendText='';
-  if(fenqile && fenqile.previousValid30d){
-    const currentVal=Number(fenqile.valid30d)||0;
-    const previousVal=Number(fenqile.previousValid30d)||0;
-    const diff=previousVal-currentVal;
-    const pct=previousVal ? (diff/previousVal*100).toFixed(1) : '0.0';
-    if(diff>0) trendText=`；分期乐近30天投诉量较上期下降 <b>${diff}</b> 条，降幅 <b>${pct}%</b>`;
-    else if(diff<0) trendText=`；分期乐近30天投诉量较上期增加 <b>${Math.abs(diff)}</b> 条，增幅 <b>${Math.abs(Number(pct)).toFixed(1)}%</b>`;
-  }
-  const top3Valid=(report.rank || []).slice(0,3).reduce((sum,r)=>sum+(Number(r.valid30d)||0),0);
-  const totalValid=(report.rank || []).reduce((sum,r)=>sum+(Number(r.valid30d)||0),0);
+  const rankRows=report.rank || [];
+  const top=rankRows.slice(0,3).map(r=>r.app).join('、');
+  const fenqile=rankRows.find(r=>r.app==='分期乐');
+  const top3Valid=rankRows.slice(0,3).reduce((sum,r)=>sum+(Number(r.valid30d)||0),0);
+  const totalValid=rankRows.reduce((sum,r)=>sum+(Number(r.valid30d)||0),0);
   const top3Share=totalValid ? (top3Valid/totalValid*100).toFixed(1) : '0.0';
-  let fenqileActionPara='';
-  if(fenqile){
-    const completeRate=fenqile.valid30d ? (Number(fenqile.complete30d || 0)/Number(fenqile.valid30d)*100).toFixed(1) : '0.0';
-    const completeRateRank=[...(report.rank || [])].sort((a,b)=>((Number(b.complete30d)||0)/(Number(b.valid30d)||1))-((Number(a.complete30d)||0)/(Number(a.valid30d)||1))).findIndex(r=>r.app==='分期乐')+1;
-    const currentVal=Number(fenqile.valid30d)||0;
-    const previousVal=Number(fenqile.previousValid30d)||0;
-    const diff=previousVal-currentVal;
-    const pct=previousVal ? (diff/previousVal*100).toFixed(1) : '0.0';
-    if(diff>0){
-      fenqileActionPara=`<p>• <span class="positive">分期乐投诉量较上期下降 <b>${diff}</b> 条，降幅 <b>${pct}%</b>；同时近30天完成量 <b>${fenqile.complete30d}</b> 条，为 7 个 APP 中最高，完成率约 <b>${completeRate}%</b>（第 ${completeRateRank}），显示在高压下仍有较强处理动作。</span></p>`;
-    }
+  const hasComparison=!!(fenqile && fenqile.previousValid30d && fenqile.complete30d);
+  if(!hasComparison){
+    document.getElementById('complaintReadTitle').textContent='首期基准：投诉压力集中在头部平台，分期乐位列第二';
+    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力主要集中在<b>${top}</b>，合计占 7 个 APP 近30天投诉量的 <b>${top3Share}%</b>。</p><p>• 分期乐近30天投诉量为 <b>${fenqile ? fenqile.valid30d : ''}</b> 条，位列第 <b>${fenqile ? fenqile.rank : ''}</b>，是首期基准样本中投诉压力最高的平台之一。</p><p>• 本期作为首期观察基准，暂不做环比变化判断；后续周期用于观察投诉量变化和处理承接表现。</p>`;
+    return;
   }
+  const fenqileDrop=Number(fenqile.previousValid30d || 0)-Number(fenqile.valid30d || 0);
+  const fenqileDropRate=fenqile.previousValid30d ? (fenqileDrop/Number(fenqile.previousValid30d)*100).toFixed(1) : '0.0';
+  const completeRate=fenqile.valid30d ? (Number(fenqile.complete30d || 0)/Number(fenqile.valid30d)*100).toFixed(1) : '0.0';
+  const completeRateRank=[...rankRows].sort((a,b)=>((Number(b.complete30d)||0)/(Number(b.valid30d)||1))-((Number(a.complete30d)||0)/(Number(a.valid30d)||1))).findIndex(r=>r.app==='分期乐')+1;
   document.getElementById('complaintReadTitle').textContent='分期乐投诉压力仍居高位，但环比下降且处理动作更积极';
-  document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍集中在头部平台：<b>${top}</b> 合计占 7 个 APP 近30天投诉量的 <b>${top3Share}%</b>。</p><p>• 分期乐投诉量较上期下降 <b>${fenqile ? (Number(fenqile.previousValid30d || 0)-Number(fenqile.valid30d || 0)) : ''}</b> 条，降幅 <b>${fenqile && fenqile.previousValid30d ? ((Number(fenqile.previousValid30d)-Number(fenqile.valid30d))/Number(fenqile.previousValid30d)*100).toFixed(1) : '0.0'}%</b>。</p><p>• <span class="positive">分期乐近30天投诉完成率为 <b>${fenqile ? (Number(fenqile.complete30d || 0)/Number(fenqile.valid30d || 1)*100).toFixed(1) : '0.0'}%</b>，在 7 个 APP 中排名第 <b>${fenqile ? ([...(report.rank || [])].sort((a,b)=>((Number(b.complete30d)||0)/(Number(b.valid30d)||1))-((Number(a.complete30d)||0)/(Number(a.valid30d)||1))).findIndex(r=>r.app==='分期乐')+1) : ''}</b>；在投诉量仍居高位的情况下，处理承接表现处于中上水平。</span></p>`;
+  document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍集中在头部平台：<b>${top}</b> 合计占 7 个 APP 近30天投诉量的 <b>${top3Share}%</b>。</p><p>• 分期乐投诉量较上期下降 <b>${fenqileDrop}</b> 条，降幅 <b>${fenqileDropRate}%</b>。</p><p>• <span class="positive">分期乐近30天投诉完成率为 <b>${completeRate}%</b>，在 7 个 APP 中排名第 <b>${completeRateRank}</b>；在投诉量仍居高位的情况下，处理承接表现处于中上水平。</span></p>`;
 }
 function renderRank(rank){
   const el=document.getElementById('rankList');
