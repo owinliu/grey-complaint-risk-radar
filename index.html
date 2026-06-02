@@ -203,6 +203,17 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .learnImprove .liCard{background:linear-gradient(135deg,#eff6ff 0%,#ffffff 76%);border-color:#bfdbfe}
 .learnImprove .liCard h3{color:#1d4ed8}
 
+.periodChangeCard{margin:14px 0;background:linear-gradient(135deg,#fff7ed 0%,#ffffff 72%);border:1px solid #fed7aa;border-radius:14px;padding:16px;box-shadow:none}
+.periodChangeHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.periodChangeHead b{display:block;color:#9a3412;font-size:15px;letter-spacing:-.01em}
+.periodChangeHead span{display:block;color:#64748b;font-size:12px;line-height:1.55;margin-top:3px}
+.periodChangeGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.periodChangeItem{background:#fff;border:1px solid #ffedd5;border-radius:12px;padding:12px}
+.periodChangeItem .tag{display:inline-flex;border-radius:999px;background:#fff7ed;color:#c2410c;font-size:11px;font-weight:900;padding:3px 8px;margin-bottom:8px}
+.periodChangeItem h4{margin:0 0 6px;font-size:14px;color:#0f172a;letter-spacing:-.01em}
+.periodChangeItem p{margin:0;color:#475569;font-size:13px;line-height:1.62}
+@media(max-width:900px){.periodChangeGrid{grid-template-columns:1fr}.periodChangeHead{flex-direction:column}}
+
 /* Part02 XHS solution library */
 .xhsSolutionShell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;margin-top:16px}.xhsSolutionTabs{display:grid;gap:8px;align-content:start}.xhsSolutionTab{position:relative;border:1px solid #e2e8f0;background:#fff;color:#334155;border-radius:12px;padding:12px;text-align:left;cursor:pointer;transition:.18s ease;overflow:hidden}.xhsSolutionTab:hover{border-color:#2563eb;background:#eff6ff}.xhsSolutionTab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 12px 26px rgba(29,78,216,.18)}.xhsSolutionTab b{display:block;font-size:13px;line-height:1.35;margin-bottom:4px}.xhsSolutionTab span{display:block;font-size:12px;line-height:1.45;color:inherit;opacity:.78}.xhsNewBadge{position:absolute;right:-24px;top:8px;transform:rotate(38deg);width:82px;text-align:center;background:#22c55e;color:#fff;font-size:10px;font-weight:950;letter-spacing:.08em;line-height:18px;box-shadow:0 4px 10px rgba(22,163,74,.22)}.xhsSolutionTab.active .xhsNewBadge{background:#16a34a;color:#fff}
 .xhsSolutionDetail{background:linear-gradient(135deg,#fff 0%,#f8fbff 100%);border:1px solid #dbeafe;border-radius:16px;padding:18px;box-shadow:0 14px 30px rgba(15,23,42,.06)}.xhsSolutionHead{margin-bottom:14px}.xhsSolutionHead .tag{display:inline-flex;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:900;padding:4px 9px;margin-bottom:8px}.xhsSolutionHead h3{margin:0 0 7px;font-size:22px;letter-spacing:-.03em}.xhsSolutionHead p{margin:0;color:#475569;font-size:14px;line-height:1.68;max-width:880px}
@@ -269,6 +280,11 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
       </div>
     </section>
   </main>
+  <div class="periodChangeCard" id="periodChangeCard" style="display:none">
+    <div class="periodChangeHead"><div><b id="periodChangeTitle">较上期主题结构变化</b><span id="periodChangeDesc">仅比较主题命中占比，不比较绝对投诉条数。</span></div></div>
+    <div class="periodChangeGrid" id="periodChangeGrid"></div>
+  </div>
+
   <div class="detailLinkCard">
     <div><b id="detailTitle">各 APP 投诉问题分类与原始投诉</b><span id="detailDesc">基础看板只展示汇总判断，可跳转查看具体 APP 下已分类投诉原文。</span></div>
     <a id="detailLink" href="https://my.feishu.cn/docx/GGlLd0hgmodRs5xcp03cRUFUnyf" target="_blank" rel="noopener">查看分类投诉原文 →</a>
@@ -469,8 +485,49 @@ function render(){
   entries.forEach(([k,v])=>{const pct=(v/t*100).toFixed(1); legend.insertAdjacentHTML('beforeend',`<div class="legendItem"><span class="dot" style="background:${COLORS[k]}"></span><span>${k}</span><span class="pct">${pct}%</span></div>`);});
   const topIssues=document.getElementById('topIssues'); topIssues.innerHTML='';
   entries.slice(0,3).forEach(([k,v],i)=>{topIssues.insertAdjacentHTML('beforeend',`<div class="topIssueItem"><b>Top${i+1} · ${k}（${v}）</b><p>${topIssueCopy(k)}</p></div>`);});
+  renderPeriodChange(current);
   renderDetailLink(current);
 }
+function pctMapFor(period, name){
+  const d = REPORTS[period] && REPORTS[period].data && REPORTS[period].data[name];
+  if(!d) return null;
+  const total = Object.values(d).reduce((a,b)=>a+(Number(b)||0),0) || 1;
+  const out = {};
+  Object.entries(d).forEach(([k,v])=>{ out[k] = (Number(v)||0) / total * 100; });
+  return out;
+}
+function fmtPct(n){ return `${Number(n||0).toFixed(1)}%`; }
+function fmtPp(n){ return `${n>=0?'+':''}${Number(n||0).toFixed(1)}pp`; }
+function renderPeriodChange(name){
+  const box=document.getElementById('periodChangeCard');
+  const grid=document.getElementById('periodChangeGrid');
+  const title=document.getElementById('periodChangeTitle');
+  if(!box || !grid) return;
+  if(activePeriod !== '2026.06.02') { box.style.display='none'; return; }
+  const prevPeriod='2026.05.26';
+  const cur=pctMapFor(activePeriod,name), prev=pctMapFor(prevPeriod,name);
+  if(!cur || !prev) { box.style.display='none'; return; }
+  const themes=Object.keys(cur).filter(k=>!k.includes('其他'));
+  const changes=themes.map(k=>({theme:k, cur:cur[k]||0, prev:prev[k]||0, diff:(cur[k]||0)-(prev[k]||0)}));
+  const up=[...changes].sort((a,b)=>b.diff-a.diff).filter(x=>x.diff>0.15).slice(0,2);
+  const down=[...changes].sort((a,b)=>a.diff-b.diff).filter(x=>x.diff<-0.15).slice(0,2);
+  const curTop=[...changes].sort((a,b)=>b.cur-a.cur).slice(0,2);
+  const prevTop=[...changes].sort((a,b)=>b.prev-a.prev).slice(0,1)[0];
+  const curTopTheme=curTop.map(x=>x.theme).join('、');
+  const structureText = prevTop && prevTop.theme !== curTop[0].theme
+    ? `主导主题从上期的${prevTop.theme}，转向本期的${curTop[0].theme}；当前前两类为${curTopTheme}。`
+    : `主导主题仍集中在${curTopTheme}；本期更适合看结构权重变化，而非绝对条数变化。`;
+  const upText = up.length ? up.map(x=>`${x.theme}由${fmtPct(x.prev)}升至${fmtPct(x.cur)}（${fmtPp(x.diff)}）`).join('；') : '本期未出现明显占比上升主题。';
+  const downText = down.length ? down.map(x=>`${x.theme}由${fmtPct(x.prev)}降至${fmtPct(x.cur)}（${fmtPp(x.diff)}）`).join('；') : '本期未出现明显占比回落主题。';
+  title.textContent = `${name}｜较上期主题结构变化`;
+  grid.innerHTML = [
+    {tag:'占比上升', h:'本期抬头主题', p:upText},
+    {tag:'占比回落', h:'本期降温主题', p:downText},
+    {tag:'结构判断', h:'投诉重心变化', p:structureText}
+  ].map(c=>`<div class="periodChangeItem"><div class="tag">${c.tag}</div><h4>${c.h}</h4><p>${c.p}</p></div>`).join('');
+  box.style.display='block';
+}
+
 function renderDetailLink(name){
   const isAll = name === '全部大盘';
   const title = isAll ? '全部 APP 投诉问题分类与原始投诉' : `${name}投诉问题分类与原始投诉`;
