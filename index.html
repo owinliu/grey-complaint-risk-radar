@@ -209,9 +209,12 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .periodChangeHead span{display:block;color:#64748b;font-size:12px;line-height:1.55;margin-top:3px}
 .periodChangeGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .periodChangeItem{background:#fff;border:1px solid #ffedd5;border-radius:12px;padding:12px}
-.periodChangeItem .tag{display:inline-flex;border-radius:999px;background:#fff7ed;color:#c2410c;font-size:11px;font-weight:900;padding:3px 8px;margin-bottom:8px}
-.periodChangeItem h4{margin:0 0 6px;font-size:14px;color:#0f172a;letter-spacing:-.01em}
+.periodChangeItem.up{border-color:#fecaca;background:linear-gradient(135deg,#fff5f5 0%,#fff 72%)}
+.periodChangeItem.down{border-color:#bbf7d0;background:linear-gradient(135deg,#f0fdf4 0%,#fff 72%)}
+.periodChangeItem.focus{border-color:#ffedd5;background:linear-gradient(135deg,#fff7ed 0%,#fff 72%)}
+.periodChangeItem h4{margin:0 0 7px;font-size:14px;color:#0f172a;letter-spacing:-.01em}
 .periodChangeItem p{margin:0;color:#475569;font-size:13px;line-height:1.62}
+.periodChangeItem .conclusion{display:block;margin-top:7px;color:#0f172a;font-weight:750}
 @media(max-width:900px){.periodChangeGrid{grid-template-columns:1fr}.periodChangeHead{flex-direction:column}}
 
 /* Part02 XHS solution library */
@@ -498,6 +501,27 @@ function pctMapFor(period, name){
 }
 function fmtPct(n){ return `${Number(n||0).toFixed(1)}%`; }
 function fmtPp(n){ return `${n>=0?'+':''}${Number(n||0).toFixed(1)}pp`; }
+function themeMeaning(theme, direction){
+  const up = direction === 'up';
+  if(theme.includes('费用')) return up ? '费用合理性和息费解释压力更突出。' : '费用类争议权重回落。';
+  if(theme.includes('退款')) return up ? '退款结果、退费规则和处理时效更容易成为用户关注点。' : '退款/退费类诉求热度下降。';
+  if(theme.includes('客服')) return up ? '用户对客服响应、解释和工单闭环的关注度上升。' : '客服承接类问题在本期结构中降温。';
+  if(theme.includes('催收')) return up ? '催收边界、联系频次和催收体验需要继续前置关注。' : '催收相关投诉权重下降。';
+  if(theme.includes('协商')) return up ? '延期、停催、分期等还款困难诉求更突出。' : '协商还款诉求明显降温，本期不再是主要矛盾。';
+  if(theme.includes('隐私')) return up ? '隐私授权、联系人触达和信息使用解释需要加强。' : '隐私/信息泄露类权重回落。';
+  if(theme.includes('征信')) return up ? '征信影响、法务后果和逾期解释焦虑有所抬头。' : '征信/法务风险焦虑权重下降。';
+  if(theme.includes('灰产')) return up ? '代理话术和第三方介入风险更值得关注。' : '灰产/代理话术相关命中占比回落。';
+  return up ? '该主题在本期结构中权重上升。' : '该主题在本期结构中权重下降。';
+}
+function changeSentence(items, direction){
+  if(!items.length) return direction === 'up' ? '本期未出现明显占比上升主题。' : '本期未出现明显占比回落主题。';
+  return items.map(x=>`${x.theme}由${fmtPct(x.prev)}${direction==='up'?'升至':'降至'}${fmtPct(x.cur)}（${fmtPp(x.diff)}）`).join('；');
+}
+function changeConclusion(items, direction){
+  if(!items.length) return '主题结构整体变化不明显，建议结合原文继续观察。';
+  if(items.length === 1) return themeMeaning(items[0].theme, direction);
+  return `${items.map(x=>x.theme).join('、')}变化最明显，${items.map(x=>themeMeaning(x.theme, direction).replace(/。$/,'')).join('；')}。`;
+}
 function renderPeriodChange(name){
   const box=document.getElementById('periodChangeCard');
   const grid=document.getElementById('periodChangeGrid');
@@ -517,14 +541,17 @@ function renderPeriodChange(name){
   const structureText = prevTop && prevTop.theme !== curTop[0].theme
     ? `主导主题从上期的${prevTop.theme}，转向本期的${curTop[0].theme}；当前前两类为${curTopTheme}。`
     : `主导主题仍集中在${curTopTheme}；本期更适合看结构权重变化，而非绝对条数变化。`;
-  const upText = up.length ? up.map(x=>`${x.theme}由${fmtPct(x.prev)}升至${fmtPct(x.cur)}（${fmtPp(x.diff)}）`).join('；') : '本期未出现明显占比上升主题。';
-  const downText = down.length ? down.map(x=>`${x.theme}由${fmtPct(x.prev)}降至${fmtPct(x.cur)}（${fmtPp(x.diff)}）`).join('；') : '本期未出现明显占比回落主题。';
+  const structureConclusion = curTop.some(x=>x.theme.includes('费用') || x.theme.includes('退款'))
+    ? '结论：投诉重心更偏交易结果类问题，费用解释、退款规则和处理闭环应优先看。'
+    : curTop.some(x=>x.theme.includes('催收') || x.theme.includes('协商'))
+      ? '结论：投诉重心仍偏贷后沟通链路，催收边界、还款困难承接和协商说明应优先看。'
+      : '结论：本期需优先围绕当前头部主题补齐解释口径和处理闭环。';
   title.textContent = `${name}｜较上期主题结构变化`;
   grid.innerHTML = [
-    {tag:'占比上升', h:'本期抬头主题', p:upText},
-    {tag:'占比回落', h:'本期降温主题', p:downText},
-    {tag:'结构判断', h:'投诉重心变化', p:structureText}
-  ].map(c=>`<div class="periodChangeItem"><div class="tag">${c.tag}</div><h4>${c.h}</h4><p>${c.p}</p></div>`).join('');
+    {kind:'up', h:'占比上升主题 ↑', p:changeSentence(up,'up'), c:changeConclusion(up,'up')},
+    {kind:'down', h:'占比下降主题 ↓', p:changeSentence(down,'down'), c:changeConclusion(down,'down')},
+    {kind:'focus', h:'投诉重心变化', p:structureText, c:structureConclusion}
+  ].map(c=>`<div class="periodChangeItem ${c.kind}"><h4>${c.h}</h4><p>${c.p}<span class="conclusion">${c.c}</span></p></div>`).join('');
   box.style.display='block';
 }
 
