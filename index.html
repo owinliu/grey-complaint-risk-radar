@@ -59,6 +59,7 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .complaintRead p{margin:0;color:#475569;font-size:14px;line-height:1.72}
 .complaintRead p + p{margin-top:8px}
 .complaintRead b{color:#1d4ed8;font-weight:900}
+.complaintRead b.positive{color:#16a34a}
 .complaintRead .readTag{display:inline-flex;margin-bottom:12px;border-radius:8px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:850;padding:4px 8px}
 @media(max-width:900px){.complaintOverview{grid-template-columns:1fr}.rankItem{grid-template-columns:138px 1fr 74px}}
 .donutRow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:24px;align-items:start}
@@ -409,7 +410,7 @@ function renderPeriodSummary(){
     const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
     const fenqileText=fenqile ? `分期乐近30天投诉量 <b>${fenqile.valid30d}</b> 条，仍位于第 <b>${fenqile.rank}</b>；较 0526 下降 <b>${Math.abs(fenqile.valid30dDelta || 0)}</b> 条。` : '';
     document.getElementById('complaintReadTitle').textContent='0602商家近30天投诉量已更新，风险主题分类待补齐';
-    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p><p>• 分期乐近30天完成量 <b>1005</b> 条，完成率约 <b>18.2%</b>，排名第 <b>3</b>。在高投诉压力下处理积极。</p>`;
+    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p><p>• 分期乐近30天完成量 <b class="positive">1005</b> 条，完成率约 <b class="positive">18.2%</b>，排名第 <b class="positive">3</b>。在高投诉压力下处理积极。</p>`;
     return;
   }
   const rankDate = report.rankDate || activePeriod;
