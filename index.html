@@ -59,7 +59,6 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .complaintRead p{margin:0;color:#475569;font-size:14px;line-height:1.72}
 .complaintRead p + p{margin-top:8px}
 .complaintRead b{color:#1d4ed8;font-weight:900}
-.complaintRead b.positive{color:#16a34a}
 .complaintRead .readTag{display:inline-flex;margin-bottom:12px;border-radius:8px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:850;padding:4px 8px}
 @media(max-width:900px){.complaintOverview{grid-template-columns:1fr}.rankItem{grid-template-columns:138px 1fr 74px}}
 .donutRow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:24px;align-items:start}
@@ -294,8 +293,8 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
   </div>
 
   <div class="detailLinkCard">
-    <div><b id="detailTitle">各 APP 投诉问题分类与原始投诉</b><span id="detailDesc">基础看板只展示汇总判断，可跳转查看具体 APP 下已分类投诉原文。</span></div>
-    <a id="detailLink" href="https://my.feishu.cn/docx/GGlLd0hgmodRs5xcp03cRUFUnyf" target="_blank" rel="noopener">查看分类投诉原文 →</a>
+    <div><b id="detailTitle">各 APP 风险主题证据文档</b><span id="detailDesc">基础看板只展示汇总判断，可跳转查看当前时间线/当前 APP 的主题分章节证据文档。</span></div>
+    <a id="detailLink" href="https://feishu.cn/docx/CKzsdvIXRosoCaxDj3KcPzVxnRg" target="_blank" rel="noopener">查看主题证据文档 →</a>
   </div>
   </section>
 
@@ -358,7 +357,7 @@ function renderXhsSectionHeader(){
   const title=document.getElementById('xhsSectionTitle');
   const sub=document.getElementById('xhsSectionSubtitle');
   if(!title || !sub) return;
-  if(activePeriod === '2026.06.02'){
+  if(activePeriod === '2026.06.01'){
     title.textContent='小红书黑灰产方案图谱：从“教你协商”升级到“承诺结果并收费承接”';
     sub.innerHTML='相比上一期主要呈现协商话术、催收反制和私域导流，本期新增看到更强的结果承诺与交易化包装：<strong style="color:#111827;font-weight:900">最高60期、延期1-5年、不爆通讯录等确定性卖点被放在前台</strong>；律所/法务身份、咨询按钮、合同后付、收费争议和黑律避坑内容同步增多，说明链路正从“教用户怎么说”进一步走向“替用户做方案、收集负债信息并收费承接”。';
   } else {
@@ -442,19 +441,6 @@ function renderPeriodSummary(){
     document.getElementById('complaintReadText').innerHTML='<p>• Part01 本期先保留页面结构，黑猫新周期数据和结论待产出。</p><p>• 当前不展示投诉量排序、主题占比和趋势判断，避免用旧数据误导。</p>';
     return;
   }
-  if(report.status && report.status.part01 === 'merchant_rank_updated_theme_pending'){
-    const rankDate = report.rankDate || activePeriod;
-    const rankTitle = document.getElementById('complaintRankTitle');
-    if(rankTitle) rankTitle.textContent = `黑猫商家近30天投诉量排序（数据抓取日：${rankDate}）`;
-    renderRank(report.rank || []);
-    const top=(report.rank || []).slice(0,3).map(r=>r.app).join('、');
-    const fenqile=(report.rank || []).find(r=>r.app==='分期乐');
-    const fenqileDropRate=fenqile && fenqile.previousValid30d ? (Math.abs(fenqile.valid30dDelta || 0) / fenqile.previousValid30d * 100).toFixed(1) : '0.0';
-    const fenqileText=fenqile ? `分期乐近30天投诉量 <b>${fenqile.valid30d}</b> 条，较 0526 下降 <b>${Math.abs(fenqile.valid30dDelta || 0)}</b> 条，下降率约 <b>${fenqileDropRate}%</b>。` : '';
-    document.getElementById('complaintReadTitle').textContent='0602商家近30天投诉量已更新，风险主题分类待补齐';
-    document.getElementById('complaintReadText').innerHTML=`<p>• 外部投诉压力仍主要集中在<b>${top}</b>，7 个竞品排序较 0526 未发生变化。</p><p>• ${fenqileText}</p><p>• 分期乐近30天完成量 <b class="positive">1005</b> 条，完成率约 <b class="positive">18.2%</b>，排名第 <b class="positive">3</b>。在高投诉压力下处理积极。</p>`;
-    return;
-  }
   const rankDate = report.rankDate || activePeriod;
   const rankTitle = document.getElementById('complaintRankTitle');
   if(rankTitle) rankTitle.textContent = `黑猫商家近30天投诉量排序（数据抓取日：${rankDate}）`;
@@ -487,8 +473,7 @@ function renderRank(rank){
     const width=Math.round(val/max*100);
     const delta=r.rankDelta || '—';
     const dcls=String(delta).startsWith('+')?' up':(String(delta).startsWith('-')?' down':'');
-    const deltaHtml = delta === '—' ? '' : `<span class="rankDelta${dcls}">${delta}</span>`;
-    return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}${deltaHtml}</div></div>`;
+    return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}<span class="rankDelta${dcls}">${delta}</span></div></div>`;
   }).join('');
 }
 
@@ -576,13 +561,15 @@ function renderPeriodChange(name){
 
 function renderDetailLink(name){
   const isAll = name === '全部大盘';
-  const title = isAll ? '全部 APP 投诉问题分类与原始投诉' : `${name}投诉问题分类与原始投诉`;
-  const cta = isAll ? '查看全部 APP 分类投诉原文 →' : `查看${name}分类投诉原文 →`;
+  const title = isAll ? '全部 APP 风险主题证据文档' : `${name}风险主题证据文档`;
+  const cta = isAll ? '查看全部 APP 主题证据文档 →' : `查看${name}主题证据文档 →`;
   document.getElementById('detailTitle').textContent = title;
-  document.getElementById('detailDesc').textContent = '基础看板只展示汇总判断，可跳转查看具体 APP 下已分类投诉原文。';
+  document.getElementById('detailDesc').textContent = `当前时间线：${activePeriod}；点击进入${isAll ? '全部 APP 合集入口' : name + '单 APP'}的主题分章节证据文档。`;
   const link = document.getElementById('detailLink');
   link.textContent = cta;
   link.href = DETAIL_DOCS[name] || DETAIL_DOCS['全部大盘'];
+  link.dataset.period = activePeriod;
+  link.dataset.app = name;
 }
 function riskWindowTitle(name){
   const w = (REPORTS[activePeriod] && REPORTS[activePeriod].windows || {})[name];
@@ -599,7 +586,6 @@ function riskWindowTitle(name){
 function riskConclusionText(name, entries){
   const report=REPORTS[activePeriod] || {};
   if(report.status && report.status.part01 === 'placeholder') return '<b>当前判断：</b><span>本期 Part01 黑猫数据待更新，当前仅为占位，不输出风险结论。</span>';
-  if(report.status && report.status.part01 === 'merchant_rank_updated_theme_pending') return '<b>当前判断：</b><span>0602 已更新商家近30天投诉量排序；风险主题占比仍待新周期明细补齐，暂不输出主题结论。</span>';
   const top3 = entries.slice(0,3).map(x=>x[0]);
   const readable = top3.map(k=>k.replace('/暴力催收','')).join('、');
   const action = actionText(top3);
