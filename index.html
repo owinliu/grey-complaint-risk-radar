@@ -223,6 +223,16 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 @media(max-width:1100px){.xhsChangeGrid{grid-template-columns:repeat(2,1fr);row-gap:14px}.xhsChangeItem:nth-child(2){border-right:0;padding-right:0}.xhsChangeItem:nth-child(3){padding-left:0}}@media(max-width:720px){.xhsChangeGrid{grid-template-columns:1fr}.xhsChangeItem{border-right:0;border-bottom:1px solid rgba(255,255,255,.18);padding:0 0 12px}.xhsChangeItem:last-child{border-bottom:0;padding-bottom:0}}
 
 .xhsChangeCard + .xhsSolutionShell{border-top:1px solid rgba(148,163,184,.32);padding-top:18px;margin-top:18px}
+
+/* Workspace shell: main navigation */
+.appFrame{display:grid;grid-template-columns:230px minmax(0,1fr);gap:0;min-height:100vh}
+.mainSidebar{position:sticky;top:0;align-self:start;height:100vh;padding:22px 16px;background:rgba(255,255,255,.78);border-right:1px solid rgba(148,163,184,.28);backdrop-filter:blur(18px);box-shadow:8px 0 30px rgba(15,23,42,.04);z-index:10}
+.mainBrand{padding:8px 8px 18px;border-bottom:1px solid rgba(226,232,240,.9);margin-bottom:16px}.mainBrand .eyebrow{font-size:11px;font-weight:950;color:#94a3b8;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}.mainBrand h2{margin:0;font-size:18px;line-height:1.25;letter-spacing:-.04em;color:#0f172a}.mainBrand p{margin:6px 0 0;color:#64748b;font-size:12px;line-height:1.55}
+.mainNav{display:grid;gap:10px}.mainNavTab{width:100%;border:1px solid transparent;background:transparent;border-radius:14px;padding:12px;text-align:left;color:#334155;cursor:pointer;transition:.18s ease}.mainNavTab:hover{background:#eff6ff;border-color:#bfdbfe}.mainNavTab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 14px 28px rgba(29,78,216,.18)}.mainNavTab b{display:block;font-size:14px;line-height:1.35;margin-bottom:4px}.mainNavTab span{display:block;font-size:12px;line-height:1.45;color:inherit;opacity:.78}
+.mainContent{min-width:0}.mainView{display:none}.mainView.active{display:block}.fenqileEmbedWrap{max-width:1380px;margin:0 auto;padding:28px 22px 44px}.fenqileEmbedHead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:14px}.fenqileEmbedHead h1{margin:0;font-size:26px;letter-spacing:-.04em;color:#0f172a}.fenqileEmbedHead p{margin:6px 0 0;color:#64748b;font-size:14px;line-height:1.6}.fenqileOpenLink{white-space:nowrap;border:1px solid #dbeafe;background:#eff6ff;color:#1d4ed8;border-radius:999px;padding:9px 12px;font-size:13px;font-weight:900;text-decoration:none}.fenqileOpenLink:hover{text-decoration:underline}.fenqileEmbedFrame{width:100%;height:calc(100vh - 96px);min-height:760px;border:1px solid #dbeafe;border-radius:18px;background:#fff;box-shadow:0 18px 45px rgba(15,23,42,.08)}
+@media(max-width:1180px){.appFrame{grid-template-columns:1fr}.mainSidebar{position:relative;height:auto;padding:14px 18px;border-right:0;border-bottom:1px solid rgba(148,163,184,.28)}.mainBrand{display:none}.mainNav{grid-template-columns:repeat(2,minmax(0,1fr))}.fenqileEmbedWrap{padding:20px 22px 40px}.fenqileEmbedFrame{height:78vh}}
+@media(max-width:640px){.mainNav{grid-template-columns:1fr}.fenqileEmbedHead{display:block}.fenqileOpenLink{display:inline-flex;margin-top:10px}.fenqileEmbedWrap{padding:18px 16px 36px}.fenqileEmbedFrame{border-radius:12px;min-height:680px}}
+
 /* Part02 XHS solution library */
 .xhsSolutionShell{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;margin-top:16px}.xhsSolutionTabs{display:grid;gap:8px;align-content:start}.xhsSolutionTab{position:relative;border:1px solid #e2e8f0;background:#fff;color:#334155;border-radius:12px;padding:12px;text-align:left;cursor:pointer;transition:.18s ease;overflow:hidden}.xhsSolutionTab:hover{border-color:#2563eb;background:#eff6ff}.xhsSolutionTab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 12px 26px rgba(29,78,216,.18)}.xhsSolutionTab b{display:block;font-size:13px;line-height:1.35;margin-bottom:4px}.xhsSolutionTab span{display:block;font-size:12px;line-height:1.45;color:inherit;opacity:.78}.xhsNewBadge{position:absolute;right:-24px;top:8px;transform:rotate(38deg);width:82px;text-align:center;background:#22c55e;color:#fff;font-size:10px;font-weight:950;letter-spacing:.08em;line-height:18px;box-shadow:0 4px 10px rgba(22,163,74,.22)}.xhsSolutionTab.active .xhsNewBadge{background:#16a34a;color:#fff}
 .xhsSolutionDetail{background:linear-gradient(135deg,#fff 0%,#f8fbff 100%);border:1px solid #dbeafe;border-radius:16px;padding:18px;box-shadow:0 14px 30px rgba(15,23,42,.06)}.xhsSolutionHead{margin-bottom:14px}.xhsSolutionHead .tag{display:inline-flex;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:900;padding:4px 9px;margin-bottom:8px}.xhsSolutionHead h3{margin:0 0 7px;font-size:22px;letter-spacing:-.03em}.xhsSolutionHead p{margin:0;color:#475569;font-size:14px;line-height:1.68;max-width:880px}
@@ -234,6 +244,20 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 </style>
 </head>
 <body>
+<div class="appFrame">
+  <aside class="mainSidebar" aria-label="主导航">
+    <div class="mainBrand">
+      <div class="eyebrow">Risk Workspace</div>
+      <h2>灰产投诉风险雷达</h2>
+      <p>风险雷达与分期乐专项分析统一入口</p>
+    </div>
+    <nav class="mainNav" aria-label="页面模块切换">
+      <button class="mainNavTab active" type="button" data-view="radarView"><b>风险雷达</b><span>Part01 黑猫 + Part02 小红书</span></button>
+      <button class="mainNavTab" type="button" data-view="fenqileView"><b>分期乐专项</b><span>投诉问题 × 黑灰产手段 × 产品改善</span></button>
+    </nav>
+  </aside>
+  <main class="mainContent">
+    <section class="mainView active" id="radarView" aria-label="风险雷达">
 <div class="pageShell">
   <aside class="timeRail" aria-label="时间维度导航">
     <div class="timeRailTitle">分析周期</div>
@@ -327,6 +351,23 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
       <a class="pill" href="https://my.feishu.cn/docx/T5Chdrjt6oPldxxTdOlcomr3nHc" target="_blank" rel="noopener">查看完整分析文档 →</a>
     </div>
   </section>
+</div>
+</div>
+    </section>
+    <section class="mainView" id="fenqileView" aria-label="分期乐专项">
+      <div class="fenqileEmbedWrap">
+        <div class="fenqileEmbedHead">
+          <div>
+            <div class="eyebrow">FENQILE SPECIAL</div>
+            <h1>分期乐专项：投诉问题 × 黑灰产手段 × 产品改善</h1>
+            <p>沿用已有专项 HTML 内容，只在当前页面中作为第二个主视图展示。</p>
+          </div>
+          <a class="fenqileOpenLink" href="fenqile-grey-tactics-product-issue-dashboard-2026-06-02.html" target="_blank" rel="noopener">新窗口打开 →</a>
+        </div>
+        <iframe class="fenqileEmbedFrame" src="fenqile-grey-tactics-product-issue-dashboard-2026-06-02.html" title="分期乐专项：投诉问题、黑灰产手段与产品改善" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
 </div>
 <script>
 /* DRAFT_2026_06_01_EMBEDDED_DATA */
@@ -677,6 +718,19 @@ function renderTimeRail(periods){
   rail.innerHTML=periods.map((p,idx)=>`<a class="timeRailItem ${idx===0?'current':''}" href="#summary" data-period="${p}"><strong>${p}</strong></a>`).join('');
   rail.querySelectorAll('.timeRailItem[data-period]').forEach(a=>a.addEventListener('click', e=>{e.preventDefault(); setActivePeriod(a.dataset.period);}));
 }
+
+function initMainNavigation(){
+  const tabs=[...document.querySelectorAll('.mainNavTab[data-view]')];
+  const views=[...document.querySelectorAll('.mainView')];
+  tabs.forEach(tab=>tab.addEventListener('click',()=>{
+    const target=tab.dataset.view;
+    tabs.forEach(t=>t.classList.toggle('active', t===tab));
+    views.forEach(v=>v.classList.toggle('active', v.id===target));
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+}
+initMainNavigation();
+
 async function loadReports(){
   // Draft page is designed to open directly with file://, so use embedded data first.
   REPORTS = EMBEDDED_REPORTS || {};
@@ -697,6 +751,5 @@ loadReports().catch(err=>{
   if(el) el.innerHTML='<p>数据文件加载失败，请通过线上地址或本地静态服务器打开页面。</p>';
 });
 </script>
-</div>
 </body>
 </html>
