@@ -741,9 +741,8 @@ function switchMainView(target){
   }
 }
 function initMainNavigation(){
-  document.querySelectorAll('.treeNode[data-view]').forEach(node=>node.addEventListener('click',()=>{
+  document.querySelectorAll('.treeNode.primary[data-view]').forEach(node=>node.addEventListener('click',()=>{
     switchMainView(node.dataset.view);
-    if(node.dataset.period) setActivePeriod(node.dataset.period);
     window.scrollTo({top:0,behavior:'smooth'});
   }));
 }
@@ -758,6 +757,7 @@ async function loadReports(){
   const periods = Object.keys(REPORTS).sort().reverse();
   activePeriod = periods[0] || activePeriod;
   renderTimeRail(periods);
+  initMainNavigation();
   DATA = REPORTS[activePeriod].data;
   DETAIL_DOCS = REPORTS[activePeriod].docs;
   setActivePeriod(activePeriod);
