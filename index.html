@@ -47,21 +47,21 @@ button.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .complaintRank,.complaintRead{background:rgba(255,255,255,.82);border:1px solid #dbeafe;border-radius:12px;padding:18px;box-shadow:0 12px 28px rgba(37,99,235,.06)}
 .complaintRank h3,.complaintRead h3{margin:0 0 14px;font-size:16px;letter-spacing:-.01em}
 .rankList{display:grid;gap:10px}
-.rankItem{display:grid;grid-template-columns:154px 1fr 82px;gap:12px;align-items:center;font-size:13px}
+.rankItem{display:grid;grid-template-columns:154px 1fr 112px;gap:12px;align-items:center;font-size:13px}
 .rankName{font-weight:750;color:#334155;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rankNo{display:inline-block;margin-right:6px;color:#0f172a;font-size:13px;font-weight:900;font-variant-numeric:tabular-nums}.rankNo.top,.rankName.top{color:#2563eb}
 .rankTrack{height:12px;border-radius:999px;background:#e0ecff;overflow:hidden}
 .rankFill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb,#60a5fa)}
 .rankValue{text-align:right;font-weight:900;color:#0f172a;font-variant-numeric:tabular-nums;display:flex;justify-content:flex-end;align-items:center;gap:6px}
-.rankDelta{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 6px;border-radius:999px;background:#f1f5f9;color:#64748b;font-size:11px;font-weight:900}
-.rankDelta.up{background:#fee2e2;color:#dc2626}.rankDelta.down{background:#dcfce7;color:#15803d}
+.rankDelta{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;padding:0 7px;border-radius:999px;background:#f1f5f9;color:#64748b;font-size:11px;font-weight:950;line-height:1;font-variant-numeric:tabular-nums}
+.rankDelta.up{background:#fee2e2;color:#dc2626}.rankDelta.down{background:#dcfce7;color:#15803d}.rankDelta.flat{background:#f1f5f9;color:#64748b}
 .complaintRead{background:linear-gradient(135deg,#eff6ff 0%,#ffffff 74%)}
 .complaintRead p{margin:0;color:#475569;font-size:14px;line-height:1.72}
 .complaintRead p + p{margin-top:8px}
 .complaintRead b{color:#1d4ed8;font-weight:900}
 .complaintRead b.positive{color:#16a34a}
 .complaintRead .readTag{display:inline-flex;margin-bottom:12px;border-radius:8px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:850;padding:4px 8px}
-@media(max-width:900px){.complaintOverview{grid-template-columns:1fr}.rankItem{grid-template-columns:138px 1fr 74px}}
+@media(max-width:900px){.complaintOverview{grid-template-columns:1fr}.rankItem{grid-template-columns:138px 1fr 98px}}
 .donutRow{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:24px;align-items:start}
 .donutPanel{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center}
 .donut{width:240px;height:240px;border-radius:50%;position:relative;margin:auto;box-shadow:inset 0 0 0 1px rgba(15,23,42,.05)}
@@ -560,9 +560,20 @@ function renderRank(rank){
     const top=idx<3?' top':'';
     const val=Number(r.valid30d)||0;
     const width=Math.round(val/max*100);
-    const delta=r.rankDelta || '—';
-    const dcls=String(delta).startsWith('+')?' up':(String(delta).startsWith('-')?' down':'');
-    const deltaHtml = delta === '—' ? '' : `<span class="rankDelta${dcls}">${delta}</span>`;
+    const volumeDelta=Number(r.valid30dDelta);
+    let deltaHtml='';
+    if(Number.isFinite(volumeDelta) && volumeDelta !== 0){
+      const cls=volumeDelta > 0 ? ' up' : ' down';
+      const arrow=volumeDelta > 0 ? '↑' : '↓';
+      deltaHtml=`<span class="rankDelta${cls}" title="较上期${volumeDelta > 0 ? '上升' : '下降'} ${Math.abs(volumeDelta)} 条">${arrow}${Math.abs(volumeDelta)}</span>`;
+    } else {
+      const delta=r.rankDelta || '—';
+      if(delta !== '—'){
+        const cls=String(delta).startsWith('+')?' up':(String(delta).startsWith('-')?' down':' flat');
+        const arrow=String(delta).startsWith('+')?'↑':(String(delta).startsWith('-')?'↓':'');
+        deltaHtml=`<span class="rankDelta${cls}">${arrow}${String(delta).replace(/^[-+]/,'')}</span>`;
+      }
+    }
     return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}${deltaHtml}</div></div>`;
   }).join('');
 }
