@@ -423,12 +423,11 @@ function renderXhsChangeCard(){
     card.style.display='block';
     const grid=card.querySelector('.xhsChangeGrid');
     const title=card.querySelector('.xhsChangeTitle');
-    if(title) title.textContent='0609新增/扩展手段（对比前三期方案图谱）';
+    if(title) title.textContent='0609新增外溢方向与手段补充（对比前三期方案图谱）';
     if(grid) grid.innerHTML=`
-      <div class="xhsChangeItem"><span class="kind new">新增外溢方向</span><span class="main">征信修复/征信洗白服务化。</span><span class="evidence">付费消除逾期、专业洗白、法务顾问/银行内部人员、机构押金等话术出现。</span></div>
-      <div class="xhsChangeItem"><span class="kind new">新增外溢方向</span><span class="main">贷款包装、包装流水与跑分风险。</span><span class="evidence">包装流水、包装贷、刷流水可能触及帮信罪，风险从贷后协商外溢到贷前助贷。</span></div>
-      <div class="xhsChangeItem"><span class="kind new">新增具体链路</span><span class="main">AB贷/职业背债人更具体。</span><span class="evidence">A实际用款、B出面贷款/担保、钱被中介拿走，B承担诉讼和失信风险。</span></div>
-      <div class="xhsChangeItem"><span class="kind new">明确新增链路</span><span class="main">AB贷/职业背债人。</span><span class="evidence">A实际用款、B出面贷款/担保、钱被中介拿走，B承担诉讼和失信风险。</span></div>`;
+      <div class="xhsChangeItem"><span class="kind new">新增外溢方向</span><span class="main">贷款包装 / 流水包装</span><span class="evidence">风险从贷后协商前移到贷前申请链路。</span></div>
+      <div class="xhsChangeItem"><span class="kind new">新增外溢方向</span><span class="main">AB贷 / 职业背债变体</span><span class="evidence">从大额背债骗局外溢到代借、身份出借与他人代还承诺。</span></div>
+      <div class="xhsChangeItem"><span class="kind strong">手段补充</span><span class="main">征信修复 / 征信洗白</span><span class="evidence">既有征信焦虑链路下的付费代办与洗白话术。</span></div>`;
   } else if(activePeriod === '2026.06.02'){
     card.style.display='block';
     const grid=card.querySelector('.xhsChangeGrid');
