@@ -567,9 +567,17 @@ function renderRank(rank){
     const top=idx<3?' top':'';
     const val=Number(r.valid30d)||0;
     const width=Math.round(val/max*100);
-    const delta=r.rankDelta || '—';
-    const dcls=String(delta).startsWith('+')?' up':(String(delta).startsWith('-')?' down':'');
-    const deltaHtml = delta === '—' ? '' : `<span class="rankDelta${dcls}">${delta}</span>`;
+    const volumeDelta = Number(r.valid30dDelta);
+    const hasVolumeDelta = Number.isFinite(volumeDelta) && volumeDelta !== 0;
+    const rankDelta = r.rankDelta || '—';
+    const displayDelta = hasVolumeDelta
+      ? `${volumeDelta < 0 ? '↓' : '↑'}${Math.abs(volumeDelta)}`
+      : rankDelta;
+    const dcls = hasVolumeDelta
+      ? (volumeDelta < 0 ? ' down' : ' up')
+      : (String(displayDelta).startsWith('+') ? ' up' : (String(displayDelta).startsWith('-') ? ' down' : ''));
+    const deltaTitle = hasVolumeDelta ? `较上期${volumeDelta < 0 ? '下降' : '上升'} ${Math.abs(volumeDelta)} 条` : '排名变化';
+    const deltaHtml = displayDelta === '—' ? '' : `<span class="rankDelta${dcls}" title="${deltaTitle}">${displayDelta}</span>`;
     return `<div class="rankItem"><div class="rankName${top}"><span class="rankNo${top}">${idx+1}.</span>${r.app}</div><div class="rankTrack"><div class="rankFill" style="width:${width}%"></div></div><div class="rankValue">${val}${deltaHtml}</div></div>`;
   }).join('');
 }
