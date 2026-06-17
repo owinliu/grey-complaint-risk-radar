@@ -795,9 +795,30 @@ function initMainNavigation(){
 }
 
 async function loadReports(){
-  // Draft page is designed to open directly with file://, so use embedded data first.
   REPORTS = EMBEDDED_REPORTS || {};
-  const xhsData = EMBEDDED_XHS_DATA || {};
+  let xhsData = EMBEDDED_XHS_DATA || {};
+  const canFetchData = /^https?:$/.test(window.location.protocol);
+  if(canFetchData){
+    const cacheBust = `v=${Date.now()}`;
+    try{
+      const reportResp = await fetch(`data/reports.json?${cacheBust}`, {cache:'no-store'});
+      if(reportResp.ok){
+        const reportJson = await reportResp.json();
+        if(reportJson && Object.keys(reportJson).length) REPORTS = reportJson;
+      }
+    }catch(err){
+      console.warn('Falling back to embedded reports data', err);
+    }
+    try{
+      const xhsResp = await fetch(`data/part02-xhs-solutions.json?${cacheBust}`, {cache:'no-store'});
+      if(xhsResp.ok){
+        const xhsJson = await xhsResp.json();
+        if(xhsJson && Object.keys(xhsJson).length) xhsData = xhsJson;
+      }
+    }catch(err){
+      console.warn('Falling back to embedded XHS data', err);
+    }
+  }
   XHS_SOLUTIONS = xhsData.solutions || [];
   XHS_PERIODS = xhsData.periods || {};
   XHS_EVIDENCE = xhsData.evidence || null;
